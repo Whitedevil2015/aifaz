@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings & Gateway Dashboard — OmniRoute</title>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom Design System -->
+    <link rel="stylesheet" href="settings.css">
+</head>
+<body>
+
+    <!-- ╔══════════════════════════════════════════════╗
+         ║             LEFT SIDEBAR NAV                   ║
+         ╚══════════════════════════════════════════════╝ -->
+    <aside class="sidebar" id="sidebar">
+        <!-- Header: Logo + App Name + Version + Toggle -->
+        <div class="sidebar-header">
+            <div class="brand-container">
+                <div class="brand-icon">
+                    <i class="fas fa-network-wired"></i>
+                </div>
+                <div class="brand-info">
+                    <div class="brand-title">
+                        OmniRoute
+                        <span class="brand-version">v2.4.0</span>
+                    </div>
+                    <span style="font-size:0.7rem; color:var(--text-muted);">AI Provider Gateway</span>
+                </div>
+            </div>
+            <button class="toggle-sidebar-btn" id="sidebar-toggle-btn" title="Collapse Sidebar (Chevron)">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+        </div>
+
+        <!-- Sidebar Search -->
+        <div class="sidebar-search">
+            <div class="search-input-wrap">
+                <i class="fas fa-search"></i>
+                <input type="text" id="sidebar-search-input" placeholder="Search menu...">
+            </div>
+        </div>
+
+        <!-- Scrollable Navigation Items -->
+        <nav class="sidebar-nav" id="sidebar-nav">
+            <div class="nav-section-title">General</div>
+            
+            <a class="nav-item active" data-nav="overview">
+                <div class="nav-icon"><i class="fas fa-sliders-h"></i></div>
+                <div class="nav-content">
+                    <span class="nav-title">Providers & Models</span>
+                    <span class="nav-subtitle">LLM endpoints & credentials</span>
+                </div>
+            </a>
+
+            <a class="nav-item" data-nav="routing">
+                <div class="nav-icon"><i class="fas fa-route"></i></div>
+                <div class="nav-content">
+                    <span class="nav-title">Smart Routing</span>
+                    <span class="nav-subtitle">Fallback chains & load balance</span>
+                </div>
+            </a>
+
+            <a class="nav-item" data-nav="security">
+                <div class="nav-icon"><i class="fas fa-shield-alt"></i></div>
+                <div class="nav-content">
+                    <span class="nav-title">Security & Rate Limit</span>
+                    <span class="nav-subtitle">API keys, tokens, quotas</span>
+                </div>
+            </a>
+
+            <!-- SECTION DIVIDER -->
+            <div class="nav-section-title">TOOLS</div>
+
+            <a class="nav-item" data-nav="code-tools">
+                <div class="nav-icon"><i class="fas fa-code"></i></div>
+                <div class="nav-content">
+                    <span class="nav-title">Code Execution Tool</span>
+                    <span class="nav-subtitle">Python/Node sandbox runners</span>
+                </div>
+            </a>
+
+            <a class="nav-item" data-nav="base-url">
+                <div class="nav-icon"><i class="fas fa-link"></i></div>
+                <div class="nav-content">
+                    <span class="nav-title">Full Base URL Config</span>
+                    <span class="nav-subtitle">Custom proxy domain settings</span>
+                </div>
+            </a>
+
+            <a class="nav-item" data-nav="logs">
+                <div class="nav-icon"><i class="fas fa-terminal"></i></div>
+                <div class="nav-content">
+                    <span class="nav-title">Audit Logs & Traces</span>
+                    <span class="nav-subtitle">Real-time latency & errors</span>
+                </div>
+            </a>
+
+            <a class="nav-item" data-nav="system-health">
+                <div class="nav-icon"><i class="fas fa-heartbeat"></i></div>
+                <div class="nav-content">
+                    <span class="nav-title">System Health</span>
+                    <span class="nav-subtitle">CPU, memory, uptime</span>
+                </div>
+            </a>
+        </nav>
+
+        <!-- Bottom Fixed Action Buttons -->
+        <div class="sidebar-footer">
+            <button class="sidebar-action-btn" id="restart-btn" title="Restart Gateway Service">
+                <i class="fas fa-redo-alt"></i>
+                <span>Restart</span>
+            </button>
+            <button class="sidebar-action-btn" id="shutdown-btn" title="Shutdown Gateway">
+                <i class="fas fa-power-off"></i>
+                <span>Shutdown</span>
+            </button>
+        </div>
+    </aside>
+
+    <!-- ╔══════════════════════════════════════════════╗
+         ║             MAIN CONTENT WRAPPER               ║
+         ╚══════════════════════════════════════════════╝ -->
+    <div class="main-wrapper">
+
+        <!-- Top Bar Navigation -->
+        <header class="top-bar">
+            <!-- Breadcrumbs -->
+            <div class="breadcrumb">
+                <a href="#">Settings</a>
+                <span class="separator"><i class="fas fa-chevron-right"></i></span>
+                <a href="#">Provider Configurations</a>
+                <span class="separator"><i class="fas fa-chevron-right"></i></span>
+                <span class="current" id="breadcrumb-current">Anthropic & Code Tool</span>
+            </div>
+
+            <!-- Top Right Options -->
+            <div class="top-bar-right">
+                <!-- Global Quick Nav Search Button -->
+                <button class="quick-nav-btn" id="quick-nav-btn" title="Quick Navigation Search">
+                    <i class="fas fa-search"></i>
+                    <span>Quick nav...</span>
+                    <span class="kbd-badge">⌘K</span>
+                </button>
+
+                <!-- Language Selector -->
+                <select class="lang-select" id="lang-select" aria-label="Language Selector">
+                    <option value="en" selected>English (US)</option>
+                    <option value="ur">Urdu (اردو)</option>
+                    <option value="ar">Arabic (العربية)</option>
+                    <option value="es">Spanish</option>
+                </select>
+
+                <!-- Theme Toggle Button -->
+                <button class="icon-btn" id="theme-toggle-btn" title="Toggle Light/Dark Theme">
+                    <i class="fas fa-sun" id="theme-icon"></i>
+                </button>
+
+                <!-- Log Out Button -->
+                <button class="icon-btn" id="logout-btn" title="Log Out">
+                    <i class="fas fa-sign-out-alt"></i>
+                </button>
+            </div>
+        </header>
+
+        <!-- Content Area -->
+        <main class="content-body">
+
+            <!-- Page Header -->
+            <div class="page-header">
+                <h1 class="page-title">Provider & Gateway Settings</h1>
+                <p class="page-desc">Configure multi-provider LLM credentials, custom proxy URLs, code execution sandboxes, and manual config payloads.</p>
+            </div>
+
+            <!-- Pill Filter Tabs -->
+            <div class="filter-pills">
+                <button class="pill-tab active" data-filter="all">All Providers</button>
+                <button class="pill-tab" data-filter="anthropic">Anthropic</button>
+                <button class="pill-tab" data-filter="code-tool">Code Tool</button>
+                <button class="pill-tab" data-filter="base-url">Full Base URL</button>
+                <button class="pill-tab" data-filter="openai">OpenAI</button>
+                <button class="pill-tab" data-filter="google">Google Gemini</button>
+            </div>
+
+            <!-- Cards Container -->
+            <div class="cards-container" id="cards-container">
+
+                <!-- CARD 1: ANTHROPIC CLAUDE -->
+                <div class="card expanded" data-category="anthropic">
+                    <div class="card-header">
+                        <div class="card-header-left">
+                            <div class="card-provider-icon"><i class="fas fa-brain"></i></div>
+                            <div class="card-title-wrap">
+                                <div class="card-title">
+                                    Anthropic Claude
+                                    <span style="font-size:0.7rem; color:var(--text-muted); font-weight:normal;">(v1/messages)</span>
+                                </div>
+                                <span class="card-subtitle">Claude 3.5 Sonnet, Claude 3 Opus endpoints</span>
+                            </div>
+                        </div>
+                        <div class="card-header-right">
+                            <div class="status-pill orange">
+                                <span class="status-dot"></span>
+                                Not configured
+                            </div>
+                            <span class="last-used">Last used: 2 hours ago</span>
+                            <i class="fas fa-chevron-down chevron-icon"></i>
+                        </div>
+                    </div>
+
+                    <div class="card-body">
+                        <!-- Input Row 1 -->
+                        <div class="input-row">
+                            <div class="row-label">
+                                <i class="fas fa-key"></i>
+                                API Key
+                            </div>
+                            <div class="input-field-wrap">
+                                <input type="password" value="sk-ant-api03-x99a8b7c6d5e4f3a2b1c" placeholder="sk-ant-...">
+                                <button class="clear-btn" title="Clear field"><i class="fas fa-times"></i></button>
+                            </div>
+                        </div>
+
+                        <!-- Input Row 2 -->
+                        <div class="input-row">
+                            <div class="row-label">
+                                <i class="fas fa-link"></i>
+                                Custom Proxy / Base URL
+                            </div>
+                            <div class="input-field-wrap">
+                                <input type="text" value="https://api.anthropic.com" placeholder="https://...">
+                                <button class="clear-btn" title="Clear field"><i class="fas fa-times"></i></button>
+                            </div>
+                        </div>
+
+                        <!-- Input Row 3 -->
+                        <div class="input-row">
+                            <div class="row-label">
+                                <i class="fas fa-microchip"></i>
+                                Default Model Target
+                            </div>
+                            <div class="input-field-wrap">
+                                <input type="text" value="claude-3-5-sonnet-20241022" placeholder="claude-3-5-sonnet...">
+                                <button class="clear-btn" title="Clear field"><i class="fas fa-times"></i></button>
+                            </div>
+                        </div>
+
+                        <!-- Generated Config Code Block -->
+                        <div class="code-block-container">
+                            <div class="code-header">
+                                <span><i class="fas fa-code"></i> generated-anthropic-config.json</span>
+                                <button class="copy-btn" data-copy-target="anthropic-code">
+                                    <i class="fas fa-copy"></i> Copy
+                                </button>
+                            </div>
+                            <pre class="code-content" id="anthropic-code">{
+  <span class="code-keyword">"provider"</span>: <span class="code-string">"anthropic"</span>,
+  <span class="code-keyword">"base_url"</span>: <span class="code-string">"https://api.anthropic.com"</span>,
+  <span class="code-keyword">"default_model"</span>: <span class="code-string">"claude-3-5-sonnet-20241022"</span>,
+  <span class="code-keyword">"timeout_ms"</span>: <span class="code-string">60000</span>,
+  <span class="code-keyword">"headers"</span>: {
+    <span class="code-keyword">"anthropic-version"</span>: <span class="code-string">"2023-06-01"</span>
+  }
+}</pre>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CARD 2: CODE TOOL -->
+                <div class="card expanded" data-category="code-tool">
+                    <div class="card-header">
+                        <div class="card-header-left">
+                            <div class="card-provider-icon"><i class="fas fa-code"></i></div>
+                            <div class="card-title-wrap">
+                                <div class="card-title">Code Execution Tool Sandbox</div>
+                                <span class="card-subtitle">Python, JavaScript & Bash runtime execution environment</span>
+                            </div>
+                        </div>
+                        <div class="card-header-right">
+                            <div class="status-pill green">
+                                <span class="status-dot"></span>
+                                Active
+                            </div>
+                            <span class="last-used">Last used: 5 mins ago</span>
+                            <i class="fas fa-chevron-down chevron-icon"></i>
+                        </div>
+                    </div>
+
+                    <div class="card-body">
+                        <!-- Input Row 1 -->
+                        <div class="input-row">
+                            <div class="row-label">
+                                <i class="fas fa-terminal"></i>
+                                Execution Command Timeout (s)
+                            </div>
+                            <div class="input-field-wrap">
+                                <input type="text" value="30" placeholder="Seconds">
+                                <button class="clear-btn" title="Clear field"><i class="fas fa-times"></i></button>
+                            </div>
+                        </div>
+
+                        <!-- Input Row 2 -->
+                        <div class="input-row">
+                            <div class="row-label">
+                                <i class="fas fa-folder font-mono"></i>
+                                Sandbox Working Dir
+                            </div>
+                            <div class="input-field-wrap">
+                                <input type="text" value="/tmp/omniroute-sandbox" placeholder="/path/to/dir">
+                                <button class="clear-btn" title="Clear field"><i class="fas fa-times"></i></button>
+                            </div>
+                        </div>
+
+                        <!-- Code Block -->
+                        <div class="code-block-container">
+                            <div class="code-header">
+                                <span><i class="fas fa-terminal"></i> sandbox-runner.sh</span>
+                                <button class="copy-btn" data-copy-target="code-tool-code">
+                                    <i class="fas fa-copy"></i> Copy
+                                </button>
+                            </div>
+                            <pre class="code-content" id="code-tool-code"><span class="code-comment"># OmniRoute Code Tool Execution Endpoint</span>
+curl -X POST http://localhost:20128/api/v1/tools/code \
+  -H <span class="code-string">"Content-Type: application/json"</span> \
+  -d <span class="code-string">'{"language": "python", "timeout": 30, "code": "print(42)"}'</span></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CARD 3: FULL BASE URL -->
+                <div class="card" data-category="base-url">
+                    <div class="card-header">
+                        <div class="card-header-left">
+                            <div class="card-provider-icon"><i class="fas fa-network-wired"></i></div>
+                            <div class="card-title-wrap">
+                                <div class="card-title">Full Base URL Gateway Override</div>
+                                <span class="card-subtitle">Global ingress routing and custom DNS endpoints</span>
+                            </div>
+                        </div>
+                        <div class="card-header-right">
+                            <div class="status-pill green">
+                                <span class="status-dot"></span>
+                                Active
+                            </div>
+                            <span class="last-used">Last used: 1 day ago</span>
+                            <i class="fas fa-chevron-down chevron-icon"></i>
+                        </div>
+                    </div>
+
+                    <div class="card-body">
+                        <!-- Input Row 1 -->
+                        <div class="input-row">
+                            <div class="row-label">
+                                <i class="fas fa-globe"></i>
+                                Primary Gateway Ingress URL
+                            </div>
+                            <div class="input-field-wrap">
+                                <input type="text" value="https://gateway.omniroute.ai/v1" placeholder="https://...">
+                                <button class="clear-btn" title="Clear field"><i class="fas fa-times"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CARD 4: OPENAI -->
+                <div class="card" data-category="openai">
+                    <div class="card-header">
+                        <div class="card-header-left">
+                            <div class="card-provider-icon"><i class="fas fa-robot"></i></div>
+                            <div class="card-title-wrap">
+                                <div class="card-title">OpenAI API Provider</div>
+                                <span class="card-subtitle">GPT-4o, GPT-4o-mini & Embeddings</span>
+                            </div>
+                        </div>
+                        <div class="card-header-right">
+                            <div class="status-pill green">
+                                <span class="status-dot"></span>
+                                Active
+                            </div>
+                            <span class="last-used">Last used: Just now</span>
+                            <i class="fas fa-chevron-down chevron-icon"></i>
+                        </div>
+                    </div>
+
+                    <div class="card-body">
+                        <!-- Input Row 1 -->
+                        <div class="input-row">
+                            <div class="row-label">
+                                <i class="fas fa-key"></i>
+                                OpenAI Secret API Key
+                            </div>
+                            <div class="input-field-wrap">
+                                <input type="password" value="sk-proj-998877665544332211" placeholder="sk-...">
+                                <button class="clear-btn" title="Clear field"><i class="fas fa-times"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </main>
+
+        <!-- Sticky Bottom Action Bar -->
+        <footer class="sticky-action-bar">
+            <div class="action-left">
+                <button class="btn-primary" id="apply-btn">
+                    <i class="fas fa-check"></i> Apply Configuration
+                </button>
+                <button class="btn-secondary" id="reset-btn">
+                    Reset
+                </button>
+                <button class="btn-secondary" id="manual-config-btn">
+                    <i class="fas fa-file-code"></i> Manual Config
+                </button>
+            </div>
+            <a href="#" class="btn-link" id="backups-link">
+                <i class="fas fa-history"></i> Backups & Snapshots
+            </a>
+        </footer>
+
+    </div>
+
+    <!-- ╔══════════════════════════════════════════════╗
+         ║           ⌘K QUICK NAV SEARCH MODAL           ║
+         ╚══════════════════════════════════════════════╝ -->
+    <div class="modal-overlay" id="quick-nav-modal">
+        <div class="command-modal">
+            <div class="command-search">
+                <i class="fas fa-search"></i>
+                <input type="text" id="modal-search-input" placeholder="Type a command or search settings (⌘K)...">
+                <span class="kbd-badge">ESC</span>
+            </div>
+            <div class="command-list">
+                <div class="command-item" data-action="anthropic">
+                    <i class="fas fa-brain"></i>
+                    <span>Configure Anthropic Claude API Key</span>
+                </div>
+                <div class="command-item" data-action="code-tool">
+                    <i class="fas fa-code"></i>
+                    <span>Configure Code Execution Tool Sandbox</span>
+                </div>
+                <div class="command-item" data-action="base-url">
+                    <i class="fas fa-link"></i>
+                    <span>Set Full Base URL Proxy Ingress</span>
+                </div>
+                <div class="command-item" data-action="theme">
+                    <i class="fas fa-adjust"></i>
+                    <span>Toggle Light / Dark Mode Theme</span>
+                </div>
+                <div class="command-item" data-action="restart">
+                    <i class="fas fa-redo"></i>
+                    <span>Restart Gateway Service</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Feedback Notification -->
+    <div class="toast" id="toast">
+        <i class="fas fa-check-circle" style="color:#10b981;"></i>
+        <span id="toast-message">Configuration applied successfully!</span>
+    </div>
+
+    <!-- Custom Script -->
+    <script src="settings.js"></script>
+</body>
+</html>

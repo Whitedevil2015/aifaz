@@ -10,6 +10,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Amiri:wght@400;700&family=Cormorant+Garamond:wght@600;700&family=Cinzel:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="high-contrast.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <style>
         /* ── inline utility overrides ── */
@@ -91,7 +92,7 @@
     <!-- ╔══════════════════════════════════╗
          ║         SIDEBAR (Desktop)        ║
          ╚══════════════════════════════════╝ -->
-    <aside class="hidden md:flex w-[272px] flex-col shrink-0 shadow-2xl relative z-20 transition-all duration-300" id="main-sidebar">
+    <aside class="hidden md:flex w-[272px] flex-col shrink-0 border border-white/10 relative z-20 transition-all duration-300" id="main-sidebar">
 
         <!-- Brand -->
         <div class="p-7 text-center relative z-10 border-b" class="border-black/10 dark:border-white/10">
@@ -130,6 +131,10 @@
             <a href="#" class="nav-link group" data-target="view-quran">
                 <i class="fas fa-quran w-5 text-center text-[var(--gold)]/70 group-hover:text-[var(--gold)] transition-colors text-sm"></i>
                 <span class="ml-3">Al-Quran</span>
+            </a>
+            <a href="#" class="nav-link group" data-target="view-books">
+                <i class="fas fa-book w-5 text-center text-[var(--gold)]/70 group-hover:text-[var(--gold)] transition-colors text-sm"></i>
+                <span class="ml-3">Islamic Books</span>
             </a>
             <a href="#" class="nav-link group" data-target="view-punj">
                 <i class="fas fa-book-open w-5 text-center text-[var(--gold)]/70 group-hover:text-[var(--gold)] transition-colors text-sm"></i>
@@ -178,6 +183,9 @@
             <a href="#" class="nav-link mobile-nav-item" data-target="view-quran">
                 <i class="fas fa-quran"></i><span>Quran</span>
             </a>
+            <a href="#" class="nav-link mobile-nav-item" data-target="view-books">
+                <i class="fas fa-book"></i><span>Books</span>
+            </a>
             <a href="#" class="nav-link mobile-nav-item" data-target="view-calendar">
                 <i class="fas fa-calendar-alt"></i><span>Calendar</span>
             </a>
@@ -199,32 +207,33 @@
     <main class="flex-1 relative overflow-y-auto scroll-smooth pb-24 md:pb-0" id="main-scroll-area" style="background:var(--pearl);">
 
         <!-- ── TOP HEADER ── -->
-        <header id="portal-header" class="sticky top-0 z-20 px-4 md:px-6 py-3 flex justify-between items-center shadow-sm">
+        <header id="portal-header" class="sticky top-0 z-20 px-4 md:px-6 py-3 flex justify-between items-center border border-white/10">
             <div class="flex items-center gap-2 w-full max-w-2xl">
                 <div class="relative flex-1 flex gap-2">
                     <div class="relative w-[55%]">
                         <i class="fas fa-city absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 text-xs z-10"></i>
-                        <select id="prayer-city-select" class="w-full pl-9 pr-3 py-2 bg-[#f0ebe3] border-none rounded-full text-xs outline-none focus:ring-2 focus:ring-[var(--emerald)]/30 transition-all dark:bg-gray-800 dark:text-white appearance-none cursor-pointer">
+                        <select id="prayer-city-select" class="w-full pl-9 pr-3 py-2 bg-[var(--pearl-card)] border-none rounded-full text-xs outline-none focus:ring-2 focus:ring-[var(--emerald)]/30 transition-all  dark:text-white appearance-none cursor-pointer">
                             <option value="" disabled selected>Select City</option>
                         </select>
                     </div>
                     <div class="relative w-[35%]">
                         <i class="fas fa-globe absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 text-xs z-10"></i>
-                        <select id="prayer-country-select" class="w-full pl-9 pr-3 py-2 bg-[#f0ebe3] border-none rounded-full text-xs outline-none focus:ring-2 focus:ring-[var(--emerald)]/30 transition-all dark:bg-gray-800 dark:text-white appearance-none cursor-pointer">
+                        <select id="prayer-country-select" class="w-full pl-9 pr-3 py-2 bg-[var(--pearl-card)] border-none rounded-full text-xs outline-none focus:ring-2 focus:ring-[var(--emerald)]/30 transition-all  dark:text-white appearance-none cursor-pointer">
                             <option value="" disabled selected>Select Country</option>
                         </select>
                     </div>
                 </div>
-                <button id="portal-search-btn" class="bg-[var(--emerald)] text-white px-4 py-2 rounded-full text-xs font-bold shadow-md hover:shadow-black/10 dark:hover:shadow-white/5 hover:-translate-y-0.5 transition-all">
+                <button id="portal-search-btn" aria-label="Search" class="bg-[var(--emerald)] text-white px-4 py-2 rounded-full text-xs font-bold border border-white/10 hover:shadow-black/10 dark:hover:shadow-white/5 hover:-translate-y-0.5 transition-all">
                     Search
                 </button>
-                <button id="update-location-btn" class="hidden sm:flex items-center gap-1.5 bg-black text-white px-4 py-2 rounded-full text-xs font-bold hover:bg-neutral-800 dark:bg-white dark:text-black dark:hover:bg-neutral-200 hover:-translate-y-0.5 transition-all">
+                <button id="update-location-btn" aria-label="Auto Update Location" class="hidden sm:flex items-center gap-1.5 bg-black text-white px-4 py-2 rounded-full text-xs font-bold hover:bg-neutral-800 dark:bg-[var(--pearl-card)] dark:text-black dark:hover:bg-neutral-200 hover:-translate-y-0.5 transition-all">
                     <i class="fas fa-location-arrow text-[10px]"></i><span class="hidden md:inline">Auto</span>
                 </button>
-                <button id="theme-toggle" class="w-8 h-8 rounded-full bg-gray-200 text-gray-600 flex items-center justify-center hover:bg-gray-300 transition-colors dark:bg-gray-700 dark:text-yellow-400 shrink-0">
-                    <i class="fas fa-moon text-xs"></i>
+
+                <button id="theme-toggle" aria-label="Toggle Theme" class="w-8 h-8 rounded-full bg-gray-200 text-gray-600 flex items-center justify-center hover:bg-gray-300 transition-colors dark:bg-gray-700 dark:text-yellow-400 shrink-0" title="Toggle Day/Night Mode">
+                    <i class="fas fa-moon text-xs" id="theme-toggle-icon"></i>
                 </button>
-                <button id="prayer-settings-btn" class="w-8 h-8 rounded-full bg-gray-200 text-gray-600 flex items-center justify-center hover:bg-gray-300 transition-colors dark:bg-gray-700 dark:text-[var(--gold)] shrink-0" title="Prayer Settings">
+                <button id="prayer-settings-btn" aria-label="Prayer Settings" class="w-8 h-8 rounded-full bg-gray-200 text-gray-600 flex items-center justify-center hover:bg-gray-300 transition-colors  dark:text-[var(--gold)] shrink-0" title="Prayer Settings">
                     <i class="fas fa-cog text-xs"></i>
                 </button>
             </div>
@@ -240,7 +249,7 @@
         <section id="view-dashboard" class="view-section p-4 md:p-6 space-y-6 animate-fade-in-up">
 
             <!-- HERO CARD -->
-            <div class="hero-prayer-card shimmer-card shadow-2xl border border-white/10 relative overflow-hidden" style="min-height:360px;">
+            <div class="hero-prayer-card shimmer-card border border-white/10 border border-white/10 relative overflow-hidden" style="min-height:360px;">
                 <!-- Arabesque overlay -->
                 <div class="absolute inset-0 opacity-10 pointer-events-none"
                      style="background-image:url('https://www.transparenttextures.com/patterns/arabesque.png');"></div>
@@ -258,7 +267,7 @@
                             </span>
                         </div>
 
-                        <h2 class="text-6xl md:text-7xl font-[Cormorant_Garamond] font-bold text-white drop-shadow-lg shimmer-text" id="next-prayer-name">Fajr</h2>
+                        <h2 class="text-6xl md:text-7xl font-[Cormorant_Garamond] font-bold text-white drop-border border-white/10 shimmer-text" id="next-prayer-name">Fajr</h2>
                         <p class="text-white/60 text-sm font-light italic">And establish prayer — indeed prayer prohibits immorality.</p>
 
                         <div id="portal-location-label" class="flex items-center gap-2 text-white/70 text-sm justify-center md:justify-start">
@@ -279,12 +288,34 @@
 
                     <!-- Right: Countdown Ring -->
                     <div class="countdown-wrap flex-shrink-0">
-                        <div class="bg-white/10 backdrop-blur-xl rounded-[28px] p-8 border border-white/20 text-center min-w-[240px] shadow-2xl">
+                        <div class="bg-[var(--pearl-card)]/10 backdrop-blur-xl rounded-[28px] p-8 border border-white/20 text-center min-w-[240px] border border-white/10">
                             <div class="text-[10px] uppercase tracking-[0.3em] text-white/50 mb-3 font-semibold">Time Remaining</div>
-                            <div class="text-5xl font-mono font-black text-white drop-shadow-2xl tracking-tight" id="countdown">00:00:00</div>
+                            <div class="text-5xl font-mono font-black text-white drop-shadow-md tracking-tight" id="countdown">00:00:00</div>
                             <div class="mt-4 text-xs text-white/40 uppercase tracking-wider">until <span id="countdown-prayer-label" class="text-[var(--gold)] font-bold">Fajr</span></div>
                         </div>
                     </div>
+                </div>
+            </div>
+
+            
+            <!-- DAILY AYAH -->
+            <div id="daily-ayah-block" class="bg-[var(--pearl-card)] p-6 md:p-8 rounded-[32px] border border-[var(--gold)]/20 relative overflow-hidden flex flex-col items-center justify-center text-center mt-6">
+                <div class="absolute inset-0 opacity-5 pointer-events-none" style="background-image:url('https://www.transparenttextures.com/patterns/stardust.png');"></div>
+                <div class="absolute top-4 left-4 text-[var(--gold)]/20 text-4xl"><i class="fas fa-quote-left"></i></div>
+                <div class="absolute bottom-4 right-4 text-[var(--gold)]/20 text-4xl"><i class="fas fa-quote-right"></i></div>
+                
+                <p class="text-xs font-bold text-[var(--gold)] uppercase tracking-[0.2em] mb-4">Daily Ayah</p>
+                
+                <div id="daily-ayah-arabic" class="text-3xl md:text-5xl font-[Amiri] text-[var(--text-dark)] leading-[1.8] mb-6" dir="rtl">
+                    بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ
+                </div>
+                
+                <div id="daily-ayah-translation" class="text-base md:text-lg text-[var(--text-muted)] font-[Cormorant_Garamond] max-w-3xl italic">
+                    "In the name of Allah, the Entirely Merciful, the Especially Merciful."
+                </div>
+                
+                <div id="daily-ayah-reference" class="mt-6 inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-white/5 bg-white/5 text-xs text-[var(--text-dark)] font-mono">
+                    Surah Al-Fatihah, Ayah 1
                 </div>
             </div>
 
@@ -295,19 +326,19 @@
 
             <!-- View Salah Guide button -->
             <div class="text-center">
-                <button data-target="view-nafil" class="nav-link inline-flex items-center gap-2 px-7 py-2.5 bg-white border border-[var(--gold)]/40 text-[var(--emerald)] rounded-full font-bold text-sm hover:bg-[var(--gold)] hover:text-white hover:border-[var(--gold)] transition-all shadow-sm dark:bg-gray-800 dark:text-[var(--gold)] dark:border-[var(--gold)]/30 dark:hover:text-white">
+                <button data-target="view-nafil" class="nav-link inline-flex items-center gap-2 px-7 py-2.5 bg-[var(--pearl-card)] border border-[var(--gold)]/40 text-[var(--emerald)] rounded-full font-bold text-sm hover:bg-[var(--gold)] hover:text-white hover:border-[var(--gold)] transition-all border border-white/10  dark:text-[var(--gold)] dark:border-[var(--gold)]/30 dark:hover:text-white">
                     <i class="fas fa-book-reader"></i> View Salah Guide
                 </button>
             </div>
 
             <!-- Zakat Calculator -->
-            <div id="zakat-section" class="max-w-4xl mx-auto bg-white dark:bg-gray-800 p-7 rounded-[32px] shadow-sm border border-gray-100 dark:border-gray-700">
+            <div id="zakat-section" class="max-w-4xl mx-auto bg-[var(--pearl-card)]  p-7 rounded-[32px] border border-white/10 border border-white/10 ">
                 <div class="flex flex-wrap justify-between items-center mb-6 gap-4">
                     <h3 class="text-xl font-bold flex items-center gap-2 dark:text-white">
                         <span class="w-9 h-9 rounded-full bg-amber-50 text-amber-600 flex items-center justify-center text-base">💰</span>
                         Zakat Calculator <span class="text-sm font-normal text-gray-400">(2.5%)</span>
                     </h3>
-                    <select id="zakat-currency" onchange="calculateZakat()" class="bg-[#f0ebe3] dark:bg-gray-700 border-none rounded-xl px-4 py-2 text-sm font-bold outline-none cursor-pointer dark:text-white">
+                    <select id="zakat-currency" onchange="calculateZakat()" class="bg-[var(--pearl-card)]  border-none rounded-xl px-4 py-2 text-sm font-bold outline-none cursor-pointer dark:text-white">
                         <option value="INR" selected>INR (₹)</option>
                         <option value="USD">USD ($)</option>
                         <option value="EUR">EUR (€)</option>
@@ -321,15 +352,15 @@
                     <div class="space-y-4">
                         <div>
                             <label class="block text-xs font-semibold mb-1 text-gray-500 dark:text-gray-400 uppercase tracking-wide">Cash & Savings</label>
-                            <input type="number" id="zakat-cash" placeholder="0.00" oninput="calculateZakat()" class="w-full p-3 rounded-xl border border-gray-200 dark:bg-gray-700 dark:border-gray-600 outline-none focus:ring-2 focus:ring-[var(--emerald)] dark:text-white text-sm">
+                            <input type="number" id="zakat-cash" placeholder="0.00" oninput="calculateZakat()" class="w-full p-3 rounded-xl border border-gray-200  dark:border-gray-600 outline-none focus:ring-2 focus:ring-[var(--emerald)] dark:text-white text-sm">
                         </div>
                         <div>
                             <label class="block text-xs font-semibold mb-1 text-gray-500 dark:text-gray-400 uppercase tracking-wide">Gold & Silver (Market Value)</label>
-                            <input type="number" id="zakat-gold" placeholder="0.00" oninput="calculateZakat()" class="w-full p-3 rounded-xl border border-gray-200 dark:bg-gray-700 dark:border-gray-600 outline-none focus:ring-2 focus:ring-[var(--emerald)] dark:text-white text-sm">
+                            <input type="number" id="zakat-gold" placeholder="0.00" oninput="calculateZakat()" class="w-full p-3 rounded-xl border border-gray-200  dark:border-gray-600 outline-none focus:ring-2 focus:ring-[var(--emerald)] dark:text-white text-sm">
                         </div>
                         <div>
                             <label class="block text-xs font-semibold mb-1 text-gray-500 dark:text-gray-400 uppercase tracking-wide">Investments / Business Assets</label>
-                            <input type="number" id="zakat-assets" placeholder="0.00" oninput="calculateZakat()" class="w-full p-3 rounded-xl border border-gray-200 dark:bg-gray-700 dark:border-gray-600 outline-none focus:ring-2 focus:ring-[var(--emerald)] dark:text-white text-sm">
+                            <input type="number" id="zakat-assets" placeholder="0.00" oninput="calculateZakat()" class="w-full p-3 rounded-xl border border-gray-200  dark:border-gray-600 outline-none focus:ring-2 focus:ring-[var(--emerald)] dark:text-white text-sm">
                         </div>
                     </div>
                     <div class="bg-[var(--emerald)]/08 dark:bg-[var(--emerald)]/20 rounded-2xl p-8 flex flex-col justify-center text-center" style="background:rgba(6,78,59,0.06)">
@@ -351,22 +382,22 @@
                 <p class="section-subtitle">Direction of the Kaaba (Makkah) from your location</p>
                 <div class="ornamental-line"><span>☪</span></div>
             </div>
-            <div class="max-w-lg mx-auto bg-white dark:bg-gray-800 p-8 rounded-[40px] shadow-sm border border-gray-100 dark:border-gray-700 text-center relative overflow-hidden">
+            <div class="max-w-lg mx-auto bg-[var(--pearl-card)]  p-8 rounded-[40px] border border-white/10 border border-white/10  text-center relative overflow-hidden">
                 <div class="absolute -right-10 -bottom-10 opacity-5 text-[150px] text-[var(--gold)]"><i class="fas fa-kaaba"></i></div>
                 <div class="grid grid-cols-2 gap-4 mb-8">
-                    <div class="bg-gray-50 dark:bg-gray-900/50 p-4 rounded-2xl border border-gray-100 dark:border-gray-700">
+                    <div class="bg-[var(--pearl-card)] /50 p-4 rounded-2xl border border-white/10 ">
                         <p class="text-[10px] uppercase font-bold text-gray-400 tracking-wider">Qibla Direction</p>
                         <p id="qibla-direction-val" class="text-2xl font-black text-[var(--emerald)] dark:text-[var(--gold)] font-mono">--° N</p>
                     </div>
-                    <div class="bg-gray-50 dark:bg-gray-900/50 p-4 rounded-2xl border border-gray-100 dark:border-gray-700">
+                    <div class="bg-[var(--pearl-card)] /50 p-4 rounded-2xl border border-white/10 ">
                         <p class="text-[10px] uppercase font-bold text-gray-400 tracking-wider">Distance to Kaaba</p>
                         <p id="qibla-distance-val" class="text-2xl font-black text-gray-800 dark:text-white font-mono">--,--- km</p>
                     </div>
                 </div>
-                <div class="relative w-64 h-64 mx-auto my-8 flex items-center justify-center bg-gray-50 dark:bg-gray-900 rounded-full shadow-inner border border-gray-100 dark:border-gray-800">
-                    <div class="absolute inset-2 border-2 border-dashed border-[var(--gold)]/30 rounded-full"></div>
+                <div class="relative w-64 h-64 mx-auto my-8 flex items-center justify-center bg-[var(--pearl)] rounded-full shadow-inner border border-white/10 ">
+                    <div class="absolute inset-2 border-2 border-solid border-[var(--emerald)]/20 rounded-full"></div>
                     <div id="qibla-compass-dial" class="absolute inset-0 transition-transform duration-200 ease-out flex items-center justify-center" style="transform:rotate(0deg);">
-                        <span class="absolute top-4 font-bold text-xs text-[var(--emerald)] dark:text-emerald-400">N</span>
+                        <span class="absolute top-4 font-bold text-xs text-[var(--emerald)]">N</span>
                         <span class="absolute bottom-4 font-bold text-xs text-gray-400">S</span>
                         <span class="absolute right-4 font-bold text-xs text-gray-400">E</span>
                         <span class="absolute left-4 font-bold text-xs text-gray-400">W</span>
@@ -376,15 +407,15 @@
                         </div>
                     </div>
                     <div class="absolute w-2 h-48 flex flex-col justify-between pointer-events-none z-10">
-                        <div class="w-0 h-0 border-l-[4px] border-l-transparent border-r-[4px] border-r-transparent border-b-[24px] border-b-red-500"></div>
-                        <div class="w-0 h-0 border-l-[4px] border-l-transparent border-r-[4px] border-r-transparent border-t-[24px] border-t-gray-400 dark:border-t-gray-600"></div>
+                        <div class="w-0 h-0 border-l-[4px] border-l-transparent border-r-[4px] border-r-transparent border-b-[24px] border-b-[var(--gold)]"></div>
+                        <div class="w-0 h-0 border-l-[4px] border-l-transparent border-r-[4px] border-r-transparent border-t-[24px] border-t-gray-300 dark:border-t-gray-600"></div>
                     </div>
-                    <div class="absolute w-5 h-5 rounded-full bg-[var(--gold)] border-4 border-white dark:border-gray-900 shadow-md z-20"></div>
+                    <div class="absolute w-5 h-5 rounded-full bg-[var(--gold)] border-4 border-white dark:border-gray-900 border border-white/10 z-20"></div>
                 </div>
                 <div class="space-y-3 mt-4">
                     <p id="qibla-status-text" class="text-sm font-medium text-gray-600 dark:text-gray-300">Detecting location...</p>
                     <div class="flex justify-center gap-2">
-                        <button id="btn-qibla-calibrate" class="bg-[var(--emerald)] hover:bg-[#042f24] text-white text-xs px-5 py-2 rounded-full font-bold shadow-md hover:-translate-y-0.5 transition-all">
+                        <button id="btn-qibla-calibrate" class="bg-[var(--emerald)] hover:bg-[var(--emerald-deep)] text-white text-xs px-5 py-2 rounded-full font-bold border border-white/10 hover:-translate-y-0.5 transition-all">
                             <i class="fas fa-sync-alt mr-2"></i>Recalibrate
                         </button>
                     </div>
@@ -429,10 +460,10 @@
                 <p class="section-subtitle">Read, Listen and Reflect upon the Holy Verses</p>
                 <div class="ornamental-line"><span>☪</span></div>
                 <div class="flex justify-center gap-2 mt-5">
-                    <button id="tab-surah-btn" class="px-6 py-2.5 rounded-full text-sm font-bold bg-[var(--emerald)] text-white shadow-sm transition-all" onclick="switchQuranTab('surah')">
+                    <button id="tab-surah-btn" class="px-6 py-2.5 rounded-full text-sm font-bold bg-[var(--emerald)] text-white border border-white/10 transition-all" onclick="switchQuranTab('surah')">
                         <i class="fas fa-list-ol mr-1.5"></i>Surah (114)
                     </button>
-                    <button id="tab-para-btn" class="px-6 py-2.5 rounded-full text-sm font-bold bg-gray-100 text-gray-500 hover:bg-gray-200 dark:bg-gray-700 dark:text-gray-400 transition-all" onclick="switchQuranTab('para')">
+                    <button id="tab-para-btn" class="px-6 py-2.5 rounded-full text-sm font-bold bg-gray-100 text-gray-500 hover:bg-gray-200  dark:text-gray-400 transition-all" onclick="switchQuranTab('para')">
                         <i class="fas fa-book-open mr-1.5"></i>Para / Juz (30)
                     </button>
                 </div>
@@ -465,18 +496,125 @@
             </div>
             <div class="flex flex-wrap justify-center gap-2 mb-4" id="dua-categories">
                 <button class="dua-cat-btn active px-4 py-1.5 rounded-full bg-[var(--emerald)] text-white border border-[var(--emerald)] text-xs font-semibold transition-all" data-cat="all">All</button>
-                <button class="dua-cat-btn px-4 py-1.5 rounded-full bg-white border border-gray-200 text-xs font-semibold hover:bg-[var(--emerald)] hover:text-white hover:border-[var(--emerald)] transition-all dark:bg-gray-800 dark:border-gray-700 dark:text-gray-300" data-cat="morning-evening">Morning & Evening</button>
-                <button class="dua-cat-btn px-4 py-1.5 rounded-full bg-white border border-gray-200 text-xs font-semibold hover:bg-[var(--emerald)] hover:text-white hover:border-[var(--emerald)] transition-all dark:bg-gray-800 dark:border-gray-700 dark:text-gray-300" data-cat="salah">Salah</button>
-                <button class="dua-cat-btn px-4 py-1.5 rounded-full bg-white border border-gray-200 text-xs font-semibold hover:bg-[var(--emerald)] hover:text-white hover:border-[var(--emerald)] transition-all dark:bg-gray-800 dark:border-gray-700 dark:text-gray-300" data-cat="family">Family & Parents</button>
-                <button class="dua-cat-btn px-4 py-1.5 rounded-full bg-white border border-gray-200 text-xs font-semibold hover:bg-[var(--emerald)] hover:text-white hover:border-[var(--emerald)] transition-all dark:bg-gray-800 dark:border-gray-700 dark:text-gray-300" data-cat="health">Health & Difficulties</button>
-                <button class="dua-cat-btn px-4 py-1.5 rounded-full bg-white border border-gray-200 text-xs font-semibold hover:bg-[var(--emerald)] hover:text-white hover:border-[var(--emerald)] transition-all dark:bg-gray-800 dark:border-gray-700 dark:text-gray-300" data-cat="academic">Academic Success</button>
-                <button class="dua-cat-btn px-4 py-1.5 rounded-full bg-white border border-gray-200 text-xs font-semibold hover:bg-[var(--emerald)] hover:text-white hover:border-[var(--emerald)] transition-all dark:bg-gray-800 dark:border-gray-700 dark:text-gray-300" data-cat="food-travel">Food & Travel</button>
-                <button class="dua-cat-btn px-4 py-1.5 rounded-full bg-white border border-gray-200 text-xs font-semibold hover:bg-[var(--emerald)] hover:text-white hover:border-[var(--emerald)] transition-all dark:bg-gray-800 dark:border-gray-700 dark:text-gray-300" data-cat="rabbana">Rabbana Duas</button>
+                <button class="dua-cat-btn px-4 py-1.5 rounded-full bg-[var(--pearl-card)] border border-gray-200 text-xs font-semibold hover:bg-[var(--emerald)] hover:text-white hover:border-[var(--emerald)] transition-all   dark:text-gray-300" data-cat="morning-evening">Morning & Evening</button>
+                <button class="dua-cat-btn px-4 py-1.5 rounded-full bg-[var(--pearl-card)] border border-gray-200 text-xs font-semibold hover:bg-[var(--emerald)] hover:text-white hover:border-[var(--emerald)] transition-all   dark:text-gray-300" data-cat="salah">Salah</button>
+                <button class="dua-cat-btn px-4 py-1.5 rounded-full bg-[var(--pearl-card)] border border-gray-200 text-xs font-semibold hover:bg-[var(--emerald)] hover:text-white hover:border-[var(--emerald)] transition-all   dark:text-gray-300" data-cat="family">Family & Parents</button>
+                <button class="dua-cat-btn px-4 py-1.5 rounded-full bg-[var(--pearl-card)] border border-gray-200 text-xs font-semibold hover:bg-[var(--emerald)] hover:text-white hover:border-[var(--emerald)] transition-all   dark:text-gray-300" data-cat="health">Health & Difficulties</button>
+                <button class="dua-cat-btn px-4 py-1.5 rounded-full bg-[var(--pearl-card)] border border-gray-200 text-xs font-semibold hover:bg-[var(--emerald)] hover:text-white hover:border-[var(--emerald)] transition-all   dark:text-gray-300" data-cat="academic">Academic Success</button>
+                <button class="dua-cat-btn px-4 py-1.5 rounded-full bg-[var(--pearl-card)] border border-gray-200 text-xs font-semibold hover:bg-[var(--emerald)] hover:text-white hover:border-[var(--emerald)] transition-all   dark:text-gray-300" data-cat="food-travel">Food & Travel</button>
+                <button class="dua-cat-btn px-4 py-1.5 rounded-full bg-[var(--pearl-card)] border border-gray-200 text-xs font-semibold hover:bg-[var(--emerald)] hover:text-white hover:border-[var(--emerald)] transition-all   dark:text-gray-300" data-cat="rabbana">Rabbana Duas</button>
             </div>
             <div id="duas-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5"><!-- JS --></div>
         </section>
 
+        <!-- ╔══════════════════════════════╗
+             ║      ISLAMIC BOOKS           ║
+             ╚══════════════════════════════╝ -->
+        <section id="view-books" class="view-section hidden p-4 md:p-6 space-y-6 animate-fade-in-up">
+            <div class="section-title-wrap">
+                <h2>Islamic Books</h2>
+                <p class="section-subtitle">Read the Six Major Hadith Collections (Kutub al-Sittah)</p>
+                <div class="ornamental-line"><span>☪</span></div>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+                <div class="glass-card hover:-translate-y-1 transition-transform cursor-pointer overflow-hidden group" onclick="openHadithBook('ayatul-kursi', 'Ayatul Kursi')">
+                    <div class="h-2 bg-[var(--gold)]/80"></div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-[var(--emerald)] dark:text-[var(--gold)] mb-2">Ayatul Kursi</h3>
+                        <p class="text-sm text-gray-500 dark:text-gray-400 mb-4">The Verse of the Throne (Surah Al-Baqarah 2:255).</p>
+                        <div class="flex items-center justify-between text-[var(--gold)]">
+                            <span class="text-xs uppercase font-bold">Quran</span>
+                            <i class="fas fa-book-open group-hover:scale-110 transition-transform"></i>
+                        </div>
+                    </div>
+                </div>
 
+                <div class="glass-card hover:-translate-y-1 transition-transform cursor-pointer overflow-hidden group" onclick="openHadithBook('4-quls', 'The 4 Quls')">
+                    <div class="h-2 bg-[var(--gold)]/80"></div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-[var(--emerald)] dark:text-[var(--gold)] mb-2">The 4 Quls</h3>
+                        <p class="text-sm text-gray-500 dark:text-gray-400 mb-4">Surahs Al-Kafirun, Al-Ikhlas, Al-Falaq, and An-Nas.</p>
+                        <div class="flex items-center justify-between text-[var(--gold)]">
+                            <span class="text-xs uppercase font-bold">Quran</span>
+                            <i class="fas fa-book-open group-hover:scale-110 transition-transform"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-card hover:-translate-y-1 transition-transform cursor-pointer overflow-hidden group" onclick="openHadithBook('bukhari', 'Sahih al-Bukhari')">
+                    <div class="h-2 bg-[var(--gold)]/80"></div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-[var(--emerald)] dark:text-[var(--gold)] mb-2">Sahih al-Bukhari</h3>
+                        <p class="text-sm text-gray-500 dark:text-gray-400 mb-4">Considered the most authentic book after the Quran.</p>
+                        <div class="flex items-center justify-between text-[var(--gold)]">
+                            <span class="text-xs uppercase font-bold">Imam al-Bukhari</span>
+                            <i class="fas fa-book-open group-hover:scale-110 transition-transform"></i>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="glass-card hover:-translate-y-1 transition-transform cursor-pointer overflow-hidden group" onclick="openHadithBook('muslim', 'Sahih Muslim')">
+                    <div class="h-2 bg-[var(--gold)]/80"></div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-[var(--emerald)] dark:text-[var(--gold)] mb-2">Sahih Muslim</h3>
+                        <p class="text-sm text-gray-500 dark:text-gray-400 mb-4">The second most authentic collection of Hadith.</p>
+                        <div class="flex items-center justify-between text-[var(--gold)]">
+                            <span class="text-xs uppercase font-bold">Imam Muslim</span>
+                            <i class="fas fa-book-open group-hover:scale-110 transition-transform"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-card hover:-translate-y-1 transition-transform cursor-pointer overflow-hidden group" onclick="openHadithBook('abudawud', 'Sunan Abu Dawood')">
+                    <div class="h-2 bg-[var(--gold)]/80"></div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-[var(--emerald)] dark:text-[var(--gold)] mb-2">Sunan Abu Dawood</h3>
+                        <p class="text-sm text-gray-500 dark:text-gray-400 mb-4">Focuses heavily on Islamic jurisprudence (Fiqh).</p>
+                        <div class="flex items-center justify-between text-[var(--gold)]">
+                            <span class="text-xs uppercase font-bold">Imam Abu Dawood</span>
+                            <i class="fas fa-book-open group-hover:scale-110 transition-transform"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-card hover:-translate-y-1 transition-transform cursor-pointer overflow-hidden group" onclick="openHadithBook('tirmidhi', 'Jami al-Tirmidhi')">
+                    <div class="h-2 bg-[var(--gold)]/80"></div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-[var(--emerald)] dark:text-[var(--gold)] mb-2">Jami' at-Tirmidhi</h3>
+                        <p class="text-sm text-gray-500 dark:text-gray-400 mb-4">Known for its commentary and grading of hadiths.</p>
+                        <div class="flex items-center justify-between text-[var(--gold)]">
+                            <span class="text-xs uppercase font-bold">Imam at-Tirmidhi</span>
+                            <i class="fas fa-book-open group-hover:scale-110 transition-transform"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-card hover:-translate-y-1 transition-transform cursor-pointer overflow-hidden group" onclick="openHadithBook('nasai', 'Sunan an-Nasa\'i')">
+                    <div class="h-2 bg-[var(--gold)]/80"></div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-[var(--emerald)] dark:text-[var(--gold)] mb-2">Sunan an-Nasa'i</h3>
+                        <p class="text-sm text-gray-500 dark:text-gray-400 mb-4">Contains the fewest weak narrations among the Sunan.</p>
+                        <div class="flex items-center justify-between text-[var(--gold)]">
+                            <span class="text-xs uppercase font-bold">Imam an-Nasa'i</span>
+                            <i class="fas fa-book-open group-hover:scale-110 transition-transform"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-card hover:-translate-y-1 transition-transform cursor-pointer overflow-hidden group" onclick="openHadithBook('ibnmajah', 'Sunan Ibn Majah')">
+                    <div class="h-2 bg-[var(--gold)]/80"></div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-[var(--emerald)] dark:text-[var(--gold)] mb-2">Sunan Ibn Majah</h3>
+                        <p class="text-sm text-gray-500 dark:text-gray-400 mb-4">Widely recognized as the sixth of the major collections.</p>
+                        <div class="flex items-center justify-between text-[var(--gold)]">
+                            <span class="text-xs uppercase font-bold">Imam Ibn Majah</span>
+                            <i class="fas fa-book-open group-hover:scale-110 transition-transform"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
         <!-- ╔══════════════════════════════╗
              ║      PANJ SURAH              ║
@@ -490,7 +628,7 @@
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
                     <!-- Yaseen -->
-                    <div class="glass p-6 rounded-[40px] border border-white/20 hover:border-[var(--gold)]/50 transition-all cursor-pointer group hover:-translate-y-2 shadow-lg dark:bg-gray-800/40" onclick="openReader(36,'Ya Sin')">
+                    <div class="glass p-6 rounded-[40px] border border-white/20 hover:border-[var(--gold)]/50 transition-all cursor-pointer group hover:-translate-y-2 border border-white/10 /40" onclick="openReader(36,'Ya Sin')">
                         <div class="flex items-center justify-between mb-4">
                             <span class="text-[10px] font-bold bg-[var(--gold)]/10 text-[var(--gold)] px-3 py-1 rounded-full uppercase tracking-wider">Heart of Quran</span>
                             <span class="w-8 h-8 rounded-full bg-[var(--emerald)]/10 flex items-center justify-center font-mono text-xs text-[var(--emerald)] dark:text-[var(--gold)]">36</span>
@@ -502,7 +640,7 @@
                         </div>
                     </div>
                     <!-- Rahman -->
-                    <div class="glass p-6 rounded-[40px] border border-white/20 hover:border-[var(--gold)]/50 transition-all cursor-pointer group hover:-translate-y-2 shadow-lg dark:bg-gray-800/40" onclick="openReader(55,'Ar-Rahman')">
+                    <div class="glass p-6 rounded-[40px] border border-white/20 hover:border-[var(--gold)]/50 transition-all cursor-pointer group hover:-translate-y-2 border border-white/10 /40" onclick="openReader(55,'Ar-Rahman')">
                         <div class="flex items-center justify-between mb-4">
                             <span class="text-[10px] font-bold bg-[var(--gold)]/10 text-[var(--gold)] px-3 py-1 rounded-full uppercase tracking-wider">The Beneficent</span>
                             <span class="w-8 h-8 rounded-full bg-[var(--emerald)]/10 flex items-center justify-center font-mono text-xs text-[var(--emerald)] dark:text-[var(--gold)]">55</span>
@@ -514,7 +652,7 @@
                         </div>
                     </div>
                     <!-- Waqiah -->
-                    <div class="glass p-6 rounded-[40px] border border-white/20 hover:border-[var(--gold)]/50 transition-all cursor-pointer group hover:-translate-y-2 shadow-lg dark:bg-gray-800/40" onclick="openReader(56,'Al-Waqia')">
+                    <div class="glass p-6 rounded-[40px] border border-white/20 hover:border-[var(--gold)]/50 transition-all cursor-pointer group hover:-translate-y-2 border border-white/10 /40" onclick="openReader(56,'Al-Waqia')">
                         <div class="flex items-center justify-between mb-4">
                             <span class="text-[10px] font-bold bg-[var(--gold)]/10 text-[var(--gold)] px-3 py-1 rounded-full uppercase tracking-wider">The Event</span>
                             <span class="w-8 h-8 rounded-full bg-[var(--emerald)]/10 flex items-center justify-center font-mono text-xs text-[var(--emerald)] dark:text-[var(--gold)]">56</span>
@@ -526,7 +664,7 @@
                         </div>
                     </div>
                     <!-- Mulk -->
-                    <div class="glass p-6 rounded-[40px] border border-white/20 hover:border-[var(--gold)]/50 transition-all cursor-pointer group hover:-translate-y-2 shadow-lg dark:bg-gray-800/40" onclick="openReader(67,'Al-Mulk')">
+                    <div class="glass p-6 rounded-[40px] border border-white/20 hover:border-[var(--gold)]/50 transition-all cursor-pointer group hover:-translate-y-2 border border-white/10 /40" onclick="openReader(67,'Al-Mulk')">
                         <div class="flex items-center justify-between mb-4">
                             <span class="text-[10px] font-bold bg-[var(--gold)]/10 text-[var(--gold)] px-3 py-1 rounded-full uppercase tracking-wider">The Sovereignty</span>
                             <span class="w-8 h-8 rounded-full bg-[var(--emerald)]/10 flex items-center justify-center font-mono text-xs text-[var(--emerald)] dark:text-[var(--gold)]">67</span>
@@ -538,7 +676,7 @@
                         </div>
                     </div>
                     <!-- Kahf -->
-                    <div class="glass p-6 rounded-[40px] border border-white/20 hover:border-[var(--gold)]/50 transition-all cursor-pointer group hover:-translate-y-2 shadow-lg dark:bg-gray-800/40" onclick="openReader(18,'Al-Kahf')">
+                    <div class="glass p-6 rounded-[40px] border border-white/20 hover:border-[var(--gold)]/50 transition-all cursor-pointer group hover:-translate-y-2 border border-white/10 /40" onclick="openReader(18,'Al-Kahf')">
                         <div class="flex items-center justify-between mb-4">
                             <span class="text-[10px] font-bold bg-[var(--gold)]/10 text-[var(--gold)] px-3 py-1 rounded-full uppercase tracking-wider">The Cave</span>
                             <span class="w-8 h-8 rounded-full bg-[var(--emerald)]/10 flex items-center justify-center font-mono text-xs text-[var(--emerald)] dark:text-[var(--gold)]">18</span>
@@ -550,7 +688,7 @@
                         </div>
                     </div>
                     <!-- Ikhlas / Short Surahs bonus -->
-                    <div class="glass p-6 rounded-[40px] border border-white/20 hover:border-[var(--gold)]/50 transition-all cursor-pointer group hover:-translate-y-2 shadow-lg dark:bg-gray-800/40" onclick="openReader(112,'Al-Ikhlas')">
+                    <div class="glass p-6 rounded-[40px] border border-white/20 hover:border-[var(--gold)]/50 transition-all cursor-pointer group hover:-translate-y-2 border border-white/10 /40" onclick="openReader(112,'Al-Ikhlas')">
                         <div class="flex items-center justify-between mb-4">
                             <span class="text-[10px] font-bold bg-[var(--gold)]/10 text-[var(--gold)] px-3 py-1 rounded-full uppercase tracking-wider">Sincerity</span>
                             <span class="w-8 h-8 rounded-full bg-[var(--emerald)]/10 flex items-center justify-center font-mono text-xs text-[var(--emerald)] dark:text-[var(--gold)]">112</span>
@@ -581,7 +719,7 @@
 
                 <!-- Calendar Grid (2/3 width) -->
                 <div class="lg:col-span-2">
-                    <div class="calendar-section shadow-2xl">
+                    <div class="calendar-section border border-white/10">
 
                         <!-- Calendar Header -->
                         <div class="calendar-header flex items-center justify-between">
@@ -621,7 +759,7 @@
                                 <div class="w-2 h-2 rounded-full bg-[var(--gold)]"></div> Islamic Event
                             </div>
                             <div class="flex items-center gap-2 text-[10px] text-white/50">
-                                <div class="w-2 h-2 rounded-full bg-red-400"></div> Holiday / Special Day
+                                <div class="w-2 h-2 rounded-full bg-[var(--gold-light)]"></div> Holiday / Special Day
                             </div>
                         </div>
                     </div>
@@ -631,7 +769,7 @@
                 <div class="space-y-5">
 
                     <!-- Today's Info Card -->
-                    <div class="bg-white dark:bg-gray-800 rounded-[28px] p-6 shadow-sm border border-gray-100 dark:border-gray-700">
+                    <div class="bg-[var(--pearl-card)]  rounded-[28px] p-6 border border-white/10 border border-white/10 ">
                         <div class="flex items-center gap-2 mb-4">
                             <div class="w-8 h-8 rounded-full bg-[var(--gold)]/10 flex items-center justify-center">
                                 <i class="fas fa-moon text-[var(--gold)] text-sm"></i>
@@ -647,7 +785,7 @@
                     </div>
 
                     <!-- Upcoming Events -->
-                    <div class="bg-white dark:bg-gray-800 rounded-[28px] p-6 shadow-sm border border-gray-100 dark:border-gray-700">
+                    <div class="bg-[var(--pearl-card)]  rounded-[28px] p-6 border border-white/10 border border-white/10 ">
                         <div class="flex items-center gap-2 mb-4">
                             <div class="w-8 h-8 rounded-full bg-purple-50 flex items-center justify-center">
                                 <i class="fas fa-calendar-star text-purple-500 text-sm"></i>
@@ -660,7 +798,7 @@
                     </div>
 
                     <!-- Hijri Months Reference -->
-                    <div class="bg-white dark:bg-gray-800 rounded-[28px] p-6 shadow-sm border border-gray-100 dark:border-gray-700">
+                    <div class="bg-[var(--pearl-card)]  rounded-[28px] p-6 border border-white/10 border border-white/10 ">
                         <div class="flex items-center gap-2 mb-4">
                             <div class="w-8 h-8 rounded-full bg-emerald-50 flex items-center justify-center">
                                 <i class="fas fa-list text-emerald-600 text-sm"></i>
@@ -681,11 +819,61 @@
 </div>
 
 <!-- ╔══════════════════════════════════════════╗
+     ║         BOOK READER MODAL               ║
+     ╚══════════════════════════════════════════╝ -->
+<div id="book-reader-modal" class="fixed inset-0 z-50 bg-[#031709] text-white hidden flex-col">
+    <!-- Header -->
+    <div class="flex flex-wrap items-center justify-between px-5 py-3.5 border-b border-white/10 bg-[var(--emerald-deep)] gap-3 z-10 shrink-0 border border-white/10">
+        <div>
+            <h3 id="book-reader-title" class="text-lg font-[Cormorant_Garamond] font-bold text-[var(--gold)]">Book Title</h3>
+            <p id="book-reader-subtitle" class="text-xs text-white/60">Loading...</p>
+        </div>
+        <div class="flex items-center gap-3 ml-auto flex-wrap justify-end">
+            <div class="flex items-center gap-2 bg-black/30 border border-white/10 px-3 py-1.5 rounded-full">
+                <span class="text-[9px] uppercase font-bold text-[var(--gold)] hidden sm:inline">Chapter:</span>
+                <select id="book-chapter-select" class="bg-transparent text-xs text-white outline-none cursor-pointer" onchange="changeBookChapter(this.value)">
+                    <option value="" class="bg-[var(--emerald-deep)]">Loading...</option>
+                </select>
+            </div>
+            <div class="flex items-center gap-2 bg-black/30 border border-white/10 px-3 py-1.5 rounded-full">
+                <span class="text-[9px] uppercase font-bold text-[var(--gold)] hidden sm:inline">View Mode:</span>
+                <select id="book-view-mode" class="bg-transparent text-xs text-white outline-none cursor-pointer" onchange="changeBookViewMode(this.value)">
+                    <option value="dual" class="bg-[var(--emerald-deep)]">Arabic + English</option>
+                    <option value="tri" class="bg-[var(--emerald-deep)]">Arabic + English + Urdu</option>
+                    <option value="ara-urd" class="bg-[var(--emerald-deep)]">Arabic + Urdu</option>
+                    <option value="urd" class="bg-[var(--emerald-deep)]">Urdu Only</option>
+                    <option value="eng" class="bg-[var(--emerald-deep)]">English Only</option>
+                    <option value="ara" class="bg-[var(--emerald-deep)]">Arabic Only</option>
+                </select>
+            </div>
+            <button class="w-8 h-8 flex items-center justify-center rounded-full bg-[var(--pearl-card)]/10 hover:bg-[var(--pearl-card)]/20 transition-colors text-sm text-[var(--gold)] ml-2" onclick="closeBookReader()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Book Content -->
+    <div class="flex-1 overflow-y-auto scroll-smooth relative" id="book-reader-scroll">
+        <!-- Loading Spinner -->
+        <div id="book-loading" class="absolute inset-0 flex flex-col items-center justify-center bg-[#031709] z-10 hidden">
+            <i class="fas fa-circle-notch fa-spin text-4xl text-[var(--gold)] mb-4"></i>
+            <p class="text-[var(--gold)] font-bold tracking-widest text-sm uppercase">Loading Book...</p>
+            <p class="text-white/50 text-xs mt-2 text-center max-w-xs">Fetching authentic Hadith collections. This may take a moment...</p>
+        </div>
+        
+        <!-- Render Area -->
+        <div class="max-w-4xl mx-auto p-4 md:p-8 space-y-8 py-10" id="book-reader-content">
+            <!-- Populated by JS -->
+        </div>
+    </div>
+</div>
+
+<!-- ╔══════════════════════════════════════════╗
      ║         QURAN READER MODAL              ║
      ╚══════════════════════════════════════════╝ -->
 <div id="quran-modal" class="fixed inset-0 z-50 bg-black/95 text-white hidden flex-col">
     <!-- Header -->
-    <div class="flex flex-wrap items-center justify-between px-5 py-3.5 border-b border-white/10 bg-[#051c10] gap-3 z-10 shrink-0">
+    <div class="flex flex-wrap items-center justify-between px-5 py-3.5 border-b border-white/10 bg-[var(--emerald-deep)] gap-3 z-10 shrink-0">
         <div>
             <h3 id="reader-title" class="text-lg font-[Cormorant_Garamond] font-bold text-[var(--gold)]">Surah Al-Fatiha</h3>
             <p id="surah-info" class="text-[10px] opacity-50">7 Ayahs • Meccan</p>
@@ -704,12 +892,19 @@
                 </select>
             </div>
             <div class="flex items-center gap-2 bg-black/30 border border-white/10 px-3 py-1.5 rounded-full">
-                <span class="text-[9px] uppercase font-bold text-[var(--gold)] hidden sm:inline">Mode:</span>
+                <span class="text-[9px] uppercase font-bold text-[var(--gold)] hidden sm:inline">View:</span>
+                <select id="quran-view-mode" class="bg-transparent text-xs text-white outline-none cursor-pointer">
+                    <option value="verse" selected class="bg-emerald-950">Read Verse</option>
+                    <option value="book" class="bg-emerald-950">Book Mode</option>
+                </select>
+            </div>
+            <div class="flex items-center gap-2 bg-black/30 border border-white/10 px-3 py-1.5 rounded-full">
+                <span class="text-[9px] uppercase font-bold text-[var(--gold)] hidden sm:inline">Voiceout:</span>
                 <select id="quran-audio-mode" class="bg-transparent text-xs text-white outline-none cursor-pointer">
-                    <option value="dual-ur" selected class="bg-emerald-950">Ar + Urdu</option>
+                    <option value="ar-only" selected class="bg-emerald-950">Arabic Only</option>
+                    <option value="dual-ur" class="bg-emerald-950">Ar + Hindi</option>
                     <option value="dual-en" class="bg-emerald-950">Ar + English</option>
-                    <option value="ar-only" class="bg-emerald-950">Arabic Only</option>
-                    <option value="ur-only" class="bg-emerald-950">Urdu Only</option>
+                    <option value="ur-only" class="bg-emerald-950">Hindi Only</option>
                     <option value="en-only" class="bg-emerald-950">English Only</option>
                 </select>
             </div>
@@ -717,10 +912,10 @@
         </div>
 
         <div class="flex items-center gap-2">
-            <button id="quran-sidebar-toggle-btn" class="w-9 h-9 rounded-full bg-white/5 hover:bg-[var(--gold)]/20 text-white flex items-center justify-center transition-colors" title="Display Settings">
+            <button id="quran-sidebar-toggle-btn" class="w-9 h-9 rounded-full bg-[var(--pearl-card)]/5 hover:bg-[var(--gold)]/20 text-white flex items-center justify-center transition-colors" title="Display Settings">
                 <i class="fas fa-sliders-h text-sm"></i>
             </button>
-            <button id="close-quran-btn" onclick="window.closePortalModal()" class="w-9 h-9 rounded-full bg-white/5 hover:bg-red-500/20 text-white flex items-center justify-center transition-colors">
+            <button id="close-quran-btn" onclick="window.closePortalModal()" class="w-9 h-9 rounded-full bg-[var(--pearl-card)]/5 hover:bg-red-500/20 text-white flex items-center justify-center transition-colors">
                 <i class="fas fa-times text-sm"></i>
             </button>
         </div>
@@ -739,7 +934,7 @@
         </div>
 
         <!-- Content -->
-        <div class="flex-1 overflow-y-auto p-6 md:p-10 relative bg-[#0e1a15]" id="quran-content">
+        <div class="flex-1 overflow-y-auto p-6 md:p-10 relative bg-[var(--emerald-deep)]" id="quran-content">
             <div class="text-center mt-20">
                 <i class="fas fa-circle-notch fa-spin text-4xl text-[var(--gold)]"></i>
             </div>
@@ -791,7 +986,7 @@
     </div>
 
     <!-- Player Bar -->
-    <div id="quran-player-bar" class="bg-[#051c10] border-t border-white/10 px-5 py-3.5 flex flex-col md:flex-row items-center justify-between gap-3 z-10 shadow-2xl shrink-0">
+    <div id="quran-player-bar" class="bg-[var(--emerald-deep)] border-t border-white/10 px-5 py-3.5 flex flex-col md:flex-row items-center justify-between gap-3 z-10 border border-white/10 shrink-0">
         <div class="flex items-center gap-3 w-full md:w-1/3">
             <div class="w-9 h-9 bg-[var(--gold)]/20 rounded-xl flex items-center justify-center text-[var(--gold)] shrink-0">
                 <i class="fas fa-quran"></i>
@@ -806,7 +1001,7 @@
                 <button id="player-prev-btn" class="text-gray-400 hover:text-white transition-colors" title="Previous Ayah">
                     <i class="fas fa-step-backward"></i>
                 </button>
-                <button id="player-play-btn" class="w-11 h-11 rounded-full bg-[var(--gold)] text-[var(--emerald-deep)] hover:scale-105 transition-transform flex items-center justify-center shadow-lg" title="Play/Pause">
+                <button id="player-play-btn" class="w-11 h-11 rounded-full bg-[var(--gold)] text-[var(--emerald-deep)] hover:scale-105 transition-transform flex items-center justify-center border border-white/10" title="Play/Pause">
                     <i class="fas fa-play ml-0.5" id="player-play-icon"></i>
                 </button>
                 <button id="player-next-btn" class="text-gray-400 hover:text-white transition-colors" title="Next Ayah">
@@ -815,7 +1010,7 @@
             </div>
             <div class="flex items-center gap-2 w-full max-w-xs text-[10px] text-gray-400">
                 <span id="player-progress-current">1</span>
-                <div class="flex-1 bg-white/10 h-1 rounded-full overflow-hidden">
+                <div class="flex-1 bg-[var(--pearl-card)]/10 h-1 rounded-full overflow-hidden">
                     <div id="player-progress-bar" class="bg-[var(--gold)] h-full transition-all" style="width:0%"></div>
                 </div>
                 <span id="player-progress-total">7</span>
@@ -837,7 +1032,7 @@
 <!-- Fazilat Modal -->
 <div id="fazilat-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4"
      onclick="if(event.target===this){this.classList.add('hidden');this.classList.remove('flex');}">
-    <div class="bg-white dark:bg-gray-800 rounded-[32px] max-w-md w-full p-7 shadow-2xl relative border-t-4 border-[var(--gold)] animate-fade-in-up">
+    <div class="bg-[var(--pearl-card)]  rounded-[32px] max-w-md w-full p-7 border border-white/10 relative border-t-4 border-[var(--gold)] animate-fade-in-up">
         <button class="absolute top-4 right-4 text-gray-400 hover:text-red-500 transition-colors" onclick="window.closePortalModal()">
             <i class="fas fa-times text-xl"></i>
         </button>
@@ -857,9 +1052,9 @@
 </div>
 
 <!-- Settings Modal -->
-<div id="settings-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4 shadow-2xl"
+<div id="settings-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4 border border-white/10"
      onclick="if(event.target===this){this.classList.add('hidden');this.classList.remove('flex');}">
-    <div class="bg-white dark:bg-gray-900 rounded-[40px] max-w-xl w-full p-8 shadow-2xl relative border-t-4 border-[var(--gold)] text-gray-800 dark:text-white max-h-[90vh] overflow-y-auto animate-fade-in-up">
+    <div class="bg-[var(--pearl-card)]  rounded-[40px] max-w-xl w-full p-8 border border-white/10 relative border-t-4 border-[var(--gold)] text-gray-800 dark:text-white max-h-[90vh] overflow-y-auto animate-fade-in-up">
         <button class="absolute top-6 right-6 text-gray-400 hover:text-red-500 transition-colors"
                 onclick="document.getElementById('settings-modal').classList.add('hidden');document.getElementById('settings-modal').classList.remove('flex');">
             <i class="fas fa-times text-xl"></i>
@@ -874,7 +1069,7 @@
         <div class="space-y-6">
             <div>
                 <label class="block text-sm font-semibold mb-2 text-[var(--emerald)] dark:text-gray-300">Calculation Method</label>
-                <select id="setting-calc-method" class="w-full p-3 rounded-xl border border-gray-200 dark:bg-gray-800 dark:border-gray-700 outline-none focus:ring-2 focus:ring-[var(--emerald)] text-sm dark:text-white">
+                <select id="setting-calc-method" class="w-full p-3 rounded-xl border border-gray-200   outline-none focus:ring-2 focus:ring-[var(--emerald)] text-sm dark:text-white">
                     <option value="1">University of Islamic Sciences, Karachi</option>
                     <option value="2">Islamic Society of North America (ISNA)</option>
                     <option value="3">Muslim World League (MWL)</option>
@@ -890,11 +1085,11 @@
             <div>
                 <label class="block text-sm font-semibold mb-2 text-[var(--emerald)] dark:text-gray-300">Juristic School (Asr Prayer)</label>
                 <div class="grid grid-cols-2 gap-4">
-                    <label class="flex items-center gap-3 p-3 rounded-xl border border-gray-200 dark:border-gray-700 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800">
+                    <label class="flex items-center gap-3 p-3 rounded-xl border border-gray-200  cursor-pointer hover:bg-[var(--pearl-card)] dark:hover:bg-gray-800">
                         <input type="radio" name="setting-asr-school" value="0" class="text-[var(--emerald)] focus:ring-[var(--emerald)]" checked>
                         <div class="text-sm"><p class="font-bold">Shafi / Standard</p><p class="text-[10px] text-gray-500">Maliki, Hanbali</p></div>
                     </label>
-                    <label class="flex items-center gap-3 p-3 rounded-xl border border-gray-200 dark:border-gray-700 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800">
+                    <label class="flex items-center gap-3 p-3 rounded-xl border border-gray-200  cursor-pointer hover:bg-[var(--pearl-card)] dark:hover:bg-gray-800">
                         <input type="radio" name="setting-asr-school" value="1" class="text-[var(--emerald)] focus:ring-[var(--emerald)]">
                         <div class="text-sm"><p class="font-bold">Hanafi</p><p class="text-[10px] text-gray-500">Later Asr (2x shadow)</p></div>
                     </label>
@@ -904,12 +1099,12 @@
                 <label class="block text-sm font-semibold mb-1 text-[var(--emerald)] dark:text-gray-300">Prayer Time Offsets (Minutes)</label>
                 <p class="text-[10px] text-gray-500 dark:text-gray-400 mb-3">Adjust times to match your local masjid.</p>
                 <div class="grid grid-cols-3 gap-3">
-                    <div><label class="text-[10px] font-semibold text-gray-500 block mb-1">Fajr</label><input type="number" id="offset-fajr" value="0" class="w-full p-2 text-center rounded-lg border border-gray-200 outline-none text-xs dark:text-white dark:bg-gray-800 dark:border-gray-700"></div>
-                    <div><label class="text-[10px] font-semibold text-gray-500 block mb-1">Dhuhr</label><input type="number" id="offset-dhuhr" value="0" class="w-full p-2 text-center rounded-lg border border-gray-200 outline-none text-xs dark:text-white dark:bg-gray-800 dark:border-gray-700"></div>
-                    <div><label class="text-[10px] font-semibold text-gray-500 block mb-1">Asr</label><input type="number" id="offset-asr" value="0" class="w-full p-2 text-center rounded-lg border border-gray-200 outline-none text-xs dark:text-white dark:bg-gray-800 dark:border-gray-700"></div>
-                    <div><label class="text-[10px] font-semibold text-gray-500 block mb-1">Maghrib</label><input type="number" id="offset-maghrib" value="0" class="w-full p-2 text-center rounded-lg border border-gray-200 outline-none text-xs dark:text-white dark:bg-gray-800 dark:border-gray-700"></div>
-                    <div><label class="text-[10px] font-semibold text-gray-500 block mb-1">Isha</label><input type="number" id="offset-isha" value="0" class="w-full p-2 text-center rounded-lg border border-gray-200 outline-none text-xs dark:text-white dark:bg-gray-800 dark:border-gray-700"></div>
-                    <div><label class="text-[10px] font-semibold text-gray-500 block mb-1">Sunrise</label><input type="number" id="offset-sunrise" value="0" class="w-full p-2 text-center rounded-lg border border-gray-200 outline-none text-xs dark:text-white dark:bg-gray-800 dark:border-gray-700"></div>
+                    <div><label class="text-[10px] font-semibold text-gray-500 block mb-1">Fajr</label><input type="number" id="offset-fajr" value="0" class="w-full p-2 text-center rounded-lg border border-gray-200 outline-none text-xs dark:text-white  "></div>
+                    <div><label class="text-[10px] font-semibold text-gray-500 block mb-1">Dhuhr</label><input type="number" id="offset-dhuhr" value="0" class="w-full p-2 text-center rounded-lg border border-gray-200 outline-none text-xs dark:text-white  "></div>
+                    <div><label class="text-[10px] font-semibold text-gray-500 block mb-1">Asr</label><input type="number" id="offset-asr" value="0" class="w-full p-2 text-center rounded-lg border border-gray-200 outline-none text-xs dark:text-white  "></div>
+                    <div><label class="text-[10px] font-semibold text-gray-500 block mb-1">Maghrib</label><input type="number" id="offset-maghrib" value="0" class="w-full p-2 text-center rounded-lg border border-gray-200 outline-none text-xs dark:text-white  "></div>
+                    <div><label class="text-[10px] font-semibold text-gray-500 block mb-1">Isha</label><input type="number" id="offset-isha" value="0" class="w-full p-2 text-center rounded-lg border border-gray-200 outline-none text-xs dark:text-white  "></div>
+                    <div><label class="text-[10px] font-semibold text-gray-500 block mb-1">Sunrise</label><input type="number" id="offset-sunrise" value="0" class="w-full p-2 text-center rounded-lg border border-gray-200 outline-none text-xs dark:text-white  "></div>
                 </div>
             </div>
             <div class="p-4 rounded-2xl border border-[var(--gold)]/20 space-y-3" class="bg-neutral-50 dark:bg-neutral-900/50">
@@ -920,18 +1115,18 @@
                     <span class="text-xs font-semibold text-gray-700 dark:text-gray-300">Play Adhan Audio</span>
                     <label class="relative inline-flex items-center cursor-pointer">
                         <input type="checkbox" id="setting-play-adhan" class="sr-only peer">
-                        <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-[var(--emerald)]"></div>
+                        <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer  peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-[var(--pearl-card)] after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-[var(--emerald)]"></div>
                     </label>
                 </div>
                 <div class="flex items-center justify-between">
                     <span class="text-xs font-semibold text-gray-700 dark:text-gray-300">Desktop Notifications</span>
                     <label class="relative inline-flex items-center cursor-pointer">
                         <input type="checkbox" id="setting-notify-desktop" class="sr-only peer">
-                        <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-[var(--emerald)]"></div>
+                        <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer  peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-[var(--pearl-card)] after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-[var(--emerald)]"></div>
                     </label>
                 </div>
                 <div class="flex items-center gap-2 pt-2">
-                    <button id="btn-test-adhan" class="flex-1 bg-[var(--emerald)] hover:bg-[#042f24] text-white py-2 px-4 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2">
+                    <button id="btn-test-adhan" class="flex-1 bg-[var(--emerald)] hover:bg-[var(--emerald-deep)] text-white py-2 px-4 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2">
                         <i class="fas fa-play"></i> Test Adhan Sound
                     </button>
                     <div class="flex items-center gap-2 w-1/3">
@@ -941,12 +1136,17 @@
                 </div>
             </div>
             <div class="flex gap-4 pt-2">
-                <button onclick="document.getElementById('settings-modal').classList.add('hidden');document.getElementById('settings-modal').classList.remove('flex');" class="flex-1 py-3 bg-gray-200 hover:bg-gray-300 dark:bg-gray-800 dark:hover:bg-gray-700 text-gray-700 dark:text-white font-bold rounded-full text-sm transition-all">Cancel</button>
-                <button id="btn-save-settings" class="flex-1 py-3 bg-[var(--emerald)] hover:bg-[#042f24] text-white font-bold rounded-full text-sm transition-all shadow-lg">Save Settings</button>
+                <button onclick="document.getElementById('settings-modal').classList.add('hidden');document.getElementById('settings-modal').classList.remove('flex');" class="flex-1 py-3 bg-gray-200 hover:bg-gray-300  dark:hover:bg-gray-700 text-gray-700 dark:text-white font-bold rounded-full text-sm transition-all">Cancel</button>
+                <button id="btn-save-settings" class="flex-1 py-3 bg-[var(--emerald)] hover:bg-[var(--emerald-deep)] text-white font-bold rounded-full text-sm transition-all border border-white/10">Save Settings</button>
             </div>
         </div>
     </div>
 </div>
+
+    <!-- ╔══════════════════════════════════╗
+         ║         TOAST CONTAINER          ║
+         ╚══════════════════════════════════╝ -->
+    <div id="toast-container" class="fixed bottom-20 md:bottom-6 right-0 left-0 md:left-auto md:right-6 flex flex-col gap-2 z-[110] px-4 md:px-0 items-center md:items-end pointer-events-none"></div>
 
 <script src="script.js"></script>
 </body>

@@ -6,27 +6,27 @@
 
 :root {
     /* Premium Minimalist Palette */
-    --emerald-deep:   #0c0c0c;
-    --emerald:        #0c0c0c;
-    --emerald-mid:    #1a1a1a;
-    --emerald-light:  #2a2a2a;
-    --gold-dark:      #c0bebf;
-    --gold:           #c0bebf;  
-    --gold-light:     #e0e0e0;
+    --pearl:          #FDFBF7;
+    --pearl-warm:     #FDFBF7;
+    --pearl-card:     #FFFFFF;
+    --text-dark:      #111827;
+    --text-muted:     #64748B;
+    --emerald-deep:   #09452c;
+    --emerald:        #0D5C3B;
+    --emerald-mid:    #117a4e;
+    --emerald-light:  #18a86c;
+    --gold-dark:      #8c4107;
+    --gold:           #B45309;  
+    --gold-light:     #d96914;
     --silver:         #c0bebf;
     --silver-light:   #f2f0f5;
-    --pearl:          #f2f0f5;
-    --pearl-warm:     #fefefe;
-    --pearl-card:     #fefefe;
-    --text-dark:      #0c0c0c;
-    --text-muted:     #c0bebf;
-    --sidebar-bg:     #fefefe;
-    --sidebar-border: rgba(192,190,191,0.3);
+    --sidebar-bg:     #FFFFFF;
+    --sidebar-border: rgba(0,0,0,0.05);
 
     /* Shadows */
-    --shadow-gold:    0 8px 32px rgba(0,0,0,0.06);
-    --shadow-green:   0 8px 32px rgba(0,0,0,0.04);
-    --shadow-card:    0 4px 24px rgba(0,0,0,0.04);
+    --shadow-gold:    none;
+    --shadow-green:   none;
+    --shadow-card:    none;
 
     /* Radii */
     --r-xs: 12px;
@@ -66,27 +66,29 @@ body {
 }
 
 body.dark {
-    --pearl:          #0c0c0c;
-    --pearl-warm:     #121212;
-    --pearl-card:     #1a1a1a;
-    --text-dark:      #fefefe;
-    --text-muted:     #c0bebf;
-    --emerald-deep:   #000000;
-    --emerald:        #fefefe; 
-    --emerald-mid:    #f2f0f5;
-    --emerald-light:  #c0bebf;
-    --gold-dark:      #333333;
-    --gold:           #c0bebf; 
-    --gold-light:     #fefefe;
-    --silver:         #c0bebf;
-    --silver-light:   #f2f0f5;
-    --sidebar-bg:     #0c0c0c;
-    --sidebar-border: rgba(192,190,191,0.15);
+    --pearl:          #070B14;
+    --pearl-warm:     #0F172A;
+    --pearl-card:     #121929;
+    --text-dark:      #FFFFFF;
+    --text-muted:     #CBD5E1;
+    --emerald-deep:   #063726;
+    --emerald:        #10B981; 
+    --emerald-mid:    #34D399;
+    --emerald-light:  #6EE7B7;
+    --gold-dark:      #D97706;
+    --gold:           #F59E0B; 
+    --gold-light:     #FCD34D;
+    --silver:         #E2E8F0;
+    --silver-light:   #1E293B;
+    --sidebar-bg:     #090E1A;
+    --sidebar-border: rgba(255,255,255,0.08);
 
-    background: var(--pearl);
+    background: #070B14;
     background-image:
-        radial-gradient(circle at 30% 0%, rgba(242, 240, 245, 0.05) 0%, transparent 60%),
-        radial-gradient(at 100% 100%, rgba(192, 190, 191, 0.05) 0px, transparent 50%);
+        radial-gradient(ellipse 80% 50% at 20% -10%, rgba(16, 185, 129, 0.15) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 40% at 80% 0%, rgba(245, 158, 11, 0.12) 0%, transparent 50%),
+        radial-gradient(ellipse 100% 60% at 50% 100%, rgba(11, 15, 25, 0.95) 0%, transparent 70%);
+    background-attachment: fixed;
     color: var(--text-dark);
     filter: brightness(1);
 }
@@ -107,7 +109,7 @@ h1,h2,h3,h4,h5,h6 { font-family:'Cormorant Garamond',serif; font-weight:700; }
    SIDEBAR
    ================================================================ */
 #main-sidebar {
-    background: linear-gradient(180deg, #000000 0%, #111111 60%, #000000 100%);
+    background: var(--emerald-deep);
     border-right: 1px solid var(--sidebar-border);
     position: relative;
     overflow: hidden;
@@ -800,14 +802,93 @@ input[type="range"]::-webkit-slider-thumb {
 }
 
 /* ================================================================
-   DARK MODE OVERRIDES
+   DARK MODE OVERRIDES (PREMIUM SAAS & ISLAMIC LUXURY)
    ================================================================ */
-.dark .glass,
-.dark .glass-container {
-    background: rgba(26,26,26,0.8) !important;
-    border-color: rgba(255,255,255,0.08);
+body.dark #main-sidebar {
+    background: linear-gradient(180deg, #090e1a 0%, #070b14 100%) !important;
+    border-right: 1px solid rgba(255, 255, 255, 0.08) !important;
 }
 
-.dark .prayer-card-asr { color: #ffffff; }
+body.dark #portal-header {
+    background: rgba(7, 11, 20, 0.88) !important;
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
 
-.dark .section-title-wrap h2 { color: var(--gold-light); }
+body.dark .glass,
+body.dark .glass-container,
+.dark .glass,
+.dark .glass-container {
+    background: rgba(18, 25, 41, 0.85) !important;
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
+    color: #ffffff !important;
+}
+
+body.dark .glass-container:hover,
+.dark .glass-container:hover {
+    background: rgba(26, 36, 56, 0.92) !important;
+    border-color: rgba(245, 158, 11, 0.35) !important;
+    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.6), 0 0 25px rgba(245, 158, 11, 0.12) !important;
+}
+
+body.dark .hero-prayer-card {
+    background: linear-gradient(135deg, #093322 0%, #0d5c3b 50%, #0c1c2e 100%) !important;
+    border: 1px solid rgba(245, 158, 11, 0.3) !important;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), 0 0 35px rgba(16, 185, 129, 0.2) !important;
+}
+
+body.dark #daily-ayah-block {
+    background: rgba(18, 25, 41, 0.85) !important;
+    border: 1px solid rgba(245, 158, 11, 0.25) !important;
+    box-shadow: 0 12px 36px rgba(0, 0, 0, 0.5) !important;
+}
+
+body.dark select,
+body.dark input {
+    background-color: #121929 !important;
+    color: #ffffff !important;
+    border: 1px solid rgba(255, 255, 255, 0.12) !important;
+}
+
+body.dark .prayer-card-asr { color: #ffffff; }
+
+body.dark .section-title-wrap h2 { color: var(--gold-light); }
+
+/* ================================================================
+   UX IMPROVEMENTS - TOASTS & MODALS
+   ================================================================ */
+
+.toast-notification {
+    background: var(--emerald-deep);
+    color: white;
+    padding: 12px 24px;
+    border-radius: 99px;
+    font-size: 13px;
+    font-weight: 500;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    transform: translateY(100px);
+    opacity: 0;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    margin-top: 10px;
+    border: 1px solid rgba(255,255,255,0.1);
+}
+.dark .toast-notification {
+    background: #ffffff;
+    color: #000000;
+    border-color: rgba(0,0,0,0.1);
+}
+.toast-notification.toast-show {
+    transform: translateY(0);
+    opacity: 1;
+}
+.toast-notification i {
+    color: var(--gold);
+    font-size: 16px;
+}

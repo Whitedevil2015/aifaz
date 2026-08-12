@@ -22,25 +22,27 @@
 
 /* ── DARK MODE CSS CUSTOM PROPERTIES ─────────────────────── */
 body.dark {
-    --dm-base:    #1a1a1a;
-    --dm-01:      #212121;
-    --dm-02:      #272727;
-    --dm-03:      #2e2e2e;
-    --dm-04:      #323232;
-    --dm-05:      #383838;
-    --dm-header:  #1e1e1e;
-    --dm-text:    #e8e8e8;
-    --dm-muted:   #9a9a9a;
-    --dm-subtle:  #5a5a5a;
-    --dm-border:  rgba(255, 255, 255, 0.07);
-    --dm-accent:  #34d399;
-    --dm-gold:    #f0c060;
+    --dm-base:    #080C14;
+    --dm-01:      #0B132B;
+    --dm-02:      #111827;
+    --dm-03:      #1E293B;
+    --dm-04:      #334155;
+    --dm-05:      #475569;
+    --dm-header:  rgba(15, 23, 42, 0.9);
+    --dm-text:    #F9FAFB;
+    --dm-muted:   #9CA3AF;
+    --dm-subtle:  #64748B;
+    --dm-border:  rgba(255, 255, 255, 0.08);
+    --dm-accent:  #10B981;
+    --dm-gold:    #F59E0B;
 }
 
 /* ── BASE BACKGROUND ──────────────────────────────────────── */
 body.dark {
-    background-color: var(--dm-base) !important;
-    background-image: none !important;
+    background-color: #080C14 !important;
+    background-image:
+        radial-gradient(ellipse at 50% 0%, rgba(16, 185, 129, 0.1) 0%, transparent 60%),
+        radial-gradient(ellipse at 100% 100%, rgba(245, 158, 11, 0.06) 0%, transparent 50%) !important;
     color: var(--dm-text) !important;
 }
 
@@ -51,7 +53,7 @@ body.dark::before {
 
 /* ── SIDEBAR ──────────────────────────────────────────────── */
 body.dark #main-sidebar {
-    background: linear-gradient(180deg, var(--dm-01) 0%, #1c1c1c 100%) !important;
+    background: linear-gradient(180deg, #05241a 0%, #09131e 100%) !important;
     border-right-color: var(--dm-border) !important;
     box-shadow: 4px 0 24px rgba(0, 0, 0, 0.4) !important;
 }
@@ -367,24 +369,40 @@ body.dark nav[class*="fixed bottom"] {
     box-shadow: 0 -4px 24px rgba(0, 0, 0, 0.5) !important;
 }
 
-/* ── INPUT FIELDS ─────────────────────────────────────────── */
+/* ── INPUT FIELDS & SELECTS ─────────────────────────────────── */
 body.dark input,
-body.dark textarea {
+body.dark textarea,
+body.dark select,
+body.dark option {
     background-color: var(--dm-03) !important;
-    color: var(--dm-text) !important;
+    color: #F9FAFB !important;
     border-color: var(--dm-border) !important;
 }
 
 body.dark input::placeholder,
 body.dark textarea::placeholder {
-    color: var(--dm-subtle) !important;
+    color: #9CA3AF !important;
 }
 
 body.dark input:focus,
-body.dark textarea:focus {
-    background-color: var(--dm-04) !important;
-    border-color: rgba(52, 211, 153, 0.4) !important;
-    box-shadow: 0 0 0 3px rgba(52, 211, 153, 0.12) !important;
+body.dark textarea:focus,
+body.dark select:focus {
+    background-color: #1E293B !important;
+    border-color: rgba(16, 185, 129, 0.5) !important;
+    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2) !important;
+}
+
+/* Zakat & Search Inputs specific dark fix */
+body.dark #zakat-cash,
+body.dark #zakat-gold,
+body.dark #zakat-assets,
+body.dark #prayer-city-select,
+body.dark #prayer-country-select,
+body.dark #surah-search-input,
+body.dark #hadith-search {
+    background-color: #1E293B !important;
+    color: #FFFFFF !important;
+    border-color: rgba(255, 255, 255, 0.12) !important;
 }
 
 /* ── SKELETON SHIMMER (DARK) ──────────────────────────────── */
