@@ -173,13 +173,48 @@
     </aside>
 
     <!-- ╔══════════════════════════════════╗
+         ║      MOBILE BOTTOM NAV BAR       ║
+         ╚══════════════════════════════════╝ -->
+    <nav class="md:hidden fixed bottom-0 left-0 w-full z-40 pb-safe bg-[var(--pearl-card)]/95 dark:bg-[#070b14]/95 backdrop-blur-xl border-t border-white/10 shadow-2xl">
+        <div class="flex items-center overflow-x-auto no-scrollbar py-2 px-2.5 gap-1.5 scroll-smooth whitespace-nowrap">
+            <a href="#" class="nav-link mobile-nav-item active px-3.5 py-2 rounded-full text-xs font-bold flex items-center justify-center gap-1.5 shrink-0 transition-all" data-target="view-dashboard">
+                <i class="fas fa-clock text-xs"></i><span>Prayers</span>
+            </a>
+            <a href="#" class="nav-link mobile-nav-item px-3.5 py-2 rounded-full text-xs font-semibold flex items-center justify-center gap-1.5 shrink-0 transition-all" data-target="view-nafil">
+                <i class="fas fa-praying-hands text-xs"></i><span>Salah</span>
+            </a>
+            <a href="#" class="nav-link mobile-nav-item px-3.5 py-2 rounded-full text-xs font-semibold flex items-center justify-center gap-1.5 shrink-0 transition-all" data-target="view-qibla">
+                <i class="fas fa-compass text-xs"></i><span>Qibla</span>
+            </a>
+            <a href="#" class="nav-link mobile-nav-item px-3.5 py-2 rounded-full text-xs font-semibold flex items-center justify-center gap-1.5 shrink-0 transition-all" data-target="view-quran">
+                <i class="fas fa-quran text-xs"></i><span>Quran</span>
+            </a>
+            <a href="#" class="nav-link mobile-nav-item px-3.5 py-2 rounded-full text-xs font-semibold flex items-center justify-center gap-1.5 shrink-0 transition-all" data-target="view-books">
+                <i class="fas fa-book text-xs"></i><span>Books</span>
+            </a>
+            <a href="#" class="nav-link mobile-nav-item px-3.5 py-2 rounded-full text-xs font-semibold flex items-center justify-center gap-1.5 shrink-0 transition-all" data-target="view-punj">
+                <i class="fas fa-book-open text-xs"></i><span>Panj Surah</span>
+            </a>
+            <a href="#" class="nav-link mobile-nav-item px-3.5 py-2 rounded-full text-xs font-semibold flex items-center justify-center gap-1.5 shrink-0 transition-all" data-target="view-calendar">
+                <i class="fas fa-calendar-alt text-xs"></i><span>Calendar</span>
+            </a>
+            <a href="#" class="nav-link mobile-nav-item px-3.5 py-2 rounded-full text-xs font-semibold flex items-center justify-center gap-1.5 shrink-0 transition-all" data-target="view-names">
+                <i class="fas fa-star text-xs"></i><span>99 Names</span>
+            </a>
+            <a href="#" class="nav-link mobile-nav-item px-3.5 py-2 rounded-full text-xs font-semibold flex items-center justify-center gap-1.5 shrink-0 transition-all" data-target="view-duas">
+                <i class="fas fa-hands-praying text-xs"></i><span>Duas</span>
+            </a>
+        </div>
+    </nav>
+
+    <!-- ╔══════════════════════════════════╗
          ║        MAIN CONTENT AREA         ║
          ╚══════════════════════════════════╝ -->
-    <main class="flex-1 relative overflow-y-auto scroll-smooth pb-10 md:pb-8" id="main-scroll-area" style="background:var(--pearl);">
+    <main class="flex-1 relative overflow-y-auto scroll-smooth pb-28 md:pb-8" id="main-scroll-area" style="background:var(--pearl);">
 
-        <!-- ── TOP HEADER & MOBILE SECTION NAVIGATION ── -->
+        <!-- ── TOP HEADER ── -->
         <header id="portal-header" class="sticky top-0 z-30 px-3 md:px-6 py-2.5 md:py-3 flex flex-col md:flex-row justify-between items-center gap-2.5 border-b border-white/10 bg-[var(--pearl-card)]/90 backdrop-blur-xl">
-            <!-- 1. Mobile Brand Header (Visible on Mobile) -->
+            <!-- Mobile Brand Header (Visible on Mobile) -->
             <div class="flex md:hidden items-center justify-between w-full pb-1">
                 <div class="flex items-center gap-2">
                     <div class="w-7 h-7 rounded-full bg-[var(--gold)]/20 border border-[var(--gold)]/40 flex items-center justify-center">
@@ -201,39 +236,6 @@
                     </button>
                 </div>
             </div>
-
-            <!-- 2. Mobile Top Section Navigation Bar (Placed right at the TOP on mobile!) -->
-            <nav class="md:hidden w-full overflow-x-auto no-scrollbar py-1 border-t border-b border-white/10 scroll-smooth">
-                <div class="flex items-center gap-1.5 whitespace-nowrap">
-                    <a href="#" class="nav-link mobile-nav-item active px-3 py-1.5 rounded-full text-xs font-semibold flex items-center gap-1.5 shrink-0" data-target="view-dashboard">
-                        <i class="fas fa-clock text-xs"></i><span>Prayers</span>
-                    </a>
-                    <a href="#" class="nav-link mobile-nav-item px-3 py-1.5 rounded-full text-xs font-semibold flex items-center gap-1.5 shrink-0" data-target="view-nafil">
-                        <i class="fas fa-praying-hands text-xs"></i><span>Salah</span>
-                    </a>
-                    <a href="#" class="nav-link mobile-nav-item px-3 py-1.5 rounded-full text-xs font-semibold flex items-center gap-1.5 shrink-0" data-target="view-qibla">
-                        <i class="fas fa-compass text-xs"></i><span>Qibla</span>
-                    </a>
-                    <a href="#" class="nav-link mobile-nav-item px-3 py-1.5 rounded-full text-xs font-semibold flex items-center gap-1.5 shrink-0" data-target="view-quran">
-                        <i class="fas fa-quran text-xs"></i><span>Quran</span>
-                    </a>
-                    <a href="#" class="nav-link mobile-nav-item px-3 py-1.5 rounded-full text-xs font-semibold flex items-center gap-1.5 shrink-0" data-target="view-books">
-                        <i class="fas fa-book text-xs"></i><span>Books</span>
-                    </a>
-                    <a href="#" class="nav-link mobile-nav-item px-3 py-1.5 rounded-full text-xs font-semibold flex items-center gap-1.5 shrink-0" data-target="view-punj">
-                        <i class="fas fa-book-open text-xs"></i><span>Panj Surah</span>
-                    </a>
-                    <a href="#" class="nav-link mobile-nav-item px-3 py-1.5 rounded-full text-xs font-semibold flex items-center gap-1.5 shrink-0" data-target="view-calendar">
-                        <i class="fas fa-calendar-alt text-xs"></i><span>Calendar</span>
-                    </a>
-                    <a href="#" class="nav-link mobile-nav-item px-3 py-1.5 rounded-full text-xs font-semibold flex items-center gap-1.5 shrink-0" data-target="view-names">
-                        <i class="fas fa-star text-xs"></i><span>99 Names</span>
-                    </a>
-                    <a href="#" class="nav-link mobile-nav-item px-3 py-1.5 rounded-full text-xs font-semibold flex items-center gap-1.5 shrink-0" data-target="view-duas">
-                        <i class="fas fa-hands-praying text-xs"></i><span>Duas</span>
-                    </a>
-                </div>
-            </nav>
 
             <!-- 3. Location Inputs Row -->
             <div class="flex items-center gap-2 w-full max-w-2xl">
