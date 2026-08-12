@@ -175,35 +175,35 @@
     <!-- ╔══════════════════════════════════╗
          ║      MOBILE BOTTOM NAV BAR       ║
          ╚══════════════════════════════════╝ -->
-    <nav class="md:hidden fixed bottom-0 left-0 w-full z-40 pb-safe bg-[var(--pearl-card)]/95 dark:bg-[#070b14]/95 backdrop-blur-xl border-t border-white/10 shadow-2xl">
-        <div class="flex items-center overflow-x-auto no-scrollbar py-2 px-2.5 gap-1.5 scroll-smooth whitespace-nowrap">
-            <a href="#" class="nav-link mobile-nav-item active px-3.5 py-2 rounded-full text-xs font-bold flex items-center justify-center gap-1.5 shrink-0 transition-all" data-target="view-dashboard">
+    <nav id="mobile-bottom-nav" class="md:hidden fixed bottom-0 left-0 w-full z-50 pb-safe bg-[var(--pearl-card)] dark:bg-[#070b14] backdrop-blur-xl border-t border-gray-200 dark:border-white/10 shadow-[0_-4px_25px_rgba(0,0,0,0.15)]">
+        <div class="flex items-center overflow-x-auto no-scrollbar py-2.5 px-3 gap-2 scroll-smooth whitespace-nowrap">
+            <button type="button" class="nav-link mobile-nav-item active px-3.5 py-2 rounded-full text-xs font-bold flex items-center justify-center gap-1.5 shrink-0 transition-all cursor-pointer" data-target="view-dashboard" onclick="navigateToView('view-dashboard')">
                 <i class="fas fa-clock text-xs"></i><span>Prayers</span>
-            </a>
-            <a href="#" class="nav-link mobile-nav-item px-3.5 py-2 rounded-full text-xs font-semibold flex items-center justify-center gap-1.5 shrink-0 transition-all" data-target="view-nafil">
+            </button>
+            <button type="button" class="nav-link mobile-nav-item px-3.5 py-2 rounded-full text-xs font-semibold flex items-center justify-center gap-1.5 shrink-0 transition-all cursor-pointer" data-target="view-nafil" onclick="navigateToView('view-nafil')">
                 <i class="fas fa-praying-hands text-xs"></i><span>Salah</span>
-            </a>
-            <a href="#" class="nav-link mobile-nav-item px-3.5 py-2 rounded-full text-xs font-semibold flex items-center justify-center gap-1.5 shrink-0 transition-all" data-target="view-qibla">
+            </button>
+            <button type="button" class="nav-link mobile-nav-item px-3.5 py-2 rounded-full text-xs font-semibold flex items-center justify-center gap-1.5 shrink-0 transition-all cursor-pointer" data-target="view-qibla" onclick="navigateToView('view-qibla')">
                 <i class="fas fa-compass text-xs"></i><span>Qibla</span>
-            </a>
-            <a href="#" class="nav-link mobile-nav-item px-3.5 py-2 rounded-full text-xs font-semibold flex items-center justify-center gap-1.5 shrink-0 transition-all" data-target="view-quran">
+            </button>
+            <button type="button" class="nav-link mobile-nav-item px-3.5 py-2 rounded-full text-xs font-semibold flex items-center justify-center gap-1.5 shrink-0 transition-all cursor-pointer" data-target="view-quran" onclick="navigateToView('view-quran')">
                 <i class="fas fa-quran text-xs"></i><span>Quran</span>
-            </a>
-            <a href="#" class="nav-link mobile-nav-item px-3.5 py-2 rounded-full text-xs font-semibold flex items-center justify-center gap-1.5 shrink-0 transition-all" data-target="view-books">
+            </button>
+            <button type="button" class="nav-link mobile-nav-item px-3.5 py-2 rounded-full text-xs font-semibold flex items-center justify-center gap-1.5 shrink-0 transition-all cursor-pointer" data-target="view-books" onclick="navigateToView('view-books')">
                 <i class="fas fa-book text-xs"></i><span>Books</span>
-            </a>
-            <a href="#" class="nav-link mobile-nav-item px-3.5 py-2 rounded-full text-xs font-semibold flex items-center justify-center gap-1.5 shrink-0 transition-all" data-target="view-punj">
+            </button>
+            <button type="button" class="nav-link mobile-nav-item px-3.5 py-2 rounded-full text-xs font-semibold flex items-center justify-center gap-1.5 shrink-0 transition-all cursor-pointer" data-target="view-punj" onclick="navigateToView('view-punj')">
                 <i class="fas fa-book-open text-xs"></i><span>Panj Surah</span>
-            </a>
-            <a href="#" class="nav-link mobile-nav-item px-3.5 py-2 rounded-full text-xs font-semibold flex items-center justify-center gap-1.5 shrink-0 transition-all" data-target="view-calendar">
+            </button>
+            <button type="button" class="nav-link mobile-nav-item px-3.5 py-2 rounded-full text-xs font-semibold flex items-center justify-center gap-1.5 shrink-0 transition-all cursor-pointer" data-target="view-calendar" onclick="navigateToView('view-calendar')">
                 <i class="fas fa-calendar-alt text-xs"></i><span>Calendar</span>
-            </a>
-            <a href="#" class="nav-link mobile-nav-item px-3.5 py-2 rounded-full text-xs font-semibold flex items-center justify-center gap-1.5 shrink-0 transition-all" data-target="view-names">
+            </button>
+            <button type="button" class="nav-link mobile-nav-item px-3.5 py-2 rounded-full text-xs font-semibold flex items-center justify-center gap-1.5 shrink-0 transition-all cursor-pointer" data-target="view-names" onclick="navigateToView('view-names')">
                 <i class="fas fa-star text-xs"></i><span>99 Names</span>
-            </a>
-            <a href="#" class="nav-link mobile-nav-item px-3.5 py-2 rounded-full text-xs font-semibold flex items-center justify-center gap-1.5 shrink-0 transition-all" data-target="view-duas">
+            </button>
+            <button type="button" class="nav-link mobile-nav-item px-3.5 py-2 rounded-full text-xs font-semibold flex items-center justify-center gap-1.5 shrink-0 transition-all cursor-pointer" data-target="view-duas" onclick="navigateToView('view-duas')">
                 <i class="fas fa-hands-praying text-xs"></i><span>Duas</span>
-            </a>
+            </button>
         </div>
     </nav>
 

@@ -120,15 +120,19 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Exported for use in inline HTML
+    window.navigateToView = navigateToView;
     window.closePortalModal = closeAllModals;
 
-    // CLICK HANDLERS
-    navLinks.forEach(link => {
-        link.addEventListener('click', (e) => {
-            e.preventDefault();
-            const targetId = link.getAttribute('data-target');
-            navigateToView(targetId);
-        });
+    // CLICK HANDLERS (Delegated + Direct)
+    document.addEventListener('click', (e) => {
+        const targetBtn = e.target.closest('[data-target]');
+        if (targetBtn) {
+            const targetId = targetBtn.getAttribute('data-target');
+            if (targetId && document.getElementById(targetId)) {
+                e.preventDefault();
+                navigateToView(targetId);
+            }
+        }
     });
 
     // BACK/FORWARD NAVIGATION HANDLER
