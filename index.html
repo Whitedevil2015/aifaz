@@ -210,14 +210,14 @@
     <!-- ╔══════════════════════════════════╗
          ║        MAIN CONTENT AREA         ║
          ╚══════════════════════════════════╝ -->
-    <main class="flex-1 relative overflow-y-auto scroll-smooth pb-28 md:pb-8" id="main-scroll-area" style="background:var(--pearl);">
+    <main class="flex-1 relative overflow-y-auto scroll-smooth pb-36 sm:pb-28 md:pb-8" id="main-scroll-area" style="background:var(--pearl);">
 
         <!-- ── TOP HEADER ── -->
-        <header id="portal-header" class="sticky top-0 z-30 px-3 md:px-6 py-2.5 md:py-3 flex flex-col md:flex-row justify-between items-center gap-2.5 border-b border-white/10 bg-[var(--pearl-card)]/90 backdrop-blur-xl">
+        <header id="portal-header" class="sticky top-0 z-30 px-3 md:px-6 py-2 md:py-3 flex flex-col md:flex-row justify-between items-center gap-2 border-b border-white/10 bg-[var(--pearl-card)]/95 backdrop-blur-xl">
             <!-- Mobile Brand Header (Visible on Mobile) -->
-            <div class="flex md:hidden items-center justify-between w-full pb-1">
+            <div class="flex md:hidden items-center justify-between w-full pb-1 border-b border-white/10">
                 <div class="flex items-center gap-2">
-                    <div class="w-7 h-7 rounded-full bg-[var(--gold)]/20 border border-[var(--gold)]/40 flex items-center justify-center">
+                    <div class="w-7 h-7 rounded-full bg-[var(--gold)]/20 border border-[var(--gold)]/40 flex items-center justify-center shrink-0">
                         <svg width="16" height="16" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M18 4C10.268 4 4 10.268 4 18C4 25.732 10.268 32 18 32C19.88 32 21.68 31.64 23.32 30.98C19.32 29.54 16.5 25.74 16.5 21.28C16.5 15.76 20.94 11.24 26.5 11.08C25.04 7 21.82 4 18 4Z" fill="var(--gold)"/>
                         </svg>
@@ -237,27 +237,27 @@
                 </div>
             </div>
 
-            <!-- 3. Location Inputs Row -->
-            <div class="flex items-center gap-2 w-full max-w-2xl">
-                <div class="relative flex-1 flex gap-2">
-                    <div class="relative w-[55%]">
-                        <i class="fas fa-city absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 text-xs z-10"></i>
-                        <select id="prayer-city-select" class="w-full pl-9 pr-3 py-2 bg-[var(--pearl-card)] border-none rounded-full text-xs outline-none focus:ring-2 focus:ring-[var(--emerald)]/30 transition-all dark:text-white appearance-none cursor-pointer">
-                            <option value="" disabled selected>Select City</option>
+            <!-- Location Inputs Row -->
+            <div class="flex items-center gap-1.5 w-full max-w-2xl">
+                <div class="relative flex-1 flex gap-1.5 min-w-0">
+                    <div class="relative flex-1 min-w-0">
+                        <i class="fas fa-city absolute left-2.5 top-1/2 -translate-y-1/2 text-gray-400 text-[10px] z-10 pointer-events-none"></i>
+                        <select id="prayer-city-select" class="w-full pl-7 pr-2 py-1.5 bg-[var(--pearl-card)] border border-gray-300 dark:border-white/10 rounded-full text-xs outline-none focus:ring-2 focus:ring-[var(--emerald)]/30 transition-all dark:text-white appearance-none cursor-pointer truncate">
+                            <option value="" disabled selected>City</option>
                         </select>
                     </div>
-                    <div class="relative w-[35%]">
-                        <i class="fas fa-globe absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 text-xs z-10"></i>
-                        <select id="prayer-country-select" class="w-full pl-9 pr-3 py-2 bg-[var(--pearl-card)] border-none rounded-full text-xs outline-none focus:ring-2 focus:ring-[var(--emerald)]/30 transition-all dark:text-white appearance-none cursor-pointer">
-                            <option value="" disabled selected>Select Country</option>
+                    <div class="relative flex-1 min-w-0">
+                        <i class="fas fa-globe absolute left-2.5 top-1/2 -translate-y-1/2 text-gray-400 text-[10px] z-10 pointer-events-none"></i>
+                        <select id="prayer-country-select" class="w-full pl-7 pr-2 py-1.5 bg-[var(--pearl-card)] border border-gray-300 dark:border-white/10 rounded-full text-xs outline-none focus:ring-2 focus:ring-[var(--emerald)]/30 transition-all dark:text-white appearance-none cursor-pointer truncate">
+                            <option value="" disabled selected>Country</option>
                         </select>
                     </div>
                 </div>
-                <button id="portal-search-btn" aria-label="Search" class="bg-[var(--emerald)] text-white px-4 py-2 rounded-full text-xs font-bold border border-white/10 hover:shadow-black/10 dark:hover:shadow-white/5 hover:-translate-y-0.5 transition-all shrink-0">
+                <button id="portal-search-btn" aria-label="Search" class="bg-[var(--emerald)] text-white px-3 py-1.5 rounded-full text-xs font-bold border border-white/10 hover:shadow-black/10 dark:hover:shadow-white/5 hover:-translate-y-0.5 transition-all shrink-0">
                     Search
                 </button>
-                <button id="update-location-btn" aria-label="Auto Update Location" class="hidden sm:flex items-center gap-1.5 bg-black text-white px-4 py-2 rounded-full text-xs font-bold hover:bg-neutral-800 dark:bg-[var(--pearl-card)] dark:text-black dark:hover:bg-neutral-200 hover:-translate-y-0.5 transition-all shrink-0">
-                    <i class="fas fa-location-arrow text-[10px]"></i><span class="hidden md:inline">Auto</span>
+                <button id="update-location-btn" aria-label="Auto Update Location" class="flex items-center gap-1 bg-black text-white px-2.5 py-1.5 rounded-full text-xs font-bold hover:bg-neutral-800 dark:bg-[var(--pearl-card)] dark:text-white dark:hover:bg-neutral-800 hover:-translate-y-0.5 transition-all shrink-0">
+                    <i class="fas fa-location-arrow text-[9px]"></i><span class="inline">Auto</span>
                 </button>
 
                 <button id="theme-toggle" aria-label="Toggle Theme" class="hidden md:flex w-8 h-8 rounded-full bg-gray-200 text-gray-600 items-center justify-center hover:bg-gray-300 transition-colors dark:bg-gray-700 dark:text-yellow-400 shrink-0" title="Toggle Day/Night Mode">

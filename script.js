@@ -794,13 +794,13 @@ document.addEventListener('DOMContentLoaded', () => {
         const modal = document.createElement('div');
         modal.className = 'fixed inset-0 z-[60] flex items-center justify-center bg-black/80 backdrop-blur-sm opacity-0 transition-opacity duration-700';
         modal.innerHTML = `
-            <div class="bg-[var(--pearl-card)] rounded-[40px] max-w-lg w-full p-10 text-center relative transform scale-90 transition-transform duration-500 shadow-2xl border-4 border-[var(--gold)]/30 dark:bg-gray-900 border-gray-700">
-                <button onclick="this.closest('.fixed').remove()" class="absolute top-4 right-4 text-gray-400 hover:text-red-500"><i class="fas fa-times text-xl"></i></button>
-                <div class="w-16 h-1 bg-[var(--gold)] mx-auto mb-6 rounded-full"></div>
-                <h3 class="text-gray-500 uppercase tracking-widest text-xs font-bold mb-4 dark:text-gray-400">Verse of the Moment</h3>
-                <p class="text-3xl font-[Cormorant_Garamond] font-bold text-[var(--emerald)] mb-6 leading-tight dark:text-white">"${verse.t}"</p>
-                <p class="text-[var(--gold)] font-semibold font-serif italic">— ${verse.r}</p>
-                <button onclick="this.closest('.fixed').remove()" class="mt-8 px-8 py-3 bg-[var(--emerald)] text-white rounded-full font-bold hover:bg-[var(--emerald)] transition-colors shadow-lg">Bismillah</button>
+            <div class="bg-[var(--pearl-card)] rounded-[28px] sm:rounded-[40px] max-w-md mx-4 sm:mx-auto w-[92%] sm:w-full p-6 sm:p-10 text-center relative transform scale-90 transition-transform duration-500 shadow-2xl border-2 sm:border-4 border-[var(--gold)]/30 dark:bg-gray-900 border-gray-700">
+                <button onclick="this.closest('.fixed').remove()" class="absolute top-3 right-3 text-gray-400 hover:text-red-500 p-2"><i class="fas fa-times text-lg"></i></button>
+                <div class="w-12 h-1 bg-[var(--gold)] mx-auto mb-4 rounded-full"></div>
+                <h3 class="text-gray-500 uppercase tracking-widest text-[10px] sm:text-xs font-bold mb-3 dark:text-gray-400">Verse of the Moment</h3>
+                <p class="text-xl sm:text-3xl font-[Cormorant_Garamond] font-bold text-[var(--emerald)] mb-4 leading-tight dark:text-white">"${verse.t}"</p>
+                <p class="text-[var(--gold)] text-sm font-semibold font-serif italic">— ${verse.r}</p>
+                <button onclick="this.closest('.fixed').remove()" class="mt-6 px-6 py-2.5 bg-[var(--emerald)] text-white rounded-full text-xs font-bold hover:bg-[var(--emerald)] transition-colors shadow-lg">Bismillah</button>
             </div>
         `;
         document.body.appendChild(modal);
