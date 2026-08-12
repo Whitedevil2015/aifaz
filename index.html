@@ -1013,42 +1013,46 @@
         </div>
     </div>
 
-    <!-- Player Bar -->
-    <div id="quran-player-bar" class="bg-[var(--emerald-deep)] border-t border-white/10 px-5 py-3.5 flex flex-col md:flex-row items-center justify-between gap-3 z-10 border border-white/10 shrink-0">
-        <div class="flex items-center gap-3 w-full md:w-1/3">
-            <div class="w-9 h-9 bg-[var(--gold)]/20 rounded-xl flex items-center justify-center text-[var(--gold)] shrink-0">
-                <i class="fas fa-quran"></i>
-            </div>
-            <div class="text-left overflow-hidden">
-                <p id="player-bar-reciter" class="text-[10px] text-[var(--gold)] font-bold truncate">Mishary Alafasy</p>
-                <p id="player-bar-surah" class="text-xs font-semibold truncate">Surah Al-Fatiha • Ayah 1</p>
-            </div>
+</div>
+
+<!-- GLOBAL PERSISTENT QURAN AUDIO PLAYER BAR -->
+<div id="quran-player-bar" class="hidden fixed bottom-0 left-0 w-full bg-[#070b14]/95 backdrop-blur-xl border-t border-white/10 px-4 md:px-6 py-2.5 flex flex-col md:flex-row items-center justify-between gap-2.5 z-[100] shadow-2xl transition-all">
+    <div class="flex items-center gap-3 w-full md:w-1/3">
+        <div class="w-9 h-9 bg-[var(--gold)]/20 border border-[var(--gold)]/30 rounded-xl flex items-center justify-center text-[var(--gold)] shrink-0 cursor-pointer" onclick="document.getElementById('quran-modal').style.display='flex';" title="Open Full Reader">
+            <i class="fas fa-quran text-sm"></i>
         </div>
-        <div class="flex flex-col items-center gap-2 w-full md:w-1/3">
-            <div class="flex items-center gap-5">
-                <button id="player-prev-btn" class="text-gray-400 hover:text-white transition-colors" title="Previous Ayah">
-                    <i class="fas fa-step-backward"></i>
-                </button>
-                <button id="player-play-btn" class="w-11 h-11 rounded-full bg-[var(--gold)] text-[var(--emerald-deep)] hover:scale-105 transition-transform flex items-center justify-center border border-white/10" title="Play/Pause">
-                    <i class="fas fa-play ml-0.5" id="player-play-icon"></i>
-                </button>
-                <button id="player-next-btn" class="text-gray-400 hover:text-white transition-colors" title="Next Ayah">
-                    <i class="fas fa-step-forward"></i>
-                </button>
-            </div>
-            <div class="flex items-center gap-2 w-full max-w-xs text-[10px] text-gray-400">
-                <span id="player-progress-current">1</span>
-                <div class="flex-1 bg-[var(--pearl-card)]/10 h-1 rounded-full overflow-hidden">
-                    <div id="player-progress-bar" class="bg-[var(--gold)] h-full transition-all" style="width:0%"></div>
-                </div>
-                <span id="player-progress-total">7</span>
-            </div>
+        <div class="text-left overflow-hidden cursor-pointer" onclick="document.getElementById('quran-modal').style.display='flex';" title="Open Full Reader">
+            <p id="player-bar-reciter" class="text-[10px] text-[var(--gold)] font-bold truncate">Mishary Alafasy</p>
+            <p id="player-bar-surah" class="text-xs font-semibold truncate text-white">Surah Al-Fatiha • Ayah 1</p>
         </div>
-        <div class="flex items-center justify-end gap-3 w-full md:w-1/3">
-            <div class="flex items-center gap-2 w-24">
-                <i class="fas fa-volume-down text-xs text-gray-400"></i>
-                <input type="range" id="quran-volume-slider" min="0" max="1" step="0.1" value="0.8" class="w-full accent-[var(--gold)] cursor-pointer">
+    </div>
+    <div class="flex flex-col items-center gap-1.5 w-full md:w-1/3">
+        <div class="flex items-center gap-5">
+            <button id="player-prev-btn" class="text-gray-400 hover:text-white transition-colors" title="Previous Ayah">
+                <i class="fas fa-step-backward text-sm"></i>
+            </button>
+            <button id="player-play-btn" class="w-10 h-10 rounded-full bg-[var(--gold)] text-[var(--emerald-deep)] hover:scale-105 transition-transform flex items-center justify-center border border-white/10 shadow-lg" title="Play/Pause">
+                <i class="fas fa-play ml-0.5 text-sm" id="player-play-icon"></i>
+            </button>
+            <button id="player-next-btn" class="text-gray-400 hover:text-white transition-colors" title="Next Ayah">
+                <i class="fas fa-step-forward text-sm"></i>
+            </button>
+        </div>
+        <div class="flex items-center gap-2 w-full max-w-xs text-[10px] text-gray-400">
+            <span id="player-progress-current">1</span>
+            <div class="flex-1 bg-white/10 h-1 rounded-full overflow-hidden">
+                <div id="player-progress-bar" class="bg-[var(--gold)] h-full transition-all" style="width:0%"></div>
             </div>
+            <span id="player-progress-total">7</span>
+        </div>
+    </div>
+    <div class="flex items-center justify-end gap-3 w-full md:w-1/3">
+        <button onclick="document.getElementById('quran-modal').style.display='flex';" class="text-xs text-[var(--gold)] hover:underline flex items-center gap-1 font-semibold shrink-0">
+            <i class="fas fa-expand text-[10px]"></i> <span class="hidden sm:inline">Open Reader</span>
+        </button>
+        <div class="flex items-center gap-2 w-20 shrink-0">
+            <i class="fas fa-volume-down text-xs text-gray-400"></i>
+            <input type="range" id="quran-volume-slider" min="0" max="1" step="0.1" value="0.8" class="w-full accent-[var(--gold)] cursor-pointer">
         </div>
     </div>
 </div>

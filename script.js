@@ -1098,6 +1098,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                 }
             });
+            const bar = document.getElementById('quran-player-bar');
+            if (bar) bar.classList.remove('hidden');
             updatePlayIcon(true);
             highlightVerse(index);
             updatePlayerBarProgress(index);
@@ -1206,7 +1208,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Standard listeners
     document.getElementById('close-quran-btn')?.addEventListener('click', () => {
         if (quranModal) quranModal.style.display = 'none';
-        if (audioPlayer) { audioPlayer.pause(); updatePlayIcon(false); }
+        // Audio continues playing in background via persistent global player bar!
     });
 
     // Wire up header dropdowns
