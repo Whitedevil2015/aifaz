@@ -5,28 +5,28 @@
    ================================================================ */
 
 :root {
-    /* Premium Minimalist Palette */
-    --pearl:          #FDFBF7;
-    --pearl-warm:     #FDFBF7;
+    /* Day View Palette: Green, Gold, Pure White, Silver */
+    --pearl:          #F8FAFC;
+    --pearl-warm:     #F1F5F9;
     --pearl-card:     #FFFFFF;
-    --text-dark:      #111827;
-    --text-muted:     #64748B;
-    --emerald-deep:   #09452c;
+    --text-dark:      #0F172A;
+    --text-muted:     #475569;
+    --emerald-deep:   #064E3B;
     --emerald:        #0D5C3B;
-    --emerald-mid:    #117a4e;
-    --emerald-light:  #18a86c;
-    --gold-dark:      #8c4107;
-    --gold:           #B45309;  
-    --gold-light:     #d96914;
-    --silver:         #c0bebf;
-    --silver-light:   #f2f0f5;
-    --sidebar-bg:     #FFFFFF;
-    --sidebar-border: rgba(0,0,0,0.05);
+    --emerald-mid:    #059669;
+    --emerald-light:  #D1FAE5;
+    --gold-dark:      #92400E;
+    --gold:           #D97706;  
+    --gold-light:     #FEF3C7;
+    --silver:         #CBD5E1;
+    --silver-light:   #E2E8F0;
+    --sidebar-bg:     #0D5C3B;
+    --sidebar-border: rgba(217, 119, 6, 0.25);
 
     /* Shadows */
-    --shadow-gold:    none;
-    --shadow-green:   none;
-    --shadow-card:    none;
+    --shadow-gold:    0 4px 20px rgba(217, 119, 6, 0.15);
+    --shadow-green:   0 8px 30px rgba(13, 92, 59, 0.12);
+    --shadow-card:    0 4px 20px rgba(0, 0, 0, 0.04);
 
     /* Radii */
     --r-xs: 12px;
@@ -36,13 +36,13 @@
     --r-xl: 40px;
     --r-full: 9999px;
 
-    /* Prayer-time Sky Gradients (Stunning Grayscale Lights) */
-    --sky-fajr:    linear-gradient(135deg, #121212 0%, #2c2c2e 100%);
-    --sky-sunrise: linear-gradient(135deg, #aeaeb2 0%, #e5e5ea 100%);
-    --sky-dhuhr:   linear-gradient(135deg, #e5e5ea 0%, #ffffff 100%);
-    --sky-asr:     linear-gradient(135deg, #8e8e93 0%, #d1d1d6 100%);
-    --sky-maghrib: linear-gradient(135deg, #3a3a3c 0%, #707070 100%);
-    --sky-isha:    linear-gradient(135deg, #000000 0%, #1c1c1e 100%);
+    /* Prayer-time Sky Gradients */
+    --sky-fajr:    linear-gradient(135deg, #064E3B 0%, #0D5C3B 100%);
+    --sky-sunrise: linear-gradient(135deg, #CBD5E1 0%, #F1F5F9 100%);
+    --sky-dhuhr:   linear-gradient(135deg, #F1F5F9 0%, #FFFFFF 100%);
+    --sky-asr:     linear-gradient(135deg, #94A3B8 0%, #CBD5E1 100%);
+    --sky-maghrib: linear-gradient(135deg, #334155 0%, #64748B 100%);
+    --sky-isha:    linear-gradient(135deg, #0F172A 0%, #1E293B 100%);
 }
 
 /* ================================================================
@@ -53,16 +53,16 @@
 body {
     font-family: 'Inter', sans-serif;
     color: var(--text-dark);
-    background-color: var(--pearl);
+    background-color: #F8FAFC;
     background-image:
-        radial-gradient(ellipse at 0% 0%,  rgba(255,255,255,0.9) 0px, transparent 60%),
-        radial-gradient(ellipse at 100% 0%, rgba(0,0,0,0.02) 0px, transparent 50%),
-        radial-gradient(ellipse at 50% 100%,rgba(0,0,0,0.01) 0px, transparent 70%);
+        radial-gradient(ellipse at 10% 0%, rgba(13, 92, 59, 0.08) 0px, transparent 50%),
+        radial-gradient(ellipse at 90% 0%, rgba(217, 119, 6, 0.06) 0px, transparent 50%),
+        radial-gradient(ellipse at 50% 100%, rgba(226, 232, 240, 0.6) 0px, transparent 70%);
     background-attachment: fixed;
     min-height: 100vh;
     line-height: 1.65;
     overflow-x: hidden;
-    filter: brightness(0.70);
+    filter: brightness(1);
 }
 
 body.dark {
