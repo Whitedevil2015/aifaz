@@ -43,6 +43,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const searchInput = document.getElementById('hadith-search');
     const themeBtn = document.getElementById('theme-toggle');
     const quranModal = document.getElementById('quran-modal');
+    const audioPlayer = document.getElementById('quran-audio');
     window.updateMasterDates = function() {};
     
     // Init Theme
@@ -1068,8 +1069,43 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Playback Helpers
+    window.playVerse = function (index) {
+        if (!window.currentSurahData) return;
+        if (!currentPlaylist || currentPlaylist.length === 0) {
+            regenerateAudioPlaylist();
+        }
+        
+        const playlistIndex = currentPlaylist.findIndex(item => item.index === index);
+        if (playlistIndex !== -1) {
+            currentAudioIndex = playlistIndex;
+        } else {
+            currentAudioIndex = 0;
+        }
+
+        const player = document.getElementById('quran-audio');
+        if (player && currentPlaylist[currentAudioIndex]) {
+            player.src = currentPlaylist[currentAudioIndex].url;
+            player.play().catch(e => {
+                console.warn("Audio play error:", e);
+                // Fallback to Web Speech Synthesis if audio fails
+                if ('speechSynthesis' in window) {
+                    window.speechSynthesis.cancel();
+                    const verseData = window.currentSurahData.data.ayahs[index];
+                    if (verseData) {
+                        const utterance = new SpeechSynthesisUtterance(verseData.text);
+                        utterance.lang = 'ar-SA';
+                        window.speechSynthesis.speak(utterance);
+                    }
+                }
+            });
+            updatePlayIcon(true);
+            highlightVerse(index);
+            updatePlayerBarProgress(index);
+        }
+    };
+
     window.highlightVerse = function (index) {
-        const verses = document.querySelectorAll('#quran-content > div.ayah-row');
+        const verses = document.querySelectorAll('.ayah-row');
         verses.forEach(d => d.classList.remove('bg-[var(--pearl-card)]/10', 'border-l-4', 'border-[var(--gold)]'));
 
         if (verses[index]) {
