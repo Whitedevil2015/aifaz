@@ -3565,11 +3565,18 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-// --- ANIME COMPANION WIDGET (GOJO & SUKUNA) ---
+// --- ANIME COMPANION WIDGET & PORTAL THEMES (GOJO & SUKUNA) ---
 document.addEventListener('DOMContentLoaded', () => {
     const toggleBtn = document.getElementById('anime-toggle-btn');
     const card = document.getElementById('anime-companion-card');
     const closeBtn = document.getElementById('close-anime-card-btn');
+
+    // Restore saved anime character theme
+    const savedAnimeTheme = localStorage.getItem('anime_portal_theme');
+    if (savedAnimeTheme && (savedAnimeTheme === 'gojo' || savedAnimeTheme === 'sukuna')) {
+        document.documentElement.setAttribute('data-anime-theme', savedAnimeTheme);
+        switchAnimeChar(savedAnimeTheme, false);
+    }
 
     if (toggleBtn && card) {
         toggleBtn.addEventListener('click', () => {
@@ -3591,7 +3598,24 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-window.switchAnimeChar = function (charName) {
+window.setAnimePortalTheme = function (charName) {
+    if (charName === 'gojo' || charName === 'sukuna') {
+        document.documentElement.setAttribute('data-anime-theme', charName);
+        localStorage.setItem('anime_portal_theme', charName);
+    } else {
+        document.documentElement.removeAttribute('data-anime-theme');
+        localStorage.removeItem('anime_portal_theme');
+    }
+};
+
+window.resetAnimeTheme = function () {
+    setAnimePortalTheme('default');
+    if (window.showToast) {
+        window.showToast("Portal Theme reset to default.", "info");
+    }
+};
+
+window.switchAnimeChar = function (charName, applyTheme = true) {
     const gojoView = document.getElementById('anime-view-gojo');
     const sukunaView = document.getElementById('anime-view-sukuna');
     const gojoTab = document.getElementById('tab-gojo');
@@ -3606,6 +3630,10 @@ window.switchAnimeChar = function (charName) {
         if (sukunaTab) {
             sukunaTab.className = "flex-1 py-1.5 rounded-full text-xs font-bold transition-all text-gray-400 hover:text-white flex items-center justify-center gap-1.5";
         }
+        if (applyTheme) {
+            setAnimePortalTheme('gojo');
+            if (window.showToast) window.showToast("Portal Theme transformed to Gojo Satoru (Infinite Cyan)!", "info");
+        }
     } else {
         if (gojoView) gojoView.classList.add('hidden');
         if (sukunaView) sukunaView.classList.remove('hidden');
@@ -3614,6 +3642,10 @@ window.switchAnimeChar = function (charName) {
         }
         if (gojoTab) {
             gojoTab.className = "flex-1 py-1.5 rounded-full text-xs font-bold transition-all text-gray-400 hover:text-white flex items-center justify-center gap-1.5";
+        }
+        if (applyTheme) {
+            setAnimePortalTheme('sukuna');
+            if (window.showToast) window.showToast("Portal Theme transformed to Ryomen Sukuna (Malevolent Crimson)!", "info");
         }
     }
 };

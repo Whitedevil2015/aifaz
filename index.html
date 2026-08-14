@@ -1233,9 +1233,14 @@
                 <i class="fas fa-fire text-amber-400 text-sm"></i>
                 <span class="text-xs font-bold uppercase tracking-widest text-cyan-300">Special Grade Sorcerer</span>
             </div>
-            <button id="close-anime-card-btn" class="w-7 h-7 rounded-full bg-white/10 hover:bg-red-500/20 text-white flex items-center justify-center text-xs transition-colors">
-                <i class="fas fa-times"></i>
-            </button>
+            <div class="flex items-center gap-1.5">
+                <button onclick="resetAnimeTheme()" class="px-2.5 py-1 rounded-full bg-white/10 hover:bg-white/20 text-[10px] font-bold text-gray-300 hover:text-white transition-colors" title="Reset to Default Theme">
+                    Reset Theme
+                </button>
+                <button id="close-anime-card-btn" class="w-7 h-7 rounded-full bg-white/10 hover:bg-red-500/20 text-white flex items-center justify-center text-xs transition-colors">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
         </div>
 
         <!-- Character Selector Tabs -->
