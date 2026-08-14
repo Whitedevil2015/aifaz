@@ -913,23 +913,41 @@ document.addEventListener('DOMContentLoaded', () => {
         quranContentEl.innerHTML = '<div class="text-center mt-20"><i class="fas fa-circle-notch fa-spin text-4xl text-[var(--gold)]"></i></div>';
         try {
             const endpoint = type === 'juz' ? `juz/${num}` : `surah/${num}`;
-            const fetchHinglish = type === 'surah'
-                ? fetch(`https://cdn.jsdelivr.net/gh/fawazahmed0/quran-api@1/editions/urd-abulaalamaududi-la/${num}.json`)
-                : Promise.resolve({ json: () => ({ chapter: [] }) });
+            const cacheKey = `quran_cache_${endpoint}`;
+            let arData, enData, trData, urData, hiData;
 
-            const [arRes, enRes, trRes, urRes, hiRes] = await Promise.all([
-                fetch(`https://api.alquran.cloud/v1/${endpoint}`),
-                fetch(`https://api.alquran.cloud/v1/${endpoint}/en.sahih`),
-                fetch(`https://api.alquran.cloud/v1/${endpoint}/en.transliteration`),
-                fetch(`https://api.alquran.cloud/v1/${endpoint}/ur.jalandhry`),
-                fetchHinglish
-            ]);
+            // Instant Cache Check for Fast Mobile Load
+            const cachedContent = sessionStorage.getItem(cacheKey);
+            if (cachedContent) {
+                const parsed = JSON.parse(cachedContent);
+                arData = parsed.arData;
+                enData = parsed.enData;
+                trData = parsed.trData;
+                urData = parsed.urData;
+                hiData = parsed.hiData;
+            } else {
+                const fetchHinglish = type === 'surah'
+                    ? fetch(`https://cdn.jsdelivr.net/gh/fawazahmed0/quran-api@1/editions/urd-abulaalamaududi-la/${num}.json`)
+                    : Promise.resolve({ json: () => ({ chapter: [] }) });
 
-            const arData = await arRes.json();
-            const enData = await enRes.json();
-            const trData = await trRes.json();
-            const urData = await urRes.json();
-            const hiData = await hiRes.json();
+                const [arRes, enRes, trRes, urRes, hiRes] = await Promise.all([
+                    fetch(`https://api.alquran.cloud/v1/${endpoint}`),
+                    fetch(`https://api.alquran.cloud/v1/${endpoint}/en.sahih`),
+                    fetch(`https://api.alquran.cloud/v1/${endpoint}/en.transliteration`),
+                    fetch(`https://api.alquran.cloud/v1/${endpoint}/ur.jalandhry`),
+                    fetchHinglish
+                ]);
+
+                arData = await arRes.json();
+                enData = await enRes.json();
+                trData = await trRes.json();
+                urData = await urRes.json();
+                hiData = await hiRes.json();
+
+                try {
+                    sessionStorage.setItem(cacheKey, JSON.stringify({ arData, enData, trData, urData, hiData }));
+                } catch (e) { /* Storage quota safe */ }
+            }
 
             window.currentSurahData = arData; // Global Store
 
@@ -1128,6 +1146,21 @@ document.addEventListener('DOMContentLoaded', () => {
         } catch (e) { console.error(e); }
     }
 
+    // Mobile Audio Unlocker
+    let isMobileAudioUnlocked = false;
+    function unlockMobileAudioEngine() {
+        if (isMobileAudioUnlocked) return;
+        const player = document.getElementById('quran-audio');
+        if (player) {
+            player.play().then(() => {
+                player.pause();
+                isMobileAudioUnlocked = true;
+            }).catch(() => {});
+        }
+    }
+    document.addEventListener('touchstart', unlockMobileAudioEngine, { once: true });
+    document.addEventListener('click', unlockMobileAudioEngine, { once: true });
+
     // Playback Helpers
     window.playVerse = function (index) {
         if (!window.currentSurahData) return;
@@ -1136,33 +1169,49 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         
         const playlistIndex = currentPlaylist.findIndex(item => item.index === index);
-        if (playlistIndex !== -1) {
-            currentAudioIndex = playlistIndex;
-        } else {
-            currentAudioIndex = 0;
-        }
+        currentAudioIndex = (playlistIndex !== -1) ? playlistIndex : 0;
 
         const player = document.getElementById('quran-audio');
         if (player && currentPlaylist[currentAudioIndex]) {
-            player.src = currentPlaylist[currentAudioIndex].url;
-            player.play().catch(e => {
-                console.warn("Audio play error:", e);
-                // Fallback to Web Speech Synthesis if audio fails
-                if ('speechSynthesis' in window) {
-                    window.speechSynthesis.cancel();
-                    const verseData = window.currentSurahData.data.ayahs[index];
-                    if (verseData) {
-                        const utterance = new SpeechSynthesisUtterance(verseData.text);
-                        utterance.lang = 'ar-SA';
-                        window.speechSynthesis.speak(utterance);
+            const item = currentPlaylist[currentAudioIndex];
+            player.src = item.url;
+            player.setAttribute('playsinline', 'true');
+            player.setAttribute('webkit-playsinline', 'true');
+
+            const playPromise = player.play();
+            if (playPromise !== undefined) {
+                playPromise.then(() => {
+                    const bar = document.getElementById('quran-player-bar');
+                    if (bar) bar.classList.remove('hidden');
+                    updatePlayIcon(true);
+                    highlightVerse(index);
+                    updatePlayerBarProgress(index);
+                }).catch(e => {
+                    console.warn("Audio play error, trying EveryAyah CDN fallback:", e);
+                    // Fallback to EveryAyah CDN
+                    if (window.currentSurahData && window.currentSurahData.data && window.currentSurahData.data.ayahs[index]) {
+                        const verseObj = window.currentSurahData.data.ayahs[index];
+                        const sNum = String(verseObj.surah ? verseObj.surah.number : 1).padStart(3, '0');
+                        const aNum = String(verseObj.numberInSurah).padStart(3, '0');
+                        player.src = `https://everyayah.com/data/Alafasy_128kbps/${sNum}${aNum}.mp3`;
+                        player.play().then(() => {
+                            const bar = document.getElementById('quran-player-bar');
+                            if (bar) bar.classList.remove('hidden');
+                            updatePlayIcon(true);
+                            highlightVerse(index);
+                            updatePlayerBarProgress(index);
+                        }).catch(() => {
+                            // Fallback to Web Speech Synthesis if network blocked
+                            if ('speechSynthesis' in window) {
+                                window.speechSynthesis.cancel();
+                                const utterance = new SpeechSynthesisUtterance(verseObj.text);
+                                utterance.lang = 'ar-SA';
+                                window.speechSynthesis.speak(utterance);
+                            }
+                        });
                     }
-                }
-            });
-            const bar = document.getElementById('quran-player-bar');
-            if (bar) bar.classList.remove('hidden');
-            updatePlayIcon(true);
-            highlightVerse(index);
-            updatePlayerBarProgress(index);
+                });
+            }
         }
     };
 
