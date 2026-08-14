@@ -916,11 +916,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
             let bismillahHtml = '';
             // Note: Surah 9 (At-Tawbah) traditionally does not start with Bismillah
-            if (type === 'surah' && parseInt(num) !== 9) {
+            if (parseInt(num) !== 9) {
                 bismillahHtml = `
-                    <div class="text-center py-8 mb-6 border-b border-white/10">
-                        <div class="font-[Amiri] text-4xl text-[var(--gold)] drop-shadow-md" style="line-height: 1.5;">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</div>
-                        <div class="text-xs text-gray-400 mt-3 font-serif italic tracking-wide">In the name of Allah, the Entirely Merciful, the Especially Merciful.</div>
+                    <div class="text-center py-8 mb-6 border-b border-white/10 bg-[var(--gold)]/5 rounded-2xl p-6 shadow-sm">
+                        <div class="font-[Amiri] text-3xl sm:text-4xl text-[var(--gold)] drop-shadow-md" style="line-height: 1.5;">بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ</div>
+                        <div class="text-xs text-gray-400 dark:text-gray-300 mt-3 font-serif italic tracking-wide">In the name of Allah, the Entirely Merciful, the Especially Merciful.</div>
                     </div>
                 `;
             }
@@ -973,6 +973,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 for (let i = state.currentIndex; i < endIndex; i++) {
                     const a = state.arData.data.ayahs[i];
+                    
+                    // Render Bismillah Header if starting a new Surah in the middle of a Juz/Para
+                    if (a.numberInSurah === 1 && a.surah && parseInt(a.surah.number) !== 9 && i > 0) {
+                        const surahTitle = a.surah.englishName ? `${a.surah.englishName} • ${a.surah.name}` : `Surah ${a.surah.number}`;
+                        chunkHtml += `
+                            <div class="text-center py-8 my-8 border-y border-white/10 bg-[var(--gold)]/5 rounded-2xl p-6 shadow-sm col-span-full w-full">
+                                <div class="text-xs text-[var(--gold)] font-bold uppercase tracking-widest mb-2">${surahTitle}</div>
+                                <div class="font-[Amiri] text-3xl sm:text-4xl text-[var(--gold)] drop-shadow-md" style="line-height: 1.5;">بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ</div>
+                                <div class="text-xs text-gray-400 dark:text-gray-300 mt-2 font-serif italic tracking-wide">In the name of Allah, the Entirely Merciful, the Especially Merciful.</div>
+                            </div>
+                        `;
+                    }
                     
                     if (isBookMode) {
                         // Book Mode Rendering (Continuous Arabic Text)
