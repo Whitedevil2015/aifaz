@@ -3564,3 +3564,112 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
+
+// --- ANIME COMPANION WIDGET (GOJO & SUKUNA) ---
+document.addEventListener('DOMContentLoaded', () => {
+    const toggleBtn = document.getElementById('anime-toggle-btn');
+    const card = document.getElementById('anime-companion-card');
+    const closeBtn = document.getElementById('close-anime-card-btn');
+
+    if (toggleBtn && card) {
+        toggleBtn.addEventListener('click', () => {
+            if (card.classList.contains('hidden')) {
+                card.classList.remove('hidden');
+                card.classList.add('flex');
+            } else {
+                card.classList.add('hidden');
+                card.classList.remove('flex');
+            }
+        });
+    }
+
+    if (closeBtn && card) {
+        closeBtn.addEventListener('click', () => {
+            card.classList.add('hidden');
+            card.classList.remove('flex');
+        });
+    }
+});
+
+window.switchAnimeChar = function (charName) {
+    const gojoView = document.getElementById('anime-view-gojo');
+    const sukunaView = document.getElementById('anime-view-sukuna');
+    const gojoTab = document.getElementById('tab-gojo');
+    const sukunaTab = document.getElementById('tab-sukuna');
+
+    if (charName === 'gojo') {
+        if (gojoView) gojoView.classList.remove('hidden');
+        if (sukunaView) sukunaView.classList.add('hidden');
+        if (gojoTab) {
+            gojoTab.className = "flex-1 py-1.5 rounded-full text-xs font-bold transition-all bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-md flex items-center justify-center gap-1.5";
+        }
+        if (sukunaTab) {
+            sukunaTab.className = "flex-1 py-1.5 rounded-full text-xs font-bold transition-all text-gray-400 hover:text-white flex items-center justify-center gap-1.5";
+        }
+    } else {
+        if (gojoView) gojoView.classList.add('hidden');
+        if (sukunaView) sukunaView.classList.remove('hidden');
+        if (sukunaTab) {
+            sukunaTab.className = "flex-1 py-1.5 rounded-full text-xs font-bold transition-all bg-gradient-to-r from-red-600 to-amber-700 text-white shadow-md flex items-center justify-center gap-1.5";
+        }
+        if (gojoTab) {
+            gojoTab.className = "flex-1 py-1.5 rounded-full text-xs font-bold transition-all text-gray-400 hover:text-white flex items-center justify-center gap-1.5";
+        }
+    }
+};
+
+window.triggerDomainExpansion = function (charName) {
+    const overlay = document.getElementById('domain-expansion-overlay');
+    const bg = document.getElementById('domain-expansion-bg');
+    const textWrap = document.getElementById('domain-expansion-text');
+    const title = document.getElementById('domain-expansion-title');
+    const sub = document.getElementById('domain-expansion-sub');
+
+    if (!overlay || !bg || !textWrap) return;
+
+    if (charName === 'gojo') {
+        bg.style.background = 'radial-gradient(circle at center, rgba(14, 165, 233, 0.95) 0%, rgba(99, 102, 241, 0.95) 50%, rgba(15, 23, 42, 0.98) 100%)';
+        if (title) {
+            title.textContent = '無量空処';
+            title.className = 'text-4xl sm:text-7xl font-bold font-serif text-cyan-200 drop-shadow-[0_0_35px_rgba(6,182,212,0.9)] tracking-widest mb-3';
+        }
+        if (sub) {
+            sub.textContent = 'Domain Expansion: Unlimited Void';
+            sub.className = 'text-lg sm:text-2xl font-mono text-cyan-100 tracking-widest uppercase';
+        }
+    } else {
+        bg.style.background = 'radial-gradient(circle at center, rgba(220, 38, 38, 0.95) 0%, rgba(153, 27, 27, 0.95) 50%, rgba(15, 23, 42, 0.98) 100%)';
+        if (title) {
+            title.textContent = '伏魔御厨子';
+            title.className = 'text-4xl sm:text-7xl font-bold font-serif text-amber-200 drop-shadow-[0_0_35px_rgba(239,68,68,0.9)] tracking-widest mb-3';
+        }
+        if (sub) {
+            sub.textContent = 'Domain Expansion: Malevolent Shrine';
+            sub.className = 'text-lg sm:text-2xl font-mono text-red-200 tracking-widest uppercase';
+        }
+    }
+
+    overlay.classList.remove('hidden');
+    overlay.classList.add('flex');
+
+    setTimeout(() => {
+        textWrap.classList.remove('scale-95', 'opacity-0');
+        textWrap.classList.add('scale-100', 'opacity-100');
+    }, 50);
+
+    setTimeout(() => {
+        textWrap.classList.remove('scale-100', 'opacity-100');
+        textWrap.classList.add('scale-95', 'opacity-0');
+        setTimeout(() => {
+            overlay.classList.add('hidden');
+            overlay.classList.remove('flex');
+        }, 700);
+    }, 2500);
+
+    if (window.showToast) {
+        const msg = charName === 'gojo'
+            ? "Gojo: 'Throughout Heaven and Earth, I Alone Am The Honored One!'"
+            : "Sukuna: 'Domain Expansion: Malevolent Shrine!'";
+        window.showToast(msg, "info");
+    }
+};
