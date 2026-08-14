@@ -376,16 +376,20 @@ document.addEventListener('DOMContentLoaded', () => {
     window.openFazilat = function (name) {
         const info = window.PRAYER_INFO[name];
         if (!info) return;
-        document.getElementById('fazilat-title').textContent = name;
-        document.getElementById('fazilat-text').textContent = `"${info.hadith}"`;
-        document.getElementById('fazilat-ref').textContent = `— ${info.ref}`;
-
+        const titleEl = document.getElementById('fazilat-title');
+        const textEl = document.getElementById('fazilat-text');
+        const refEl = document.getElementById('fazilat-ref');
         const iconEl = document.getElementById('fazilat-icon');
-        iconEl.className = `fas ${info.icon}`;
+        if (titleEl) titleEl.textContent = name;
+        if (textEl) textEl.textContent = `"${info.hadith}"`;
+        if (refEl) refEl.textContent = `— ${info.ref}`;
+        if (iconEl) iconEl.className = `fas ${info.icon}`;
 
         const modal = document.getElementById('fazilat-modal');
-        modal.classList.remove('hidden');
-        modal.classList.add('flex');
+        if (modal) {
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
 
         // History API
         history.pushState({ targetId: currentView, modalId: 'fazilat-modal' }, "", "#fazilat");
@@ -1599,23 +1603,33 @@ document.addEventListener('DOMContentLoaded', () => {
         const modal = document.getElementById('settings-modal');
         if (!modal) return;
         
-        document.getElementById('setting-calc-method').value = localStorage.getItem('prayerCalculationMethod') || '1';
+        const calcEl = document.getElementById('setting-calc-method');
+        if (calcEl) calcEl.value = localStorage.getItem('prayerCalculationMethod') || '1';
         
         const savedSchool = localStorage.getItem('prayerJuristicSchool') || '0';
         document.querySelectorAll('input[name="setting-asr-school"]').forEach(radio => {
             radio.checked = radio.value === savedSchool;
         });
         
-        document.getElementById('offset-fajr').value = localStorage.getItem('offset-fajr') || '0';
-        document.getElementById('offset-sunrise').value = localStorage.getItem('offset-sunrise') || '0';
-        document.getElementById('offset-dhuhr').value = localStorage.getItem('offset-dhuhr') || '0';
-        document.getElementById('offset-asr').value = localStorage.getItem('offset-asr') || '0';
-        document.getElementById('offset-maghrib').value = localStorage.getItem('offset-maghrib') || '0';
-        document.getElementById('offset-isha').value = localStorage.getItem('offset-isha') || '0';
+        const fEl = document.getElementById('offset-fajr');
+        const sEl = document.getElementById('offset-sunrise');
+        const dEl = document.getElementById('offset-dhuhr');
+        const aEl = document.getElementById('offset-asr');
+        const mEl = document.getElementById('offset-maghrib');
+        const iEl = document.getElementById('offset-isha');
+        if (fEl) fEl.value = localStorage.getItem('offset-fajr') || '0';
+        if (sEl) sEl.value = localStorage.getItem('offset-sunrise') || '0';
+        if (dEl) dEl.value = localStorage.getItem('offset-dhuhr') || '0';
+        if (aEl) aEl.value = localStorage.getItem('offset-asr') || '0';
+        if (mEl) mEl.value = localStorage.getItem('offset-maghrib') || '0';
+        if (iEl) iEl.value = localStorage.getItem('offset-isha') || '0';
         
-        document.getElementById('setting-play-adhan').checked = localStorage.getItem('setting-play-adhan') === 'true';
-        document.getElementById('setting-notify-desktop').checked = localStorage.getItem('setting-notify-desktop') === 'true';
-        document.getElementById('setting-adhan-volume').value = localStorage.getItem('setting-adhan-volume') || '0.5';
+        const playAdhanEl = document.getElementById('setting-play-adhan');
+        const notifyEl = document.getElementById('setting-notify-desktop');
+        const volEl = document.getElementById('setting-adhan-volume');
+        if (playAdhanEl) playAdhanEl.checked = localStorage.getItem('setting-play-adhan') === 'true';
+        if (notifyEl) notifyEl.checked = localStorage.getItem('setting-notify-desktop') === 'true';
+        if (volEl) volEl.value = localStorage.getItem('setting-adhan-volume') || '0.5';
         
         modal.classList.remove('hidden');
         modal.classList.add('flex');
@@ -1633,7 +1647,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     document.getElementById('btn-save-settings')?.addEventListener('click', () => {
-        const calcMethod = document.getElementById('setting-calc-method').value;
+        const calcMethod = document.getElementById('setting-calc-method')?.value || '1';
         localStorage.setItem('prayerCalculationMethod', calcMethod);
         
         let school = '0';
@@ -1642,20 +1656,22 @@ document.addEventListener('DOMContentLoaded', () => {
         });
         localStorage.setItem('prayerJuristicSchool', school);
         
-        localStorage.setItem('offset-fajr', document.getElementById('offset-fajr').value || '0');
-        localStorage.setItem('offset-sunrise', document.getElementById('offset-sunrise').value || '0');
-        localStorage.setItem('offset-dhuhr', document.getElementById('offset-dhuhr').value || '0');
-        localStorage.setItem('offset-asr', document.getElementById('offset-asr').value || '0');
-        localStorage.setItem('offset-maghrib', document.getElementById('offset-maghrib').value || '0');
-        localStorage.setItem('offset-isha', document.getElementById('offset-isha').value || '0');
+        localStorage.setItem('offset-fajr', document.getElementById('offset-fajr')?.value || '0');
+        localStorage.setItem('offset-sunrise', document.getElementById('offset-sunrise')?.value || '0');
+        localStorage.setItem('offset-dhuhr', document.getElementById('offset-dhuhr')?.value || '0');
+        localStorage.setItem('offset-asr', document.getElementById('offset-asr')?.value || '0');
+        localStorage.setItem('offset-maghrib', document.getElementById('offset-maghrib')?.value || '0');
+        localStorage.setItem('offset-isha', document.getElementById('offset-isha')?.value || '0');
         
-        localStorage.setItem('setting-play-adhan', document.getElementById('setting-play-adhan').checked ? 'true' : 'false');
-        localStorage.setItem('setting-notify-desktop', document.getElementById('setting-notify-desktop').checked ? 'true' : 'false');
-        localStorage.setItem('setting-adhan-volume', document.getElementById('setting-adhan-volume').value || '0.5');
+        localStorage.setItem('setting-play-adhan', document.getElementById('setting-play-adhan')?.checked ? 'true' : 'false');
+        localStorage.setItem('setting-notify-desktop', document.getElementById('setting-notify-desktop')?.checked ? 'true' : 'false');
+        localStorage.setItem('setting-adhan-volume', document.getElementById('setting-adhan-volume')?.value || '0.5');
         
         const modal = document.getElementById('settings-modal');
-        modal.classList.add('hidden');
-        modal.classList.remove('flex');
+        if (modal) {
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
         
         if (testAdhanAudio && !testAdhanAudio.paused) {
             testAdhanAudio.pause();
@@ -2957,9 +2973,9 @@ document.addEventListener('DOMContentLoaded', () => {
 // --- ZAKAT CALCULATOR ---
 window.calculateZakat = function () {
     const currency = document.getElementById('zakat-currency')?.value || 'INR';
-    const cash = parseFloat(document.getElementById('zakat-cash').value) || 0;
-    const gold = parseFloat(document.getElementById('zakat-gold').value) || 0;
-    const assets = parseFloat(document.getElementById('zakat-assets').value) || 0;
+    const cash = parseFloat(document.getElementById('zakat-cash')?.value) || 0;
+    const gold = parseFloat(document.getElementById('zakat-gold')?.value) || 0;
+    const assets = parseFloat(document.getElementById('zakat-assets')?.value) || 0;
 
     const totalWealth = cash + gold + assets;
     const zakatDue = totalWealth * 0.025;
@@ -3002,9 +3018,12 @@ window.fetchHijriCalendar = async function () {
             const hijriYear = firstDay.date.hijri.year;
             
             // Header labels
-            document.getElementById('cal-hijri-month-label').innerText = hijriMonthEn;
-            document.getElementById('cal-hijri-year-label').innerText = hijriYear + " AH";
-            document.getElementById('cal-greg-label').innerText = calendarCurrentDate.toLocaleString('default', { month: 'long', year: 'numeric' });
+            const monthEl = document.getElementById('cal-hijri-month-label');
+            const yearEl = document.getElementById('cal-hijri-year-label');
+            const gregEl = document.getElementById('cal-greg-label');
+            if (monthEl) monthEl.innerText = hijriMonthEn;
+            if (yearEl) yearEl.innerText = hijriYear + " AH";
+            if (gregEl) gregEl.innerText = calendarCurrentDate.toLocaleString('default', { month: 'long', year: 'numeric' });
             
             // Populate grid
             const grid = document.getElementById('cal-grid');
@@ -3494,18 +3513,21 @@ async function fetchDailyAyah() {
         // Fetch a random ayah between 1 and 6236
         const randomAyahNumber = Math.floor(Math.random() * 6236) + 1;
         
-        // Fetch Arabic text
-        const arRes = await fetch(`http://api.alquran.cloud/v1/ayah/${randomAyahNumber}/quran-uthmani`);
+        // Fetch Arabic text via HTTPS
+        const arRes = await fetch(`https://api.alquran.cloud/v1/ayah/${randomAyahNumber}/quran-uthmani`);
         const arData = await arRes.json();
         
-        // Fetch English translation
-        const enRes = await fetch(`http://api.alquran.cloud/v1/ayah/${randomAyahNumber}/en.asad`);
+        // Fetch English translation via HTTPS
+        const enRes = await fetch(`https://api.alquran.cloud/v1/ayah/${randomAyahNumber}/en.asad`);
         const enData = await enRes.json();
         
         if (arData.code === 200 && enData.code === 200) {
-            document.getElementById('daily-ayah-arabic').innerText = arData.data.text;
-            document.getElementById('daily-ayah-translation').innerText = `"${enData.data.text}"`;
-            document.getElementById('daily-ayah-reference').innerText = `${arData.data.surah.englishName} (${arData.data.surah.number}:${arData.data.numberInSurah})`;
+            const arEl = document.getElementById('daily-ayah-arabic');
+            const enEl = document.getElementById('daily-ayah-translation');
+            const refEl = document.getElementById('daily-ayah-reference');
+            if (arEl) arEl.innerText = arData.data.text;
+            if (enEl) enEl.innerText = `"${enData.data.text}"`;
+            if (refEl) refEl.innerText = `${arData.data.surah.englishName} (${arData.data.surah.number}:${arData.data.numberInSurah})`;
         }
     } catch (error) {
         console.error("Failed to fetch daily ayah:", error);
