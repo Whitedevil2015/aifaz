@@ -3415,6 +3415,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Check saved theme preference or default to dark
     const savedTheme = localStorage.getItem('portal_theme') || 'dark';
+    document.documentElement.setAttribute('data-theme', savedTheme);
     if (savedTheme === 'dark') {
         document.body.classList.add('dark');
         if (themeIcon) themeIcon.className = 'fas fa-sun text-xs text-yellow-400';
@@ -3427,7 +3428,9 @@ document.addEventListener('DOMContentLoaded', () => {
         themeBtn.addEventListener('click', () => {
             document.body.classList.toggle('dark');
             const isDark = document.body.classList.contains('dark');
-            localStorage.setItem('portal_theme', isDark ? 'dark' : 'light');
+            const theme = isDark ? 'dark' : 'light';
+            document.documentElement.setAttribute('data-theme', theme);
+            localStorage.setItem('portal_theme', theme);
             if (themeIcon) {
                 themeIcon.className = isDark ? 'fas fa-sun text-xs text-yellow-400' : 'fas fa-moon text-xs text-gray-600';
             }
