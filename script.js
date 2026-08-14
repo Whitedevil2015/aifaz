@@ -660,6 +660,29 @@ document.addEventListener('DOMContentLoaded', () => {
         return `${h12}:${minutes} ${suffix}`;
     }
 
+    function parsePrayerTimeToMinutes(timeStr, prayerName) {
+        if (!timeStr) return 0;
+        const cleanStr = String(timeStr).replace(/\s*\([^)]*\)/g, '').trim();
+        const isPM = /pm/i.test(cleanStr);
+        const isAM = /am/i.test(cleanStr);
+        
+        const rawDigits = cleanStr.replace(/[^\d:]/g, '');
+        const parts = rawDigits.split(':');
+        let h = parseInt(parts[0], 10) || 0;
+        let m = parseInt(parts[1], 10) || 0;
+        
+        if (isPM && h < 12) h += 12;
+        if (isAM && h === 12) h = 0;
+        
+        // 24-hour normalization heuristic if AM/PM suffix is missing
+        if (!isPM && !isAM) {
+            if (['Dhuhr', 'Jumuah', 'Jumu\'ah', 'Asr', 'Maghrib', 'Isha'].includes(prayerName) && h < 11) {
+                h += 12;
+            }
+        }
+        return h * 60 + m;
+    }
+
     function updateNextPrayer() {
         const timings = prayerTimesRaw;
         const prayers = ['Fajr', 'Sunrise', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'];
@@ -669,13 +692,11 @@ document.addEventListener('DOMContentLoaded', () => {
             const now = new Date();
             let next = 'Fajr';
             let nextTimeStr = timings.Fajr;
-            let minDiff = Infinity;
             const curMins = now.getHours() * 60 + now.getMinutes();
             let found = false;
 
             for (let p of prayers) {
-                const [h, m] = timings[p].split(':');
-                const pMins = parseInt(h) * 60 + parseInt(m);
+                const pMins = parsePrayerTimeToMinutes(timings[p], p);
                 if (pMins > curMins) {
                     next = p;
                     nextTimeStr = timings[p];
@@ -696,11 +717,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             });
 
-            document.getElementById('next-prayer-name').textContent = next;
+            const nextPrayerEl = document.getElementById('next-prayer-name');
+            if (nextPrayerEl) nextPrayerEl.textContent = next;
 
-            const [th, tm] = nextTimeStr.split(':');
+            const targetMins = parsePrayerTimeToMinutes(nextTimeStr, next);
+            const targetH = Math.floor(targetMins / 60);
+            const targetM = targetMins % 60;
             const target = new Date();
-            target.setHours(th, tm, 0);
+            target.setHours(targetH, targetM, 0, 0);
             if (!found) target.setDate(target.getDate() + 1);
             const diff = target - now;
 
@@ -721,7 +745,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 const hrs = Math.floor(diff / 3600000);
                 const mins = Math.floor((diff % 3600000) / 60000);
                 const secs = Math.floor((diff % 60000) / 1000);
-                document.getElementById('countdown').textContent = `${String(hrs).padStart(2, '0')}:${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+                const cdEl = document.getElementById('countdown');
+                if (cdEl) cdEl.textContent = `${String(hrs).padStart(2, '0')}:${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
             }
         }, 1000);
     }
@@ -1006,17 +1031,25 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                     
                     if (isBookMode) {
-                        // Physical Book Mode Rendering (Continuous Arabic Script + Ornate Medallion)
+                        // Physical Book Mode Rendering (Continuous Arabic Script + Translations when enabled + Horizontal Ruling Line)
                         chunkHtml += `
-                            <span class="inline hover:bg-[var(--gold)]/20 cursor-pointer rounded px-1 transition-colors leading-loose" id="ayah-row-${i}" data-index="${i}" onclick="playVerse(${i})">
-                                ${a.text} 
-                                <span class="ayah-medallion">۝${toArabicNumeral(a.numberInSurah)}</span>
-                            </span>
+                            <div class="mushaf-book-row py-4 border-b border-[#B45309]/20 dark:border-white/10 group hover:bg-[var(--gold)]/5 transition-colors cursor-pointer" id="ayah-row-${i}" data-index="${i}" onclick="playVerse(${i})">
+                                <div class="font-[Amiri] text-right leading-loose text-[#1E293B] dark:text-white drop-shadow-md mb-2 ${state.showArabic}" style="direction:rtl; font-size: ${state.quranFontSize}px;">
+                                    ${a.text} 
+                                    <span class="ayah-medallion">۝${toArabicNumeral(a.numberInSurah)}</span>
+                                </div>
+                                
+                                <!-- Translations in Book Mode when toggled ON -->
+                                <div class="quran-transliteration text-[#B45309] dark:text-[var(--gold)] text-sm mb-1 italic font-serif opacity-90 tracking-wide text-left ${state.showTrans}" data-type="transliteration">${state.trData.data.ayahs[i].text}</div>
+                                <div class="quran-translation text-slate-700 dark:text-gray-200 text-base leading-relaxed mb-1 text-left ${state.showEng}" data-type="english">${state.enData.data.ayahs[i].text}</div>
+                                <div class="quran-hinglish text-emerald-700 dark:text-emerald-300 text-base mb-1 italic font-medium leading-relaxed text-left ${state.showHinglish}" data-type="hinglish" style="font-family: 'Inter', sans-serif;">"${state.hiData.chapter[i]?.text || ''}"</div>
+                                <div class="quran-urdu text-emerald-900 dark:text-emerald-100 text-lg font-[Amiri] leading-loose text-right dir-rtl ${state.showUrdu}" data-type="urdu" style="direction:rtl;">${state.urData.data.ayahs[i].text}</div>
+                            </div>
                         `;
                     } else {
-                        // Physical Read Verse Mode Rendering
+                        // Physical Read Verse Mode Rendering with Horizontal Ruling Lines
                         chunkHtml += `
-                            <div class="ayah-row mb-8 border-b border-[#B45309]/15 dark:border-white/10 pb-8 group hover:bg-[var(--gold)]/5 p-4 rounded-xl transition-colors cursor-pointer" id="ayah-row-${i}" data-index="${i}" onclick="playVerse(${i})">
+                            <div class="ayah-row mb-6 pb-6 border-b border-[#B45309]/20 dark:border-white/10 group hover:bg-[var(--gold)]/5 p-4 rounded-xl transition-colors cursor-pointer" id="ayah-row-${i}" data-index="${i}" onclick="playVerse(${i})">
                                 <div class="flex justify-between items-center mb-4 ${state.showArabic}" data-type="arabic">
                                     <span class="ayah-medallion shrink-0 ml-4">۝${toArabicNumeral(a.numberInSurah)}</span>
                                     <div class="quran-arabic-text text-right font-[Amiri] leading-relaxed text-[#1E293B] dark:text-white drop-shadow-md" style="direction:rtl; font-size: ${state.quranFontSize}px;">${a.text}</div>
