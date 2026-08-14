@@ -864,7 +864,73 @@ body.dark .hero-prayer-card {
 body.dark #daily-ayah-block {
     background: rgba(18, 25, 41, 0.85) !important;
     border: 1px solid rgba(245, 158, 11, 0.25) !important;
-    box-shadow: 0 12px 36px rgba(0, 0, 0, 0.5) !important;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.2) !important;
+}
+
+/* ================================================================
+   AUTHENTIC PHYSICAL QURAN MUSHAF PAGE STYLING
+   ================================================================ */
+.mushaf-page-container {
+    background-color: #FAF6EE !important;
+    color: #1E293B !important;
+    border: 3px double #B45309 !important;
+    box-shadow: inset 0 0 50px rgba(180, 83, 9, 0.08), 0 10px 30px rgba(0, 0, 0, 0.25) !important;
+    border-radius: 20px !important;
+    padding: 24px 28px !important;
+    margin-bottom: 24px !important;
+    position: relative !important;
+    transition: all 0.3s ease !important;
+}
+
+.dark .mushaf-page-container,
+[data-theme="dark"] .mushaf-page-container {
+    background-color: #0F172A !important;
+    color: #F8FAFC !important;
+    border-color: rgba(217, 119, 6, 0.4) !important;
+    box-shadow: inset 0 0 50px rgba(0, 0, 0, 0.6), 0 10px 30px rgba(0, 0, 0, 0.5) !important;
+}
+
+.mushaf-surah-header {
+    background: linear-gradient(135deg, #FEF3C7 0%, #FDE68A 100%) !important;
+    border: 3px double #B45309 !important;
+    border-radius: 16px !important;
+    padding: 14px 20px !important;
+    margin-bottom: 24px !important;
+    box-shadow: 0 4px 15px rgba(180, 83, 9, 0.12) !important;
+}
+
+.dark .mushaf-surah-header,
+[data-theme="dark"] .mushaf-surah-header {
+    background: linear-gradient(135deg, #1E293B 0%, #0F172A 100%) !important;
+    border-color: rgba(245, 158, 11, 0.6) !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4) !important;
+}
+
+.ayah-medallion {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 32px !important;
+    height: 32px !important;
+    margin: 0 6px !important;
+    font-size: 11px !important;
+    font-family: monospace, sans-serif !important;
+    border-radius: 9999px !important;
+    border: 2px solid #D97706 !important;
+    color: #B45309 !important;
+    background: rgba(254, 243, 199, 0.8) !important;
+    font-weight: 700 !important;
+    user-select: none !important;
+    box-shadow: 0 2px 5px rgba(217, 119, 6, 0.2) !important;
+    vertical-align: middle !important;
+}
+
+.dark .ayah-medallion,
+[data-theme="dark"] .ayah-medallion {
+    border-color: #F59E0B !important;
+    color: #FCD34D !important;
+    background: rgba(120, 53, 15, 0.4) !important;
+    box-shadow: 0 2px 8px rgba(245, 158, 11, 0.3) !important;
 }
 
 body.dark select,

@@ -915,12 +915,31 @@ document.addEventListener('DOMContentLoaded', () => {
             const showHinglish = togglesState.hinglish ? '' : 'hidden';
 
             let bismillahHtml = '';
-            // Note: Surah 9 (At-Tawbah) traditionally does not start with Bismillah
+            const surahNameAr = arData.data ? (arData.data.name || '') : '';
+            const surahAyahCount = arData.data ? (arData.data.numberOfAyahs || (arData.data.ayahs ? arData.data.ayahs.length : '')) : '';
+            
+            // Authentic Physical Mushaf Surah Banner Frame
+            if (type === 'surah') {
+                bismillahHtml += `
+                    <div class="mushaf-surah-header text-center my-4 py-4 px-6 rounded-2xl">
+                        <div class="flex items-center justify-between gap-4 max-w-2xl mx-auto flex-wrap sm:flex-nowrap">
+                            <div class="text-xs sm:text-sm font-bold uppercase tracking-widest text-[#B45309] dark:text-[var(--gold)] font-serif">
+                                ${name.toUpperCase()} SÛRESİ • ${surahAyahCount} Âyet
+                            </div>
+                            <div class="font-[Amiri] text-2xl sm:text-3xl font-bold text-[#78350F] dark:text-amber-200">
+                                ${surahNameAr}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            // Authentic Bismillah Calligraphy Header (Except Surah 9 At-Tawbah)
             if (parseInt(num) !== 9) {
-                bismillahHtml = `
-                    <div class="text-center py-8 mb-6 border-b border-white/10 bg-[var(--gold)]/5 rounded-2xl p-6 shadow-sm">
-                        <div class="font-[Amiri] text-3xl sm:text-4xl text-[var(--gold)] drop-shadow-md" style="line-height: 1.5;">بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ</div>
-                        <div class="text-xs text-gray-400 dark:text-gray-300 mt-3 font-serif italic tracking-wide">In the name of Allah, the Entirely Merciful, the Especially Merciful.</div>
+                bismillahHtml += `
+                    <div class="text-center py-6 mb-8 border-b border-[#B45309]/20 dark:border-white/10">
+                        <div class="font-[Amiri] text-3xl sm:text-5xl text-[#B45309] dark:text-[var(--gold)] drop-shadow-md leading-relaxed" style="direction:rtl;">بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ</div>
+                        <div class="text-xs text-amber-900/70 dark:text-gray-300 mt-2 font-serif italic tracking-wide">In the name of Allah, the Entirely Merciful, the Especially Merciful.</div>
                     </div>
                 `;
             }
@@ -962,58 +981,58 @@ document.addEventListener('DOMContentLoaded', () => {
                 
                 const container = document.getElementById('quran-verses-container');
                 if (isBookMode) {
-                    container.classList.add('text-right', 'font-[Amiri]', 'leading-relaxed', 'text-white', 'drop-shadow-md', 'p-4');
+                    container.className = 'mushaf-page-container text-right font-[Amiri] leading-relaxed text-[#1E293B] dark:text-white drop-shadow-md p-6 sm:p-8';
                     container.style.direction = 'rtl';
                     container.style.fontSize = `${state.quranFontSize}px`;
-                    container.style.lineHeight = '2.4';
+                    container.style.lineHeight = '2.8';
                 } else {
-                    container.className = '';
+                    container.className = 'mushaf-page-container p-6 sm:p-8';
                     container.style = '';
                 }
 
                 for (let i = state.currentIndex; i < endIndex; i++) {
                     const a = state.arData.data.ayahs[i];
                     
-                    // Render Bismillah Header if starting a new Surah in the middle of a Juz/Para
+                    // Render Physical Mushaf Header Banner if starting a new Surah in the middle of a Juz/Para
                     if (a.numberInSurah === 1 && a.surah && parseInt(a.surah.number) !== 9 && i > 0) {
-                        const surahTitle = a.surah.englishName ? `${a.surah.englishName} • ${a.surah.name}` : `Surah ${a.surah.number}`;
+                        const surahTitle = a.surah.englishName ? `${a.surah.englishName.toUpperCase()} SÛRESİ • ${a.surah.name}` : `Surah ${a.surah.number}`;
                         chunkHtml += `
-                            <div class="text-center py-8 my-8 border-y border-white/10 bg-[var(--gold)]/5 rounded-2xl p-6 shadow-sm col-span-full w-full">
-                                <div class="text-xs text-[var(--gold)] font-bold uppercase tracking-widest mb-2">${surahTitle}</div>
-                                <div class="font-[Amiri] text-3xl sm:text-4xl text-[var(--gold)] drop-shadow-md" style="line-height: 1.5;">بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ</div>
-                                <div class="text-xs text-gray-400 dark:text-gray-300 mt-2 font-serif italic tracking-wide">In the name of Allah, the Entirely Merciful, the Especially Merciful.</div>
+                            <div class="mushaf-surah-header text-center my-8 py-4 px-6 rounded-2xl col-span-full w-full">
+                                <div class="text-xs sm:text-sm font-bold uppercase tracking-widest text-[#B45309] dark:text-[var(--gold)] mb-2">${surahTitle}</div>
+                                <div class="font-[Amiri] text-3xl sm:text-4xl text-[#78350F] dark:text-amber-200 drop-shadow-md" style="line-height: 1.5; direction:rtl;">بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ</div>
+                                <div class="text-xs text-amber-900/70 dark:text-gray-300 mt-2 font-serif italic tracking-wide">In the name of Allah, the Entirely Merciful, the Especially Merciful.</div>
                             </div>
                         `;
                     }
                     
                     if (isBookMode) {
-                        // Book Mode Rendering (Continuous Arabic Text)
+                        // Physical Book Mode Rendering (Continuous Arabic Script + Ornate Medallion)
                         chunkHtml += `
-                            <span class="inline hover:bg-[var(--gold)]/20 cursor-pointer rounded px-1 transition-colors" id="ayah-row-${i}" data-index="${i}" onclick="playVerse(${i})">
+                            <span class="inline hover:bg-[var(--gold)]/20 cursor-pointer rounded px-1 transition-colors leading-loose" id="ayah-row-${i}" data-index="${i}" onclick="playVerse(${i})">
                                 ${a.text} 
-                                <span class="text-[var(--gold)] font-mono mx-1 select-none">﴿${toArabicNumeral(a.numberInSurah)}﴾</span>
+                                <span class="ayah-medallion">۝${toArabicNumeral(a.numberInSurah)}</span>
                             </span>
                         `;
                     } else {
-                        // Verse by Verse Rendering
+                        // Physical Read Verse Mode Rendering
                         chunkHtml += `
-                            <div class="ayah-row mb-8 border-b border-white/5 pb-8 group hover:bg-[var(--pearl-card)]/5 p-4 rounded-lg transition-colors cursor-pointer" id="ayah-row-${i}" data-index="${i}" onclick="playVerse(${i})">
+                            <div class="ayah-row mb-8 border-b border-[#B45309]/15 dark:border-white/10 pb-8 group hover:bg-[var(--gold)]/5 p-4 rounded-xl transition-colors cursor-pointer" id="ayah-row-${i}" data-index="${i}" onclick="playVerse(${i})">
                                 <div class="flex justify-between items-center mb-4 ${state.showArabic}" data-type="arabic">
-                                    <span class="w-8 h-8 rounded-full border border-[var(--gold)] text-[var(--gold)] group-hover:bg-[var(--gold)] group-hover:text-white flex items-center justify-center text-xs ml-4 font-mono transition-colors shrink-0">${a.numberInSurah}</span>
-                                    <div class="quran-arabic-text text-right font-[Amiri] leading-relaxed text-white drop-shadow-md" style="direction:rtl; font-size: ${state.quranFontSize}px;">${a.text}</div>
+                                    <span class="ayah-medallion shrink-0 ml-4">۝${toArabicNumeral(a.numberInSurah)}</span>
+                                    <div class="quran-arabic-text text-right font-[Amiri] leading-relaxed text-[#1E293B] dark:text-white drop-shadow-md" style="direction:rtl; font-size: ${state.quranFontSize}px;">${a.text}</div>
                                 </div>
                                 
                                 <!-- Roman English (Transliteration) -->
-                                <div class="quran-transliteration text-[var(--gold)] text-sm mb-2 italic font-serif opacity-90 tracking-wide ${state.showTrans}" data-type="transliteration">${state.trData.data.ayahs[i].text}</div>
+                                <div class="quran-transliteration text-[#B45309] dark:text-[var(--gold)] text-sm mb-2 italic font-serif opacity-90 tracking-wide ${state.showTrans}" data-type="transliteration">${state.trData.data.ayahs[i].text}</div>
                                 
                                 <!-- English Translation -->
-                                <div class="quran-translation text-gray-300 text-lg leading-relaxed mb-3 ${state.showEng}" data-type="english">${state.enData.data.ayahs[i].text}</div>
+                                <div class="quran-translation text-slate-700 dark:text-gray-200 text-lg leading-relaxed mb-3 ${state.showEng}" data-type="english">${state.enData.data.ayahs[i].text}</div>
 
                                 <!-- Hinglish Tarjuma (Roman Urdu) -->
-                                <div class="quran-hinglish text-emerald-300 text-lg mb-2 italic font-medium leading-relaxed ${state.showHinglish}" data-type="hinglish" style="font-family: 'Inter', sans-serif;">"${state.hiData.chapter[i]?.text || ''}"</div>
+                                <div class="quran-hinglish text-emerald-700 dark:text-emerald-300 text-lg mb-2 italic font-medium leading-relaxed ${state.showHinglish}" data-type="hinglish" style="font-family: 'Inter', sans-serif;">"${state.hiData.chapter[i]?.text || ''}"</div>
                                 
                                 <!-- Urdu Script Tarjuma -->
-                                <div class="quran-urdu text-emerald-100/90 text-xl font-[Amiri] leading-loose text-right dir-rtl border-t border-white/5 pt-2 mt-2 ${state.showUrdu}" data-type="urdu" style="direction:rtl;">${state.urData.data.ayahs[i].text}</div>
+                                <div class="quran-urdu text-emerald-900 dark:text-emerald-100 text-xl font-[Amiri] leading-loose text-right dir-rtl border-t border-black/5 dark:border-white/5 pt-2 mt-2 ${state.showUrdu}" data-type="urdu" style="direction:rtl;">${state.urData.data.ayahs[i].text}</div>
                             </div>
                         `;
                     }
