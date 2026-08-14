@@ -1031,20 +1031,12 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                     
                     if (isBookMode) {
-                        // Physical Book Mode Rendering (Continuous Arabic Script + Translations when enabled + Horizontal Ruling Line)
+                        // Physical Book Mode Rendering (Continuous Arabic Script + Ornate Medallion)
                         chunkHtml += `
-                            <div class="mushaf-book-row py-4 border-b border-[#B45309]/20 dark:border-white/10 group hover:bg-[var(--gold)]/5 transition-colors cursor-pointer" id="ayah-row-${i}" data-index="${i}" onclick="playVerse(${i})">
-                                <div class="font-[Amiri] text-right leading-loose text-[#1E293B] dark:text-white drop-shadow-md mb-2 ${state.showArabic}" style="direction:rtl; font-size: ${state.quranFontSize}px;">
-                                    ${a.text} 
-                                    <span class="ayah-medallion">۝${toArabicNumeral(a.numberInSurah)}</span>
-                                </div>
-                                
-                                <!-- Translations in Book Mode when toggled ON -->
-                                <div class="quran-transliteration text-[#B45309] dark:text-[var(--gold)] text-sm mb-1 italic font-serif opacity-90 tracking-wide text-left ${state.showTrans}" data-type="transliteration">${state.trData.data.ayahs[i].text}</div>
-                                <div class="quran-translation text-slate-700 dark:text-gray-200 text-base leading-relaxed mb-1 text-left ${state.showEng}" data-type="english">${state.enData.data.ayahs[i].text}</div>
-                                <div class="quran-hinglish text-emerald-700 dark:text-emerald-300 text-base mb-1 italic font-medium leading-relaxed text-left ${state.showHinglish}" data-type="hinglish" style="font-family: 'Inter', sans-serif;">"${state.hiData.chapter[i]?.text || ''}"</div>
-                                <div class="quran-urdu text-emerald-900 dark:text-emerald-100 text-lg font-[Amiri] leading-loose text-right dir-rtl ${state.showUrdu}" data-type="urdu" style="direction:rtl;">${state.urData.data.ayahs[i].text}</div>
-                            </div>
+                            <span class="inline hover:bg-[var(--gold)]/20 cursor-pointer rounded px-1 transition-colors leading-loose" id="ayah-row-${i}" data-index="${i}" onclick="playVerse(${i})">
+                                ${a.text} 
+                                <span class="ayah-medallion">۝${toArabicNumeral(a.numberInSurah)}</span>
+                            </span>
                         `;
                     } else {
                         // Physical Read Verse Mode Rendering with Horizontal Ruling Lines
