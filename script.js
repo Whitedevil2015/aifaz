@@ -277,11 +277,9 @@ document.addEventListener('DOMContentLoaded', () => {
             const res = await fetch(url);
             const data = await res.json();
 
-            // Coordinate Update for Qibla
             if (!lat && data.data && data.data.meta) {
                 coordinates = { lat: data.data.meta.latitude, lng: data.data.meta.longitude };
                 fetchAtmosphere(data.data.meta.latitude, data.data.meta.longitude);
-                if (typeof initQibla === 'function') initQibla();
             }
 
             if (data.code === 200) {
@@ -319,7 +317,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 renderPrayerGuide(prayerTimesRaw);
                 updateNextPrayer();
                 
-                if (typeof initQibla === 'function') initQibla();
+                // Update Fasting Times
+                const fastStartEl = document.getElementById('fast-start-time');
+                const fastEndEl = document.getElementById('fast-end-time');
+                if (fastStartEl && rawTimings.Imsak) {
+                    fastStartEl.textContent = formatTo12Hour(rawTimings.Imsak);
+                }
+                if (fastEndEl && prayerTimesRaw.Maghrib) {
+                    fastEndEl.textContent = formatTo12Hour(prayerTimesRaw.Maghrib);
+                }
             }
         } catch (e) { console.error("Prayer fetch failed", e); }
     }
@@ -1666,6 +1672,17 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    const dashAdhanToggle = document.getElementById('dashboard-adhan-toggle');
+    if (dashAdhanToggle) {
+        dashAdhanToggle.checked = localStorage.getItem('setting-play-adhan') === 'true';
+        dashAdhanToggle.addEventListener('change', (e) => {
+            localStorage.setItem('setting-play-adhan', e.target.checked ? 'true' : 'false');
+            const playAdhanEl = document.getElementById('setting-play-adhan');
+            if (playAdhanEl) playAdhanEl.checked = e.target.checked;
+            window.showToast(`Adhan Alarms ${e.target.checked ? 'Enabled' : 'Disabled'}`, 'info');
+        });
+    }
+
     document.getElementById('btn-save-settings')?.addEventListener('click', () => {
         const calcMethod = document.getElementById('setting-calc-method')?.value || '1';
         localStorage.setItem('prayerCalculationMethod', calcMethod);
@@ -1683,7 +1700,12 @@ document.addEventListener('DOMContentLoaded', () => {
         localStorage.setItem('offset-maghrib', document.getElementById('offset-maghrib')?.value || '0');
         localStorage.setItem('offset-isha', document.getElementById('offset-isha')?.value || '0');
         
-        localStorage.setItem('setting-play-adhan', document.getElementById('setting-play-adhan')?.checked ? 'true' : 'false');
+        const playAdhanChecked = document.getElementById('setting-play-adhan')?.checked ? 'true' : 'false';
+        localStorage.setItem('setting-play-adhan', playAdhanChecked);
+        if (dashAdhanToggle) {
+            dashAdhanToggle.checked = playAdhanChecked === 'true';
+        }
+        
         localStorage.setItem('setting-notify-desktop', document.getElementById('setting-notify-desktop')?.checked ? 'true' : 'false');
         localStorage.setItem('setting-adhan-volume', document.getElementById('setting-adhan-volume')?.value || '0.5');
         
@@ -1707,101 +1729,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // --- QIBLA SYSTEM ---
-    window.initQibla = function() {
-        const dirValEl = document.getElementById('qibla-direction-val');
-        const distValEl = document.getElementById('qibla-distance-val');
-        const compassDial = document.getElementById('qibla-compass-dial');
-        const statusText = document.getElementById('qibla-status-text');
-        const marker = document.getElementById('qibla-kaaba-marker');
-        
-        if (!dirValEl || !distValEl || !compassDial) return;
-        
-        const lat = coordinates.lat;
-        const lng = coordinates.lng;
-        
-        const kLat = 21.4225;
-        const kLng = 39.8262;
-        
-        const degToRad = deg => deg * Math.PI / 180;
-        const radToDeg = rad => rad * 180 / Math.PI;
-        
-        const lat1 = degToRad(lat);
-        const lng1 = degToRad(lng);
-        const lat2 = degToRad(kLat);
-        const lng2 = degToRad(kLng);
-        
-        const dLng = lng2 - lng1;
-        const y = Math.sin(dLng);
-        const x = Math.cos(lat1) * Math.tan(lat2) - Math.sin(lat1) * Math.cos(dLng);
-        let qiblaAngle = radToDeg(Math.atan2(y, x));
-        qiblaAngle = (qiblaAngle + 360) % 360;
-        
-        const R = 6371;
-        const dLat = lat2 - lat1;
-        const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
-                  Math.cos(lat1) * Math.cos(lat2) *
-                  Math.sin(dLng/2) * Math.sin(dLng/2);
-        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-        const distance = R * c;
-        
-        dirValEl.textContent = `${qiblaAngle.toFixed(1)}° N`;
-        distValEl.textContent = `${Math.round(distance).toLocaleString()} km`;
-        
-        let cardinal = '';
-        if (qiblaAngle >= 337.5 || qiblaAngle < 22.5) cardinal = 'North (N)';
-        else if (qiblaAngle >= 22.5 && qiblaAngle < 67.5) cardinal = 'North-East (NE)';
-        else if (qiblaAngle >= 67.5 && qiblaAngle < 112.5) cardinal = 'East (E)';
-        else if (qiblaAngle >= 112.5 && qiblaAngle < 157.5) cardinal = 'South-East (SE)';
-        else if (qiblaAngle >= 157.5 && qiblaAngle < 202.5) cardinal = 'South (S)';
-        else if (qiblaAngle >= 202.5 && qiblaAngle < 247.5) cardinal = 'South-West (SW)';
-        else if (qiblaAngle >= 247.5 && qiblaAngle < 292.5) cardinal = 'West-South-West (WSW)';
-        else cardinal = 'North-West (NW)';
-        
-        statusText.innerHTML = `Kaaba is at <span class="font-bold text-[var(--gold)]">${qiblaAngle.toFixed(1)}°</span> from North (${cardinal}).`;
-        
-        if (marker) {
-            marker.style.opacity = '1';
-            marker.style.transform = `rotate(${qiblaAngle}deg) translateY(-112px) rotate(${-qiblaAngle}deg)`;
-        }
-        
-        let absoluteOrientationHandler = function(e) {
-            let heading = e.webkitCompassHeading || e.alpha;
-            if (heading !== null && heading !== undefined) {
-                const rotation = -heading;
-                compassDial.style.transform = `rotate(${rotation}deg)`;
-                statusText.innerHTML = `Kaaba is at <span class="font-bold text-[var(--gold)]">${qiblaAngle.toFixed(1)}°</span>. Phone oriented.`;
-            }
-        };
-        
-        if (window.DeviceOrientationEvent && typeof DeviceOrientationEvent.requestPermission === 'function') {
-            document.getElementById('btn-qibla-calibrate')?.addEventListener('click', () => {
-                DeviceOrientationEvent.requestPermission()
-                    .then(state => {
-                        if (state === 'granted') {
-                            window.addEventListener('deviceorientation', absoluteOrientationHandler, true);
-                        } else {
-                            window.showToast("Device orientation permission denied. Using static compass.", "error");
-                        }
-                    })
-                    .catch(console.error);
-            });
-        } else {
-            window.removeEventListener('deviceorientation', absoluteOrientationHandler);
-            window.addEventListener('deviceorientation', absoluteOrientationHandler, true);
-        }
-    };
 
-    document.getElementById('btn-qibla-calibrate')?.addEventListener('click', () => {
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(pos => {
-                coordinates = { lat: pos.coords.latitude, lng: pos.coords.longitude };
-                initQibla();
-            }, () => {
-                window.showToast("Could not update geolocation.", "error");
-            });
-        }
-    });
 
     // Names
     async function loadNames() {
