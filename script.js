@@ -237,7 +237,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     async function fetchPrayers(lat = null, lng = null, city = null, country = null) {
         const method = localStorage.getItem('prayerCalculationMethod') || '1';
-        const school = localStorage.getItem('prayerJuristicSchool') || '0';
+        const school = localStorage.getItem('prayerJuristicSchool') || '1';
         
         let url = '';
         if (lat && lng) {
@@ -285,6 +285,9 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             if (data.code === 200) {
+                if (data.data && data.data.meta && data.data.meta.timezone) {
+                    window.currentPrayerTimezone = data.data.meta.timezone;
+                }
                 const rawTimings = data.data.timings;
                 
                 // Get Offsets
@@ -693,7 +696,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (countdownInterval) clearInterval(countdownInterval);
         countdownInterval = setInterval(() => {
-            const now = new Date();
+            let now = new Date();
+            if (window.currentPrayerTimezone) {
+                try {
+                    const tzStr = now.toLocaleString("en-US", { timeZone: window.currentPrayerTimezone });
+                    now = new Date(tzStr);
+                } catch (e) {
+                    console.warn("Timezone error:", e);
+                }
+            }
+            
             let next = 'Fajr';
             let nextTimeStr = timings.Fajr;
             const curMins = now.getHours() * 60 + now.getMinutes();
@@ -713,6 +725,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 nextTimeStr = timings.Fajr;
             }
 
+            // Determine Current Prayer
+            let currentPrayer = 'Isha';
+            let nextIndex = prayers.indexOf(next);
+            if (nextIndex > 0) {
+                currentPrayer = prayers[nextIndex - 1];
+            } else if (next === 'Fajr' && curMins < parsePrayerTimeToMinutes(timings.Fajr, 'Fajr')) {
+                currentPrayer = 'Isha';
+            } else if (next === 'Fajr' && curMins > parsePrayerTimeToMinutes(timings.Isha, 'Isha')) {
+                currentPrayer = 'Isha';
+            }
+
             // Highlight Logic
             document.querySelectorAll('[id^="card-"]').forEach(el => {
                 el.classList.remove('ring-2', 'ring-[var(--gold)]', 'neon-glow');
@@ -722,7 +745,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
 
             const nextPrayerEl = document.getElementById('next-prayer-name');
-            if (nextPrayerEl) nextPrayerEl.textContent = next;
+            if (nextPrayerEl) nextPrayerEl.textContent = currentPrayer;
 
             const targetMins = parsePrayerTimeToMinutes(nextTimeStr, next);
             const targetH = Math.floor(targetMins / 60);
@@ -1053,12 +1076,16 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                     
                     if (isBookMode) {
-                        // Physical Book Mode Rendering (Continuous Arabic Script + Ornate Medallion)
+                        // Physical Book Mode Rendering (Continuous Arabic Script + Ornate Medallion + Translations)
                         chunkHtml += `
                             <span class="inline hover:bg-[#F59E0B]/20 cursor-pointer rounded px-1 transition-colors leading-loose text-white" id="ayah-row-${i}" data-index="${i}" onclick="playVerse(${i})">
                                 ${a.text} 
                                 <span class="ayah-medallion">۝${toArabicNumeral(a.numberInSurah)}</span>
                             </span>
+                            <span class="inline text-[#F59E0B] text-sm italic font-serif ${state.showTrans}" data-type="transliteration"> (${state.trData.data.ayahs[i].text}) </span>
+                            <span class="inline text-[#CBD5E1] text-base ${state.showEng}" data-type="english"> (${state.enData.data.ayahs[i].text}) </span>
+                            <span class="inline text-amber-300 text-base italic ${state.showHinglish}" data-type="hinglish"> (${state.hiData.chapter[i]?.text || ''}) </span>
+                            <span class="inline text-slate-100 text-lg font-[Amiri] ${state.showUrdu}" data-type="urdu"> (${state.urData.data.ayahs[i].text}) </span>
                         `;
                     } else {
                         // Physical Read Verse Mode Rendering with Horizontal Ruling Lines
@@ -1240,14 +1267,7 @@ document.addEventListener('DOMContentLoaded', () => {
         regenerateAudioPlaylist();
         currentAudioIndex = 0;
         
-        const player = document.getElementById('quran-audio');
-        if (player) {
-            player.src = currentPlaylist[0].url;
-            player.play().catch(e => console.warn(e));
-            updatePlayIcon(true);
-            highlightVerse(0);
-            updatePlayerBarProgress(0);
-        }
+        window.playVerse(0);
         
         // Restore mode state
         currentAudioMode = oldMode;
@@ -3565,143 +3585,3 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-// --- ANIME COMPANION WIDGET & PORTAL THEMES (GOJO & SUKUNA) ---
-document.addEventListener('DOMContentLoaded', () => {
-    const toggleBtn = document.getElementById('anime-toggle-btn');
-    const card = document.getElementById('anime-companion-card');
-    const closeBtn = document.getElementById('close-anime-card-btn');
-
-    // Restore saved anime character theme
-    const savedAnimeTheme = localStorage.getItem('anime_portal_theme');
-    if (savedAnimeTheme && (savedAnimeTheme === 'gojo' || savedAnimeTheme === 'sukuna')) {
-        document.documentElement.setAttribute('data-anime-theme', savedAnimeTheme);
-        switchAnimeChar(savedAnimeTheme, false);
-    }
-
-    if (toggleBtn && card) {
-        toggleBtn.addEventListener('click', () => {
-            if (card.classList.contains('hidden')) {
-                card.classList.remove('hidden');
-                card.classList.add('flex');
-            } else {
-                card.classList.add('hidden');
-                card.classList.remove('flex');
-            }
-        });
-    }
-
-    if (closeBtn && card) {
-        closeBtn.addEventListener('click', () => {
-            card.classList.add('hidden');
-            card.classList.remove('flex');
-        });
-    }
-});
-
-window.setAnimePortalTheme = function (charName) {
-    if (charName === 'gojo' || charName === 'sukuna') {
-        document.documentElement.setAttribute('data-anime-theme', charName);
-        localStorage.setItem('anime_portal_theme', charName);
-    } else {
-        document.documentElement.removeAttribute('data-anime-theme');
-        localStorage.removeItem('anime_portal_theme');
-    }
-};
-
-window.resetAnimeTheme = function () {
-    setAnimePortalTheme('default');
-    if (window.showToast) {
-        window.showToast("Portal Theme reset to default.", "info");
-    }
-};
-
-window.switchAnimeChar = function (charName, applyTheme = true) {
-    const gojoView = document.getElementById('anime-view-gojo');
-    const sukunaView = document.getElementById('anime-view-sukuna');
-    const gojoTab = document.getElementById('tab-gojo');
-    const sukunaTab = document.getElementById('tab-sukuna');
-
-    if (charName === 'gojo') {
-        if (gojoView) gojoView.classList.remove('hidden');
-        if (sukunaView) sukunaView.classList.add('hidden');
-        if (gojoTab) {
-            gojoTab.className = "flex-1 py-1.5 rounded-full text-xs font-bold transition-all bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-md flex items-center justify-center gap-1.5";
-        }
-        if (sukunaTab) {
-            sukunaTab.className = "flex-1 py-1.5 rounded-full text-xs font-bold transition-all text-gray-400 hover:text-white flex items-center justify-center gap-1.5";
-        }
-        if (applyTheme) {
-            setAnimePortalTheme('gojo');
-            if (window.showToast) window.showToast("Portal Theme transformed to Gojo Satoru (Infinite Cyan)!", "info");
-        }
-    } else {
-        if (gojoView) gojoView.classList.add('hidden');
-        if (sukunaView) sukunaView.classList.remove('hidden');
-        if (sukunaTab) {
-            sukunaTab.className = "flex-1 py-1.5 rounded-full text-xs font-bold transition-all bg-gradient-to-r from-red-600 to-amber-700 text-white shadow-md flex items-center justify-center gap-1.5";
-        }
-        if (gojoTab) {
-            gojoTab.className = "flex-1 py-1.5 rounded-full text-xs font-bold transition-all text-gray-400 hover:text-white flex items-center justify-center gap-1.5";
-        }
-        if (applyTheme) {
-            setAnimePortalTheme('sukuna');
-            if (window.showToast) window.showToast("Portal Theme transformed to Ryomen Sukuna (Malevolent Crimson)!", "info");
-        }
-    }
-};
-
-window.triggerDomainExpansion = function (charName) {
-    const overlay = document.getElementById('domain-expansion-overlay');
-    const bg = document.getElementById('domain-expansion-bg');
-    const textWrap = document.getElementById('domain-expansion-text');
-    const title = document.getElementById('domain-expansion-title');
-    const sub = document.getElementById('domain-expansion-sub');
-
-    if (!overlay || !bg || !textWrap) return;
-
-    if (charName === 'gojo') {
-        bg.style.background = 'radial-gradient(circle at center, rgba(14, 165, 233, 0.95) 0%, rgba(99, 102, 241, 0.95) 50%, rgba(15, 23, 42, 0.98) 100%)';
-        if (title) {
-            title.textContent = '無量空処';
-            title.className = 'text-4xl sm:text-7xl font-bold font-serif text-cyan-200 drop-shadow-[0_0_35px_rgba(6,182,212,0.9)] tracking-widest mb-3';
-        }
-        if (sub) {
-            sub.textContent = 'Domain Expansion: Unlimited Void';
-            sub.className = 'text-lg sm:text-2xl font-mono text-cyan-100 tracking-widest uppercase';
-        }
-    } else {
-        bg.style.background = 'radial-gradient(circle at center, rgba(220, 38, 38, 0.95) 0%, rgba(153, 27, 27, 0.95) 50%, rgba(15, 23, 42, 0.98) 100%)';
-        if (title) {
-            title.textContent = '伏魔御厨子';
-            title.className = 'text-4xl sm:text-7xl font-bold font-serif text-amber-200 drop-shadow-[0_0_35px_rgba(239,68,68,0.9)] tracking-widest mb-3';
-        }
-        if (sub) {
-            sub.textContent = 'Domain Expansion: Malevolent Shrine';
-            sub.className = 'text-lg sm:text-2xl font-mono text-red-200 tracking-widest uppercase';
-        }
-    }
-
-    overlay.classList.remove('hidden');
-    overlay.classList.add('flex');
-
-    setTimeout(() => {
-        textWrap.classList.remove('scale-95', 'opacity-0');
-        textWrap.classList.add('scale-100', 'opacity-100');
-    }, 50);
-
-    setTimeout(() => {
-        textWrap.classList.remove('scale-100', 'opacity-100');
-        textWrap.classList.add('scale-95', 'opacity-0');
-        setTimeout(() => {
-            overlay.classList.add('hidden');
-            overlay.classList.remove('flex');
-        }, 700);
-    }, 2500);
-
-    if (window.showToast) {
-        const msg = charName === 'gojo'
-            ? "Gojo: 'Throughout Heaven and Earth, I Alone Am The Honored One!'"
-            : "Sukuna: 'Domain Expansion: Malevolent Shrine!'";
-        window.showToast(msg, "info");
-    }
-};

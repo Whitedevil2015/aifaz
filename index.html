@@ -326,7 +326,7 @@
                         <div class="flex items-center gap-2 justify-center md:justify-start">
                             <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest"
                                   style="background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.2);color:#ffffff;">
-                                <i class="fas fa-clock text-[10px]"></i> Next Prayer
+                                <i class="fas fa-clock text-[10px]"></i> Current Prayer
                             </span>
                         </div>
 
@@ -354,7 +354,6 @@
                         <div class="bg-[var(--pearl-card)]/10 backdrop-blur-xl rounded-[28px] p-8 border border-white/20 text-center min-w-[240px] border border-white/10">
                             <div class="text-[10px] uppercase tracking-[0.3em] text-white/50 mb-3 font-semibold">Time Remaining</div>
                             <div class="text-5xl font-mono font-black text-white drop-shadow-md tracking-tight" id="countdown">00:00:00</div>
-                            <div class="mt-4 text-xs text-white/40 uppercase tracking-wider">until <span id="countdown-prayer-label" class="text-[var(--gold)] font-bold">Fajr</span></div>
                         </div>
                     </div>
                 </div>
@@ -1215,105 +1214,7 @@
          ╚══════════════════════════════════╝ -->
     <div id="toast-container" class="fixed bottom-20 md:bottom-6 right-0 left-0 md:left-auto md:right-6 flex flex-col gap-2 z-[110] px-4 md:px-0 items-center md:items-end pointer-events-none"></div>
 
-    <!-- ╔══════════════════════════════════════════════════╗
-         ║   ANIME CHARACTER COMPANION (GOJO & SUKUNA)      ║
-         ╚══════════════════════════════════════════════════╝ -->
-    <!-- Floating Toggle Button -->
-    <button id="anime-toggle-btn" class="fixed bottom-20 right-4 md:bottom-8 md:right-8 z-40 bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 hover:from-purple-600 hover:to-red-600 text-white font-bold px-4 py-2.5 rounded-full shadow-2xl flex items-center gap-2 transition-all duration-300 transform hover:scale-105 border border-cyan-400/40 text-xs sm:text-sm animate-pulse" title="Toggle Anime Companion">
-        <span class="w-2.5 h-2.5 rounded-full bg-cyan-300 animate-ping"></span>
-        <i class="fas fa-bolt text-yellow-300"></i>
-        <span>JJK Companions</span>
-    </button>
 
-    <!-- Floating Anime Widget Card -->
-    <div id="anime-companion-card" class="fixed bottom-36 right-4 md:bottom-24 md:right-8 z-40 w-80 sm:w-96 glass-container border-2 border-cyan-400/30 rounded-3xl p-5 shadow-2xl hidden flex-col transition-all duration-500 backdrop-blur-xl bg-slate-950/90 text-white overflow-hidden">
-        <!-- Close & Header Bar -->
-        <div class="flex items-center justify-between pb-3 border-b border-white/10 mb-3">
-            <div class="flex items-center gap-2">
-                <i class="fas fa-fire text-amber-400 text-sm"></i>
-                <span class="text-xs font-bold uppercase tracking-widest text-cyan-300">Special Grade Sorcerer</span>
-            </div>
-            <div class="flex items-center gap-1.5">
-                <button onclick="resetAnimeTheme()" class="px-2.5 py-1 rounded-full bg-white/10 hover:bg-white/20 text-[10px] font-bold text-gray-300 hover:text-white transition-colors" title="Reset to Default Theme">
-                    Reset Theme
-                </button>
-                <button id="close-anime-card-btn" class="w-7 h-7 rounded-full bg-white/10 hover:bg-red-500/20 text-white flex items-center justify-center text-xs transition-colors">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-        </div>
-
-        <!-- Character Selector Tabs -->
-        <div class="flex bg-black/50 p-1 rounded-full mb-4 border border-white/10">
-            <button id="tab-gojo" onclick="switchAnimeChar('gojo')" class="flex-1 py-1.5 rounded-full text-xs font-bold transition-all bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-md flex items-center justify-center gap-1.5">
-                <span>👁️ Gojo Satoru</span>
-            </button>
-            <button id="tab-sukuna" onclick="switchAnimeChar('sukuna')" class="flex-1 py-1.5 rounded-full text-xs font-bold transition-all text-gray-400 hover:text-white flex items-center justify-center gap-1.5">
-                <span>⛩️ Ryomen Sukuna</span>
-            </button>
-        </div>
-
-        <!-- Gojo Display View -->
-        <div id="anime-view-gojo" class="space-y-4">
-            <div class="relative rounded-2xl overflow-hidden border border-cyan-400/40 group shadow-lg">
-                <img src="assets/anime/gojo.jpg" alt="Gojo Satoru" class="w-full h-52 object-cover object-center transform group-hover:scale-105 transition-transform duration-500">
-                <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent"></div>
-                <div class="absolute bottom-3 left-3 right-3 flex items-center justify-between">
-                    <div>
-                        <h4 class="font-bold text-base text-cyan-300 drop-shadow-md">Gojo Satoru (五条 悟)</h4>
-                        <p class="text-[10px] text-cyan-100/80">Limitless & Six Eyes User</p>
-                    </div>
-                    <span class="px-2 py-0.5 rounded-full bg-blue-500/30 border border-blue-400/50 text-[9px] text-cyan-200 font-mono font-bold">∞ INFINITY</span>
-                </div>
-            </div>
-            <div class="bg-blue-950/40 border border-cyan-500/20 p-3 rounded-xl">
-                <p id="gojo-quote" class="text-xs italic text-cyan-100 leading-relaxed font-serif text-center">
-                    "Throughout Heaven and Earth, I Alone Am The Honored One." (「天上天下唯我独尊」)
-                </p>
-            </div>
-            <button onclick="triggerDomainExpansion('gojo')" class="w-full py-2.5 rounded-xl bg-gradient-to-r from-cyan-500 via-blue-600 to-indigo-600 hover:from-blue-600 hover:to-purple-600 text-white font-bold text-xs shadow-lg flex items-center justify-center gap-2 transition-all transform hover:scale-[1.02] active:scale-95 border border-cyan-300/40">
-                <i class="fas fa-infinity text-yellow-300"></i>
-                <span>Domain Expansion: Unlimited Void</span>
-            </button>
-        </div>
-
-        <!-- Sukuna Display View -->
-        <div id="anime-view-sukuna" class="space-y-4 hidden">
-            <div class="relative rounded-2xl overflow-hidden border border-red-500/40 group shadow-lg">
-                <img src="assets/anime/sukuna.jpg" alt="Ryomen Sukuna" class="w-full h-52 object-cover object-center transform group-hover:scale-105 transition-transform duration-500">
-                <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent"></div>
-                <div class="absolute bottom-3 left-3 right-3 flex items-center justify-between">
-                    <div>
-                        <h4 class="font-bold text-base text-red-400 drop-shadow-md">Ryomen Sukuna (両面 宿儺)</h4>
-                        <p class="text-[10px] text-red-200/80">King of Curses</p>
-                    </div>
-                    <span class="px-2 py-0.5 rounded-full bg-red-600/30 border border-red-500/50 text-[9px] text-red-300 font-mono font-bold">⛩️ SHRINE</span>
-                </div>
-            </div>
-            <div class="bg-red-950/40 border border-red-500/20 p-3 rounded-xl">
-                <p id="sukuna-quote" class="text-xs italic text-red-100 leading-relaxed font-serif text-center">
-                    "Know your place, fool. Stand proud, you are strong." (「誇れ、お前は強い」)
-                </p>
-            </div>
-            <button onclick="triggerDomainExpansion('sukuna')" class="w-full py-2.5 rounded-xl bg-gradient-to-r from-red-600 via-rose-700 to-amber-700 hover:from-rose-600 hover:to-orange-600 text-white font-bold text-xs shadow-lg flex items-center justify-center gap-2 transition-all transform hover:scale-[1.02] active:scale-95 border border-red-400/40">
-                <i class="fas fa-skull text-yellow-300"></i>
-                <span>Domain Expansion: Malevolent Shrine</span>
-            </button>
-        </div>
-    </div>
-
-    <!-- Full Screen Domain Expansion Overlay Canvas -->
-    <div id="domain-expansion-overlay" class="fixed inset-0 z-[120] pointer-events-none hidden flex-col items-center justify-center overflow-hidden">
-        <div id="domain-expansion-bg" class="absolute inset-0 transition-opacity duration-700"></div>
-        <div id="domain-expansion-text" class="relative z-10 text-center px-6 transform transition-all duration-700 scale-95 opacity-0">
-            <h1 id="domain-expansion-title" class="text-4xl sm:text-6xl font-bold font-serif drop-shadow-[0_0_30px_rgba(255,255,255,0.8)] tracking-wider mb-3">
-                無量空処
-            </h1>
-            <p id="domain-expansion-sub" class="text-lg sm:text-2xl font-mono text-cyan-200 tracking-widest uppercase">
-                Unlimited Void
-            </p>
-        </div>
-    </div>
 
 <script src="script.js"></script>
 </body>
