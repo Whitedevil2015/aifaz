@@ -1570,22 +1570,9 @@ document.addEventListener('DOMContentLoaded', () => {
         return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
     }
 
-    // --- PRAYER SETTINGS & ADHAN SYSTEM ---
-    let adhanAudioInstance = null;
-    let testAdhanAudio = null;
-
+    // --- PRAYER SETTINGS & NOTIFICATION SYSTEM ---
     function triggerAdhanAlarm(prayerName) {
-        console.log(`Triggering Adhan Alarm for ${prayerName}`);
-        
-        const shouldPlay = localStorage.getItem('setting-play-adhan') === 'true';
-        if (shouldPlay) {
-            if (adhanAudioInstance) {
-                adhanAudioInstance.pause();
-            }
-            adhanAudioInstance = new Audio('https://download.quranicaudio.com/adhan/makkah.mp3');
-            adhanAudioInstance.volume = parseFloat(localStorage.getItem('setting-adhan-volume') || '0.5');
-            adhanAudioInstance.play().catch(e => console.warn("Audio autoplay blocked", e));
-        }
+        console.log(`Triggering Notification for ${prayerName}`);
         
         const shouldNotify = localStorage.getItem('setting-notify-desktop') === 'true';
         if (shouldNotify && Notification.permission === 'granted') {
@@ -1595,35 +1582,6 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
     }
-
-    document.getElementById('btn-test-adhan')?.addEventListener('click', () => {
-        const btn = document.getElementById('btn-test-adhan');
-        if (testAdhanAudio && !testAdhanAudio.paused) {
-            testAdhanAudio.pause();
-            btn.innerHTML = '<i class="fas fa-play"></i> Test Adhan Sound';
-        } else {
-            if (!testAdhanAudio) {
-                testAdhanAudio = new Audio('https://download.quranicaudio.com/adhan/makkah.mp3');
-            }
-            const volSlider = document.getElementById('setting-adhan-volume');
-            testAdhanAudio.volume = volSlider ? parseFloat(volSlider.value) : 0.5;
-            btn.innerHTML = '<i class="fas fa-stop"></i> Stop Adhan';
-            testAdhanAudio.play().catch(e => {
-                window.showToast("Playback failed. Please interact with the page first.", "error");
-                btn.innerHTML = '<i class="fas fa-play"></i> Test Adhan Sound';
-            });
-            testAdhanAudio.onended = () => {
-                btn.innerHTML = '<i class="fas fa-play"></i> Test Adhan Sound';
-            };
-        }
-    });
-    
-    document.getElementById('setting-adhan-volume')?.addEventListener('input', (e) => {
-        const vol = parseFloat(e.target.value);
-        localStorage.setItem('setting-adhan-volume', vol);
-        if (testAdhanAudio) testAdhanAudio.volume = vol;
-        if (adhanAudioInstance) adhanAudioInstance.volume = vol;
-    });
 
     document.getElementById('prayer-settings-btn')?.addEventListener('click', () => {
         const modal = document.getElementById('settings-modal');
@@ -1650,12 +1608,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if (mEl) mEl.value = localStorage.getItem('offset-maghrib') || '0';
         if (iEl) iEl.value = localStorage.getItem('offset-isha') || '0';
         
-        const playAdhanEl = document.getElementById('setting-play-adhan');
         const notifyEl = document.getElementById('setting-notify-desktop');
-        const volEl = document.getElementById('setting-adhan-volume');
-        if (playAdhanEl) playAdhanEl.checked = localStorage.getItem('setting-play-adhan') === 'true';
         if (notifyEl) notifyEl.checked = localStorage.getItem('setting-notify-desktop') === 'true';
-        if (volEl) volEl.value = localStorage.getItem('setting-adhan-volume') || '0.5';
         
         modal.classList.remove('hidden');
         modal.classList.add('flex');
@@ -1671,17 +1625,6 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
     });
-
-    const dashAdhanToggle = document.getElementById('dashboard-adhan-toggle');
-    if (dashAdhanToggle) {
-        dashAdhanToggle.checked = localStorage.getItem('setting-play-adhan') === 'true';
-        dashAdhanToggle.addEventListener('change', (e) => {
-            localStorage.setItem('setting-play-adhan', e.target.checked ? 'true' : 'false');
-            const playAdhanEl = document.getElementById('setting-play-adhan');
-            if (playAdhanEl) playAdhanEl.checked = e.target.checked;
-            window.showToast(`Adhan Alarms ${e.target.checked ? 'Enabled' : 'Disabled'}`, 'info');
-        });
-    }
 
     document.getElementById('btn-save-settings')?.addEventListener('click', () => {
         const calcMethod = document.getElementById('setting-calc-method')?.value || '1';
@@ -1700,14 +1643,7 @@ document.addEventListener('DOMContentLoaded', () => {
         localStorage.setItem('offset-maghrib', document.getElementById('offset-maghrib')?.value || '0');
         localStorage.setItem('offset-isha', document.getElementById('offset-isha')?.value || '0');
         
-        const playAdhanChecked = document.getElementById('setting-play-adhan')?.checked ? 'true' : 'false';
-        localStorage.setItem('setting-play-adhan', playAdhanChecked);
-        if (dashAdhanToggle) {
-            dashAdhanToggle.checked = playAdhanChecked === 'true';
-        }
-        
         localStorage.setItem('setting-notify-desktop', document.getElementById('setting-notify-desktop')?.checked ? 'true' : 'false');
-        localStorage.setItem('setting-adhan-volume', document.getElementById('setting-adhan-volume')?.value || '0.5');
         
         const modal = document.getElementById('settings-modal');
         if (modal) {
