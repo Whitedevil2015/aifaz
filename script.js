@@ -2974,6 +2974,65 @@ window.fetchHijriCalendar = async function () {
                     `;
                 });
                 
+                // Populate Daily View
+                const dailyContainer = document.getElementById('cal-daily-content');
+                if (dailyContainer) {
+                    if (todayHijriStr) {
+                        dailyContainer.innerHTML = `
+                            <div class="inline-flex w-16 h-16 rounded-full bg-[var(--gold)]/10 text-[var(--gold)] items-center justify-center mb-4">
+                                <i class="fas fa-calendar-day text-2xl"></i>
+                            </div>
+                            <h3 class="text-4xl font-[Amiri] text-[var(--emerald)] dark:text-white mb-2">${todayHijriStr}</h3>
+                            <p class="text-gray-500 dark:text-gray-400 font-[Inter]">${todayGregStr}</p>
+                            ${todayEventStr ? `<div class="mt-4 inline-flex items-center gap-2 px-4 py-2 bg-[var(--gold)]/20 text-[var(--gold)] rounded-full text-sm font-bold"><i class="fas fa-star"></i> ${todayEventStr}</div>` : ''}
+                        `;
+                    } else {
+                        dailyContainer.innerHTML = `<div class="text-gray-500 py-10">Select current month to view today's details.</div>`;
+                    }
+                }
+
+                // Populate Weekly View
+                const weeklyContainer = document.getElementById('cal-weekly-content');
+                if (weeklyContainer) {
+                    weeklyContainer.innerHTML = '';
+                    const isCurrentMonth = calendarCurrentDate.getMonth() === today.getMonth() && calendarCurrentDate.getFullYear() === today.getFullYear();
+                    let weekDays = [];
+                    if (isCurrentMonth) {
+                        const currentGDay = today.getDate();
+                        const currentWeekDay = today.getDay(); // 0-6
+                        const startOfThisWeek = currentGDay - currentWeekDay;
+                        for (let i = 0; i < 7; i++) {
+                            const targetGDay = startOfThisWeek + i;
+                            const dayObj = results.find(d => parseInt(d.date.gregorian.day, 10) === targetGDay);
+                            weekDays.push(dayObj);
+                        }
+                    } else {
+                        for (let i = 0; i < 7; i++) {
+                            const targetGDay = 1 + i;
+                            const dayObj = results.find(d => parseInt(d.date.gregorian.day, 10) === targetGDay);
+                            weekDays.push(dayObj);
+                        }
+                    }
+
+                    weekDays.forEach((day, index) => {
+                        const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+                        if (day) {
+                            const isTday = parseInt(day.date.gregorian.day, 10) === today.getDate() && isCurrentMonth;
+                            const hasEvt = (day.date.hijri.holidays || []).length > 0;
+                            weeklyContainer.innerHTML += `
+                                <div class="flex flex-col items-center justify-center p-3 rounded-2xl border ${isTday ? 'border-[var(--gold)] bg-[var(--gold)]/10 shadow-sm' : 'border-white/10 hover:bg-black/5 dark:hover:bg-white/5'} transition-all">
+                                    <span class="text-[10px] uppercase font-bold text-gray-400 mb-2">${dayNames[index]}</span>
+                                    <span class="text-xl font-black ${isTday ? 'text-[var(--gold)]' : 'text-gray-700 dark:text-gray-200'}">${parseInt(day.date.hijri.day, 10)}</span>
+                                    <span class="text-[10px] text-gray-400 mb-1">${parseInt(day.date.gregorian.day, 10)}</span>
+                                    ${hasEvt ? '<div class="w-1.5 h-1.5 rounded-full bg-[var(--emerald)] mt-1"></div>' : '<div class="w-1.5 h-1.5 mt-1 opacity-0 bg-transparent"></div>'}
+                                </div>
+                            `;
+                        } else {
+                            weeklyContainer.innerHTML += `<div class="p-3 opacity-0 border border-transparent"></div>`;
+                        }
+                    });
+                }
+                
                 const eventsList = document.getElementById('cal-events-list');
                 if (eventsList) eventsList.innerHTML = eventsHtml || '<p class="text-xs text-gray-500 italic p-2">No special events this month.</p>';
                 
@@ -3008,6 +3067,36 @@ window.fetchHijriCalendar = async function () {
         console.error("Calendar Fetch Error", e);
     }
 }
+
+window.switchCalendarView = function(view) {
+    const dailyBtn = document.getElementById('btn-cal-daily');
+    const weeklyBtn = document.getElementById('btn-cal-weekly');
+    const monthlyBtn = document.getElementById('btn-cal-monthly');
+    const dailyView = document.getElementById('cal-view-daily');
+    const weeklyView = document.getElementById('cal-view-weekly');
+    const monthlyView = document.getElementById('cal-view-monthly');
+
+    // Reset styles
+    [dailyBtn, weeklyBtn, monthlyBtn].forEach(btn => {
+        if (!btn) return;
+        btn.className = 'px-4 py-1.5 rounded-full text-xs font-bold transition-all text-gray-500 hover:text-[var(--gold)] dark:text-gray-400';
+    });
+    
+    [dailyView, weeklyView, monthlyView].forEach(v => v?.classList.add('hidden'));
+
+    // Set active
+    let activeBtn, activeView;
+    if (view === 'daily') {
+        activeBtn = dailyBtn; activeView = dailyView;
+    } else if (view === 'weekly') {
+        activeBtn = weeklyBtn; activeView = weeklyView;
+    } else {
+        activeBtn = monthlyBtn; activeView = monthlyView;
+    }
+    
+    if (activeBtn) activeBtn.className = 'px-4 py-1.5 rounded-full text-xs font-bold transition-all bg-[var(--emerald)] text-white shadow-md';
+    if (activeView) activeView.classList.remove('hidden');
+};
 
 // Initialize Calendar
 setTimeout(fetchHijriCalendar, 1500);

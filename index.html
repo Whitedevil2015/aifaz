@@ -763,7 +763,26 @@
                             </button>
                         </div>
 
-                        <!-- Day Headers -->
+                        <!-- View Switcher Tabs -->
+                        <div class="flex items-center justify-center gap-2 p-3 border-b border-white/10 dark:border-neutral-800">
+                            <button onclick="switchCalendarView('daily')" id="btn-cal-daily" class="px-4 py-1.5 rounded-full text-xs font-bold transition-all bg-[var(--emerald)] text-white shadow-md">Daily</button>
+                            <button onclick="switchCalendarView('weekly')" id="btn-cal-weekly" class="px-4 py-1.5 rounded-full text-xs font-bold transition-all text-gray-500 hover:text-[var(--gold)] dark:text-gray-400">Weekly</button>
+                            <button onclick="switchCalendarView('monthly')" id="btn-cal-monthly" class="px-4 py-1.5 rounded-full text-xs font-bold transition-all text-gray-500 hover:text-[var(--gold)] dark:text-gray-400">Monthly</button>
+                        </div>
+
+                        <!-- Daily View -->
+                        <div id="cal-view-daily" class="p-6 md:p-10 text-center animate-fade-in-up">
+                            <div id="cal-daily-content">Loading...</div>
+                        </div>
+
+                        <!-- Weekly View -->
+                        <div id="cal-view-weekly" class="hidden p-4 md:p-6 animate-fade-in-up">
+                            <div class="grid grid-cols-7 gap-2" id="cal-weekly-content">Loading...</div>
+                        </div>
+
+                        <!-- Monthly View -->
+                        <div id="cal-view-monthly" class="hidden animate-fade-in-up">
+                            <!-- Day Headers -->
                         <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:4px;padding:12px 12px 0;">
                             <div class="cal-day-header">Sun</div>
                             <div class="cal-day-header">Mon</div>
@@ -786,9 +805,11 @@
                                 <div class="w-2 h-2 rounded-full bg-[var(--gold)]"></div> Islamic Event
                             </div>
                             <div class="flex items-center gap-2 text-[10px] text-white/50">
+                            <div class="flex items-center gap-2 text-[10px] text-white/50">
                                 <div class="w-2 h-2 rounded-full bg-[var(--gold-light)]"></div> Holiday / Special Day
                             </div>
                         </div>
+                        </div> <!-- End Monthly View -->
                     </div>
                 </div>
 
