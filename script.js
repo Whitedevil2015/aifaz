@@ -1197,16 +1197,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 audioPlayer.onended = () => {
                     currentAudioIndex++;
                     if (currentAudioIndex < currentPlaylist.length) {
-                        const nextItem = currentPlaylist[currentAudioIndex];
-                        audioPlayer.src = nextItem.url;
-                        audioPlayer.play().catch(e => console.warn(e));
-                        
-                        const currentAyahIndex = nextItem.index;
-                        highlightVerse(currentAyahIndex);
-                        updatePlayerBarProgress(currentAyahIndex);
+                        if (typeof playCurrentAudioItem === 'function') {
+                            playCurrentAudioItem();
+                        }
                     } else {
                         currentAudioIndex = 0;
-                        audioPlayer.src = currentPlaylist[0].url;
+                        if (currentPlaylist.length > 0) audioPlayer.src = currentPlaylist[0].url;
                         updatePlayIcon(false);
                     }
                 };
@@ -1229,6 +1225,50 @@ document.addEventListener('DOMContentLoaded', () => {
     document.addEventListener('touchstart', unlockMobileAudioEngine, { once: true });
     document.addEventListener('click', unlockMobileAudioEngine, { once: true });
 
+    // Unified Audio Player function to handle fallbacks seamlessly
+    window.playCurrentAudioItem = function() {
+        const player = document.getElementById('quran-audio');
+        if (!player || !currentPlaylist[currentAudioIndex]) return;
+
+        const item = currentPlaylist[currentAudioIndex];
+        player.src = item.url;
+        player.setAttribute('playsinline', 'true');
+        player.setAttribute('webkit-playsinline', 'true');
+
+        const playPromise = player.play();
+        if (playPromise !== undefined) {
+            playPromise.then(() => {
+                const bar = document.getElementById('quran-player-bar');
+                if (bar) bar.classList.remove('hidden');
+                updatePlayIcon(true);
+                highlightVerse(item.index);
+                updatePlayerBarProgress(item.index);
+            }).catch(e => {
+                console.warn("Audio play error, trying EveryAyah CDN fallback:", e);
+                // Fallback to EveryAyah CDN for Arabic
+                if (item.type === 'ar' && window.currentSurahData && window.currentSurahData.data && window.currentSurahData.data.ayahs[item.index]) {
+                    const verseObj = window.currentSurahData.data.ayahs[item.index];
+                    const sNum = String(verseObj.surah ? verseObj.surah.number : (window.currentSurahData.data.number || 1)).padStart(3, '0');
+                    const aNum = String(verseObj.numberInSurah).padStart(3, '0');
+                    player.src = `https://everyayah.com/data/Alafasy_128kbps/${sNum}${aNum}.mp3`;
+                    player.play().then(() => {
+                        const bar = document.getElementById('quran-player-bar');
+                        if (bar) bar.classList.remove('hidden');
+                        updatePlayIcon(true);
+                        highlightVerse(item.index);
+                        updatePlayerBarProgress(item.index);
+                    }).catch(() => {
+                        // Skip if fallback completely fails
+                        player.dispatchEvent(new Event('ended'));
+                    });
+                } else {
+                    // Skip if translation fails
+                    player.dispatchEvent(new Event('ended'));
+                }
+            });
+        }
+    };
+
     // Playback Helpers
     window.playVerse = function (index) {
         if (!window.currentSurahData) return;
@@ -1239,48 +1279,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const playlistIndex = currentPlaylist.findIndex(item => item.index === index);
         currentAudioIndex = (playlistIndex !== -1) ? playlistIndex : 0;
 
-        const player = document.getElementById('quran-audio');
-        if (player && currentPlaylist[currentAudioIndex]) {
-            const item = currentPlaylist[currentAudioIndex];
-            player.src = item.url;
-            player.setAttribute('playsinline', 'true');
-            player.setAttribute('webkit-playsinline', 'true');
-
-            const playPromise = player.play();
-            if (playPromise !== undefined) {
-                playPromise.then(() => {
-                    const bar = document.getElementById('quran-player-bar');
-                    if (bar) bar.classList.remove('hidden');
-                    updatePlayIcon(true);
-                    highlightVerse(index);
-                    updatePlayerBarProgress(index);
-                }).catch(e => {
-                    console.warn("Audio play error, trying EveryAyah CDN fallback:", e);
-                    // Fallback to EveryAyah CDN
-                    if (window.currentSurahData && window.currentSurahData.data && window.currentSurahData.data.ayahs[index]) {
-                        const verseObj = window.currentSurahData.data.ayahs[index];
-                        const sNum = String(verseObj.surah ? verseObj.surah.number : 1).padStart(3, '0');
-                        const aNum = String(verseObj.numberInSurah).padStart(3, '0');
-                        player.src = `https://everyayah.com/data/Alafasy_128kbps/${sNum}${aNum}.mp3`;
-                        player.play().then(() => {
-                            const bar = document.getElementById('quran-player-bar');
-                            if (bar) bar.classList.remove('hidden');
-                            updatePlayIcon(true);
-                            highlightVerse(index);
-                            updatePlayerBarProgress(index);
-                        }).catch(() => {
-                            // Fallback to Web Speech Synthesis if network blocked
-                            if ('speechSynthesis' in window) {
-                                window.speechSynthesis.cancel();
-                                const utterance = new SpeechSynthesisUtterance(verseObj.text);
-                                utterance.lang = 'ar-SA';
-                                window.speechSynthesis.speak(utterance);
-                            }
-                        });
-                    }
-                });
-            }
-        }
+        playCurrentAudioItem();
     };
 
     window.highlightVerse = function (index) {
