@@ -153,6 +153,13 @@
                 <i class="fas fa-calendar-alt w-5 text-center text-[var(--gold)]/70 group-hover:text-[var(--gold)] transition-colors text-sm"></i>
                 <span class="ml-3">Islamic Calendar</span>
             </a>
+
+            <p class="text-[9px] text-[var(--gold)]/40 uppercase tracking-[0.2em] font-bold px-4 mb-2 mt-4">Journey</p>
+
+            <a href="#" class="nav-link group" data-target="view-visit">
+                <i class="fas fa-kaaba w-5 text-center text-[var(--gold)]/70 group-hover:text-[var(--gold)] transition-colors text-sm"></i>
+                <span class="ml-3">Hajj & Umrah</span>
+            </a>
         </nav>
 
         <!-- Bottom bar: live clock + hijri -->
@@ -198,6 +205,9 @@
             </button>
             <button type="button" class="nav-link mobile-nav-item px-3.5 py-2 rounded-full text-xs font-semibold flex items-center justify-center gap-1.5 shrink-0 transition-all cursor-pointer" data-target="view-duas" onclick="navigateToView('view-duas')">
                 <i class="fas fa-hands-praying text-xs"></i><span>Duas</span>
+            </button>
+            <button type="button" class="nav-link mobile-nav-item px-3.5 py-2 rounded-full text-xs font-semibold flex items-center justify-center gap-1.5 shrink-0 transition-all cursor-pointer" data-target="view-visit" onclick="navigateToView('view-visit')">
+                <i class="fas fa-kaaba text-xs"></i><span>Visit</span>
             </button>
         </div>
     </nav>
@@ -263,6 +273,9 @@
                     </button>
                     <button type="button" class="nav-link mobile-nav-item px-3 py-1 rounded-full text-xs font-semibold flex items-center justify-center gap-1 shrink-0 transition-all cursor-pointer" data-target="view-duas" onclick="navigateToView('view-duas')">
                         <i class="fas fa-hands-praying text-xs"></i><span>Duas</span>
+                    </button>
+                    <button type="button" class="nav-link mobile-nav-item px-3 py-1 rounded-full text-xs font-semibold flex items-center justify-center gap-1 shrink-0 transition-all cursor-pointer" data-target="view-visit" onclick="navigateToView('view-visit')">
+                        <i class="fas fa-kaaba text-xs"></i><span>Visit</span>
                     </button>
                 </div>
             </nav>
@@ -869,7 +882,147 @@
             </div>
         </section>
 
+        <!-- ╔══════════════════════════════════╗
+             ║         VISIT / HAJJ / UMRAH     ║
+             ╚══════════════════════════════════╝ -->
+        <section id="view-visit" class="hidden relative pb-10">
+            <div class="px-4 md:px-8 py-6 max-w-7xl mx-auto">
+                <div class="mb-8 relative overflow-hidden rounded-[32px] bg-gradient-to-br from-black via-[#061b12] to-black border border-gray-400/20 p-8 md:p-12 shadow-2xl flex flex-col justify-center items-center text-center">
+                    <div class="absolute inset-0 opacity-10" style="background-image: url('data:image/svg+xml,%3Csvg width=\'60\' height=\'60\' viewBox=\'0 0 60 60\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cpath d=\'M30 0l30 30-30 30L0 30z\' fill=\'%23FCD34D\' fill-opacity=\'1\' fill-rule=\'evenodd\'/%3E%3C/svg%3E'); background-size: 30px;"></div>
+                    <i class="fas fa-kaaba text-5xl md:text-7xl text-[var(--gold)] mb-4 relative z-10 drop-shadow-md"></i>
+                    <h2 class="text-3xl md:text-5xl font-[Cormorant_Garamond] font-bold text-white mb-2 relative z-10">The Sacred Journey</h2>
+                    <p class="text-sm md:text-base text-gray-300 font-serif italic max-w-2xl relative z-10">"And proclaim to the people the Hajj [pilgrimage]; they will come to you on foot and on every lean camel; they will come from every distant pass." (Quran 22:27)</p>
+                </div>
 
+                <!-- Sub Navigation -->
+                <div class="flex items-center justify-center gap-2 md:gap-6 mb-8 overflow-x-auto no-scrollbar pb-2">
+                    <button onclick="window.switchVisitTab('umrah')" id="visit-tab-umrah" class="visit-tab px-6 py-2.5 rounded-full text-sm font-bold transition-all bg-[var(--gold)] text-black shadow-[0_0_15px_rgba(245,158,11,0.3)] shrink-0">Umrah Guide</button>
+                    <button onclick="window.switchVisitTab('hajj')" id="visit-tab-hajj" class="visit-tab px-6 py-2.5 rounded-full text-sm font-bold transition-all bg-[var(--pearl-card)]/50 text-gray-300 border border-white/10 hover:bg-white/10 shrink-0">Hajj Guide</button>
+                    <button onclick="window.switchVisitTab('checklist')" id="visit-tab-checklist" class="visit-tab px-6 py-2.5 rounded-full text-sm font-bold transition-all bg-[var(--pearl-card)]/50 text-gray-300 border border-white/10 hover:bg-white/10 shrink-0">Travel Checklist</button>
+                </div>
+
+                <!-- UMRAH CONTENT -->
+                <div id="visit-content-umrah" class="visit-content space-y-6">
+                    <div class="bg-[var(--pearl-card)] border border-gray-400/10 rounded-2xl p-6 shadow-md hover:-translate-y-1 transition-transform">
+                        <div class="flex items-center gap-4 mb-4">
+                            <div class="w-12 h-12 rounded-full bg-[var(--gold)]/20 text-[var(--gold)] flex items-center justify-center text-xl font-bold">1</div>
+                            <h3 class="text-xl font-bold text-white">Ihram (Preparation)</h3>
+                        </div>
+                        <ul class="list-disc list-inside text-gray-300 space-y-2 ml-4">
+                            <li>Purification (Ghusl) and wearing the Ihram garments before Miqat.</li>
+                            <li>Praying two Rakaat of Sunnatul Ihram.</li>
+                            <li>Making the intention (Niyyah): <span class="text-[var(--gold)] italic font-serif block mt-1">"Labbayka Allahumma Umrah"</span></li>
+                            <li>Reciting the Talbiyah continuously.</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-[var(--pearl-card)] border border-gray-400/10 rounded-2xl p-6 shadow-md hover:-translate-y-1 transition-transform">
+                        <div class="flex items-center gap-4 mb-4">
+                            <div class="w-12 h-12 rounded-full bg-[var(--gold)]/20 text-[var(--gold)] flex items-center justify-center text-xl font-bold">2</div>
+                            <h3 class="text-xl font-bold text-white">Tawaf (Circumambulation)</h3>
+                        </div>
+                        <ul class="list-disc list-inside text-gray-300 space-y-2 ml-4">
+                            <li>Perform 7 circuits around the Kaaba, starting from the Black Stone.</li>
+                            <li>Men should uncover their right shoulder (Idtiba) and walk briskly in the first three circuits.</li>
+                            <li>After Tawaf, pray two Rakaat behind Maqam Ibrahim.</li>
+                            <li>Drink Zamzam water and pour some over your head.</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-[var(--pearl-card)] border border-gray-400/10 rounded-2xl p-6 shadow-md hover:-translate-y-1 transition-transform">
+                        <div class="flex items-center gap-4 mb-4">
+                            <div class="w-12 h-12 rounded-full bg-[var(--gold)]/20 text-[var(--gold)] flex items-center justify-center text-xl font-bold">3</div>
+                            <h3 class="text-xl font-bold text-white">Sa'i (Walking between Safa & Marwah)</h3>
+                        </div>
+                        <ul class="list-disc list-inside text-gray-300 space-y-2 ml-4">
+                            <li>Start at Mount Safa, face the Kaaba, make Dua, and walk towards Mount Marwah.</li>
+                            <li>Men should run between the green lights in the valley.</li>
+                            <li>Completing the walk from Safa to Marwah counts as one lap. Total 7 laps (ending at Marwah).</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-[var(--pearl-card)] border border-gray-400/10 rounded-2xl p-6 shadow-md hover:-translate-y-1 transition-transform">
+                        <div class="flex items-center gap-4 mb-4">
+                            <div class="w-12 h-12 rounded-full bg-[var(--gold)]/20 text-[var(--gold)] flex items-center justify-center text-xl font-bold">4</div>
+                            <h3 class="text-xl font-bold text-white">Halq/Taqsir (Shaving/Trimming)</h3>
+                        </div>
+                        <ul class="list-disc list-inside text-gray-300 space-y-2 ml-4">
+                            <li>Men: Completely shave the head (Halq) - highly recommended, or trim hair equally (Taqsir).</li>
+                            <li>Women: Trim a fingertip's length of hair from the end of their braid/hair.</li>
+                            <li>The state of Ihram is now lifted, and the Umrah is complete!</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- HAJJ CONTENT -->
+                <div id="visit-content-hajj" class="visit-content hidden space-y-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="bg-[var(--pearl-card)] border border-gray-400/10 rounded-2xl p-6 relative overflow-hidden shadow-md">
+                            <div class="absolute top-0 right-0 bg-[var(--gold)]/20 text-[var(--gold)] text-xs font-bold px-3 py-1 rounded-bl-xl">Day 1</div>
+                            <h3 class="text-xl font-bold text-[var(--gold)] mb-2">8th Dhul Hijjah (Tarwiyah)</h3>
+                            <p class="text-gray-300 text-sm leading-relaxed">Enter Ihram in Makkah, go to Mina, and stay there overnight. Perform Dhuhr, Asr, Maghrib, Isha, and Fajr prayers there, shortening the 4-rakaat prayers to 2.</p>
+                        </div>
+                        <div class="bg-[var(--pearl-card)] border border-gray-400/10 rounded-2xl p-6 relative overflow-hidden shadow-md">
+                            <div class="absolute top-0 right-0 bg-[var(--gold)]/20 text-[var(--gold)] text-xs font-bold px-3 py-1 rounded-bl-xl">Day 2</div>
+                            <h3 class="text-xl font-bold text-[var(--gold)] mb-2">9th Dhul Hijjah (Arafah)</h3>
+                            <p class="text-gray-300 text-sm leading-relaxed">The pinnacle of Hajj. Move to Mount Arafat after sunrise. Make intense dua until sunset. After sunset, travel to Muzdalifah to pray Maghrib & Isha combined, collect 49-70 pebbles, and rest overnight.</p>
+                        </div>
+                        <div class="bg-[var(--pearl-card)] border border-gray-400/10 rounded-2xl p-6 relative overflow-hidden shadow-md">
+                            <div class="absolute top-0 right-0 bg-[var(--gold)]/20 text-[var(--gold)] text-xs font-bold px-3 py-1 rounded-bl-xl">Day 3</div>
+                            <h3 class="text-xl font-bold text-[var(--gold)] mb-2">10th Dhul Hijjah (Eid al-Adha)</h3>
+                            <p class="text-gray-300 text-sm leading-relaxed">Throw 7 pebbles at the largest pillar (Jamrat al-Aqabah) in Mina. Perform animal sacrifice (Qurbani), shave/trim hair to exit Ihram. Perform Tawaf al-Ifadah and Sa'i in Makkah, then return to Mina.</p>
+                        </div>
+                        <div class="bg-[var(--pearl-card)] border border-gray-400/10 rounded-2xl p-6 relative overflow-hidden shadow-md">
+                            <div class="absolute top-0 right-0 bg-[var(--gold)]/20 text-[var(--gold)] text-xs font-bold px-3 py-1 rounded-bl-xl">Days 4 & 5</div>
+                            <h3 class="text-xl font-bold text-[var(--gold)] mb-2">11th-13th Dhul Hijjah (Tashreeq)</h3>
+                            <p class="text-gray-300 text-sm leading-relaxed">Stay in Mina. Stone all three pillars (Jamarat) each day after Zawaal (midday) with 7 pebbles each. Before finally leaving Makkah to go home, perform Tawaf al-Wida (Farewell Tawaf).</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CHECKLIST CONTENT -->
+                <div id="visit-content-checklist" class="visit-content hidden">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="bg-[var(--pearl-card)] border border-gray-400/10 rounded-2xl p-6 shadow-md">
+                            <h3 class="text-lg font-bold text-[var(--gold)] mb-4 flex items-center gap-2"><i class="fas fa-passport"></i> Documents</h3>
+                            <ul class="space-y-3">
+                                <label class="flex items-center gap-3 text-gray-300 cursor-pointer hover:text-white transition-colors"><input type="checkbox" class="w-4 h-4 accent-[var(--gold)] rounded" /> Passport (valid >6 months) & Visa</label>
+                                <label class="flex items-center gap-3 text-gray-300 cursor-pointer hover:text-white transition-colors"><input type="checkbox" class="w-4 h-4 accent-[var(--gold)] rounded" /> Vaccination certificates</label>
+                                <label class="flex items-center gap-3 text-gray-300 cursor-pointer hover:text-white transition-colors"><input type="checkbox" class="w-4 h-4 accent-[var(--gold)] rounded" /> Flight tickets & Hotel booking vouchers</label>
+                                <label class="flex items-center gap-3 text-gray-300 cursor-pointer hover:text-white transition-colors"><input type="checkbox" class="w-4 h-4 accent-[var(--gold)] rounded" /> Passport size photos & ID Copies</label>
+                            </ul>
+                        </div>
+                        <div class="bg-[var(--pearl-card)] border border-gray-400/10 rounded-2xl p-6 shadow-md">
+                            <h3 class="text-lg font-bold text-[var(--gold)] mb-4 flex items-center gap-2"><i class="fas fa-tshirt"></i> Clothing & Essentials</h3>
+                            <ul class="space-y-3">
+                                <label class="flex items-center gap-3 text-gray-300 cursor-pointer hover:text-white transition-colors"><input type="checkbox" class="w-4 h-4 accent-[var(--gold)] rounded" /> Ihram garments (2 sets for men)</label>
+                                <label class="flex items-center gap-3 text-gray-300 cursor-pointer hover:text-white transition-colors"><input type="checkbox" class="w-4 h-4 accent-[var(--gold)] rounded" /> Comfortable walking shoes / sandals</label>
+                                <label class="flex items-center gap-3 text-gray-300 cursor-pointer hover:text-white transition-colors"><input type="checkbox" class="w-4 h-4 accent-[var(--gold)] rounded" /> Unscented soap, shampoo & deodorant</label>
+                                <label class="flex items-center gap-3 text-gray-300 cursor-pointer hover:text-white transition-colors"><input type="checkbox" class="w-4 h-4 accent-[var(--gold)] rounded" /> Light cotton clothing for after Ihram</label>
+                            </ul>
+                        </div>
+                        <div class="bg-[var(--pearl-card)] border border-gray-400/10 rounded-2xl p-6 shadow-md">
+                            <h3 class="text-lg font-bold text-[var(--gold)] mb-4 flex items-center gap-2"><i class="fas fa-quran"></i> Spiritual & Ibadah</h3>
+                            <ul class="space-y-3">
+                                <label class="flex items-center gap-3 text-gray-300 cursor-pointer hover:text-white transition-colors"><input type="checkbox" class="w-4 h-4 accent-[var(--gold)] rounded" /> Pocket Quran & Dua Book</label>
+                                <label class="flex items-center gap-3 text-gray-300 cursor-pointer hover:text-white transition-colors"><input type="checkbox" class="w-4 h-4 accent-[var(--gold)] rounded" /> Digital Tasbih or Misbaha</label>
+                                <label class="flex items-center gap-3 text-gray-300 cursor-pointer hover:text-white transition-colors"><input type="checkbox" class="w-4 h-4 accent-[var(--gold)] rounded" /> Prayer mat (lightweight)</label>
+                                <label class="flex items-center gap-3 text-gray-300 cursor-pointer hover:text-white transition-colors"><input type="checkbox" class="w-4 h-4 accent-[var(--gold)] rounded" /> Complete Hajj/Umrah guide book</label>
+                            </ul>
+                        </div>
+                        <div class="bg-[var(--pearl-card)] border border-gray-400/10 rounded-2xl p-6 shadow-md">
+                            <h3 class="text-lg font-bold text-[var(--gold)] mb-4 flex items-center gap-2"><i class="fas fa-medkit"></i> Health & Misc</h3>
+                            <ul class="space-y-3">
+                                <label class="flex items-center gap-3 text-gray-300 cursor-pointer hover:text-white transition-colors"><input type="checkbox" class="w-4 h-4 accent-[var(--gold)] rounded" /> Essential medicines & painkillers</label>
+                                <label class="flex items-center gap-3 text-gray-300 cursor-pointer hover:text-white transition-colors"><input type="checkbox" class="w-4 h-4 accent-[var(--gold)] rounded" /> Vaseline / Anti-chafing cream</label>
+                                <label class="flex items-center gap-3 text-gray-300 cursor-pointer hover:text-white transition-colors"><input type="checkbox" class="w-4 h-4 accent-[var(--gold)] rounded" /> Universal power adapter & power bank</label>
+                                <label class="flex items-center gap-3 text-gray-300 cursor-pointer hover:text-white transition-colors"><input type="checkbox" class="w-4 h-4 accent-[var(--gold)] rounded" /> Unscented wet wipes & hand sanitizer</label>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
     </main>
 </div>
@@ -929,15 +1082,15 @@
      ╚══════════════════════════════════════════╝ -->
 <div id="quran-modal" class="fixed inset-0 z-50 bg-black/95 text-white hidden flex-col">
     <!-- Header -->
-    <div class="flex flex-wrap items-center justify-between px-5 py-3.5 border-b border-white/10 bg-[var(--emerald-deep)] gap-3 z-10 shrink-0">
+    <div class="flex flex-wrap items-center justify-between px-5 py-3.5 border-b border-gray-400/20 bg-gradient-to-r from-black via-[#061b12] to-black gap-3 z-10 shrink-0 shadow-md">
         <div>
             <h3 id="reader-title" class="text-lg font-[Cormorant_Garamond] font-bold text-[var(--gold)]">Surah Al-Fatiha</h3>
             <p id="surah-info" class="text-[10px] opacity-50">7 Ayahs • Meccan</p>
         </div>
 
         <!-- Controls row -->
-        <div class="flex items-center flex-wrap gap-2">
-            <div class="flex items-center gap-2 bg-black/30 border border-white/10 px-3 py-1.5 rounded-full">
+        <div class="flex items-center gap-2 overflow-x-auto no-scrollbar flex-nowrap w-full md:w-auto pb-1 md:pb-0">
+            <div class="flex items-center gap-2 bg-black/30 border border-white/10 px-3 py-1.5 rounded-full shrink-0">
                 <span class="text-[9px] uppercase font-bold text-[var(--gold)] hidden sm:inline">Reciter:</span>
                 <select id="quran-reciter-select" class="bg-transparent text-xs text-white outline-none cursor-pointer">
                     <option value="ar.alafasy" selected class="bg-emerald-950">Mishary Alafasy</option>
@@ -947,14 +1100,14 @@
                     <option value="ar.abdulsamad" class="bg-emerald-950">Abdul Basit (Murattal)</option>
                 </select>
             </div>
-            <div class="flex items-center gap-2 bg-black/30 border border-white/10 px-3 py-1.5 rounded-full">
+            <div class="flex items-center gap-2 bg-black/30 border border-white/10 px-3 py-1.5 rounded-full shrink-0">
                 <span class="text-[9px] uppercase font-bold text-[var(--gold)] hidden sm:inline">View:</span>
                 <select id="quran-view-mode" class="bg-transparent text-xs text-white outline-none cursor-pointer">
                     <option value="verse" selected class="bg-emerald-950">Read Verse</option>
                     <option value="book" class="bg-emerald-950">Book Mode</option>
                 </select>
             </div>
-            <div class="flex items-center gap-2 bg-black/30 border border-white/10 px-3 py-1.5 rounded-full">
+            <div class="flex items-center gap-2 bg-black/30 border border-white/10 px-3 py-1.5 rounded-full shrink-0">
                 <span class="text-[9px] uppercase font-bold text-[var(--gold)] hidden sm:inline">Voiceout:</span>
                 <select id="quran-audio-mode" class="bg-transparent text-xs text-white outline-none cursor-pointer">
                     <option value="ar-only" selected class="bg-emerald-950">Arabic Only</option>
@@ -979,8 +1132,8 @@
 
     <div class="flex flex-1 overflow-hidden">
         <!-- Surah List Sidebar -->
-        <div class="w-60 border-r border-white/10 bg-black/60 overflow-y-auto hidden md:flex flex-col" id="surah-list-container">
-            <div class="p-3 border-b border-white/5 sticky top-0 bg-black/80 backdrop-blur-sm">
+        <div class="w-60 border-r border-gray-400/20 bg-black/90 overflow-y-auto hidden md:flex flex-col shadow-inner" id="surah-list-container">
+            <div class="p-3 border-b border-gray-400/10 sticky top-0 bg-black/95 backdrop-blur-md">
                 <div class="relative">
                     <i class="fas fa-search absolute left-2.5 top-1/2 -translate-y-1/2 text-gray-500 text-[10px]"></i>
                     <input type="text" id="surah-search-input" placeholder="Search surahs..." />
@@ -990,14 +1143,14 @@
         </div>
 
         <!-- Content -->
-        <div class="flex-1 overflow-y-auto p-6 md:p-10 relative bg-[var(--emerald-deep)]" id="quran-content">
+        <div class="flex-1 overflow-y-auto p-6 md:p-10 relative bg-gradient-to-b from-black to-[#061b12]" id="quran-content">
             <div class="text-center mt-20">
                 <i class="fas fa-circle-notch fa-spin text-4xl text-[var(--gold)]"></i>
             </div>
         </div>
 
         <!-- Settings Panel -->
-        <div class="w-64 border-l border-white/10 bg-black/40 p-5 space-y-5 hidden lg:block" id="quran-settings-sidebar">
+        <div class="w-64 border-l border-gray-400/20 bg-black/80 p-5 space-y-5 hidden lg:block shadow-inner" id="quran-settings-sidebar">
             <h4 class="text-xs font-bold text-[var(--gold)] uppercase tracking-wider border-b border-white/10 pb-2">
                 <i class="fas fa-sliders-h mr-2"></i>Display Settings
             </h4>

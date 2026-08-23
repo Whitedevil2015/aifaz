@@ -1194,6 +1194,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (audioPlayer) {
                 audioPlayer.src = currentPlaylist[0].url;
+                
+                audioPlayer.onerror = () => {
+                    console.warn("Audio playback network error. Falling back or skipping...");
+                    const item = currentPlaylist[currentAudioIndex];
+                    if (item && item.type === 'ar' && window.currentSurahData && window.currentSurahData.data && window.currentSurahData.data.ayahs[item.index]) {
+                        const verseObj = window.currentSurahData.data.ayahs[item.index];
+                        const sNum = String(verseObj.surah ? verseObj.surah.number : (window.currentSurahData.data.number || 1)).padStart(3, '0');
+                        const aNum = String(verseObj.numberInSurah).padStart(3, '0');
+                        const fallbackUrl = `https://everyayah.com/data/Alafasy_128kbps/${sNum}${aNum}.mp3`;
+                        
+                        if (!audioPlayer.src.includes('everyayah.com')) {
+                            audioPlayer.src = fallbackUrl;
+                            audioPlayer.play().catch(() => audioPlayer.dispatchEvent(new Event('ended')));
+                            return;
+                        }
+                    }
+                    // Skip to next if fallback fails or not Arabic
+                    audioPlayer.dispatchEvent(new Event('ended'));
+                };
+
                 audioPlayer.onended = () => {
                     currentAudioIndex++;
                     if (currentAudioIndex < currentPlaylist.length) {
@@ -1447,6 +1467,31 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('quran-audio-mode')?.addEventListener('change', (e) => {
         currentAudioMode = e.target.value;
         localStorage.setItem('quranAudioMode', currentAudioMode);
+        
+        // Sync UI display with Voiceout mode
+        if (currentAudioMode === 'ar-only') {
+            togglesState.arabic = true; togglesState.transliteration = false; togglesState.english = false; togglesState.urdu = false; togglesState.hinglish = false;
+        } else if (currentAudioMode === 'dual-ur') {
+            togglesState.arabic = true; togglesState.transliteration = false; togglesState.english = false; togglesState.urdu = true; togglesState.hinglish = false;
+        } else if (currentAudioMode === 'dual-en') {
+            togglesState.arabic = true; togglesState.transliteration = false; togglesState.english = true; togglesState.urdu = false; togglesState.hinglish = false;
+        } else if (currentAudioMode === 'ur-only') {
+            togglesState.arabic = false; togglesState.transliteration = false; togglesState.english = false; togglesState.urdu = true; togglesState.hinglish = false;
+        } else if (currentAudioMode === 'en-only') {
+            togglesState.arabic = false; togglesState.transliteration = false; togglesState.english = true; togglesState.urdu = false; togglesState.hinglish = false;
+        }
+
+        // Apply visual updates to checkboxes and currently rendered ayahs
+        ['arabic', 'transliteration', 'english', 'urdu', 'hinglish'].forEach(type => {
+            const isChecked = togglesState[type];
+            localStorage.setItem(`quranShow${type.charAt(0).toUpperCase() + type.slice(1)}`, isChecked ? 'true' : 'false');
+            const checkbox = document.getElementById(`toggle-${type}`);
+            if (checkbox) checkbox.checked = isChecked;
+            document.querySelectorAll(`[data-type="${type}"]`).forEach(el => {
+                if (isChecked) el.classList.remove('hidden');
+                else el.classList.add('hidden');
+            });
+        });
         
         if (window.currentSurahData) {
             const currentItem = currentPlaylist[currentAudioIndex];
@@ -3571,4 +3616,24 @@ document.addEventListener('DOMContentLoaded', () => {
         cb.checked = isDark;
     });
 });
+
+// Visit Section Tab Switching Logic
+window.switchVisitTab = function(tabName) {
+    // Hide all contents
+    document.querySelectorAll('.visit-content').forEach(el => el.classList.add('hidden'));
+    // Show selected content
+    document.getElementById('visit-content-' + tabName).classList.remove('hidden');
+
+    // Reset all tabs to inactive style
+    document.querySelectorAll('.visit-tab').forEach(el => {
+        el.classList.remove('bg-[var(--gold)]', 'text-black', 'shadow-[0_0_15px_rgba(245,158,11,0.3)]');
+        el.classList.add('bg-[var(--pearl-card)]/50', 'text-gray-300', 'border-white/10');
+    });
+
+    // Set active style
+    const activeTab = document.getElementById('visit-tab-' + tabName);
+    activeTab.classList.remove('bg-[var(--pearl-card)]/50', 'text-gray-300', 'border-white/10');
+    activeTab.classList.add('bg-[var(--gold)]', 'text-black', 'shadow-[0_0_15px_rgba(245,158,11,0.3)]');
+};
+
 
