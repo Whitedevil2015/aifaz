@@ -44,6 +44,35 @@ document.addEventListener('DOMContentLoaded', () => {
     const themeBtn = document.getElementById('theme-toggle');
     const quranModal = document.getElementById('quran-modal');
     const audioPlayer = document.getElementById('quran-audio');
+    
+    // Word-by-word highlighting logic
+    if (audioPlayer) {
+        audioPlayer.addEventListener('timeupdate', () => {
+            if (audioPlayer.paused || !currentPlaylist[currentAudioIndex] || currentPlaylist[currentAudioIndex].type !== 'ar') return;
+            
+            const currentAyahIndex = currentPlaylist[currentAudioIndex].index;
+            const row = document.getElementById(`ayah-row-${currentAyahIndex}`);
+            if (!row) return;
+            
+            const wordsContainer = row.querySelector('.quran-words-container');
+            if (!wordsContainer) return;
+            
+            const words = wordsContainer.querySelectorAll('.quran-word');
+            if (words.length > 0 && audioPlayer.duration > 0) {
+                const progress = audioPlayer.currentTime / audioPlayer.duration;
+                const currentWordIdx = Math.min(words.length - 1, Math.floor(progress * words.length));
+                
+                words.forEach((w, idx) => {
+                    if (idx === currentWordIdx) {
+                        w.classList.add('bg-[var(--gold)]', 'bg-opacity-40', 'text-white', 'rounded', 'px-1');
+                    } else {
+                        w.classList.remove('bg-[var(--gold)]', 'bg-opacity-40', 'text-white', 'rounded', 'px-1');
+                    }
+                });
+            }
+        });
+    }
+
     window.updateMasterDates = function() {};
     
     // Init Theme
@@ -1082,10 +1111,11 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                     
                     if (isBookMode) {
+                        const wordsHtml = a.text.split(' ').map((w, idx) => `<span class="quran-word transition-colors duration-200" data-word-idx="${idx}">${w}</span>`).join(' ');
                         // Physical Book Mode Rendering (Continuous Arabic Script + Ornate Medallion + Translations)
                         chunkHtml += `
                             <span class="inline hover:bg-[#F59E0B]/20 cursor-pointer rounded px-1 transition-colors leading-loose text-white" id="ayah-row-${i}" data-index="${i}" onclick="playVerse(${i})">
-                                ${a.text} 
+                                <span class="quran-words-container">${wordsHtml}</span>
                                 <span class="ayah-medallion">۝${toArabicNumeral(a.numberInSurah)}</span>
                             </span>
                             <span class="inline text-[#F59E0B] text-sm italic font-serif ${state.showTrans}" data-type="transliteration"> (${state.trData.data.ayahs[i].text}) </span>
@@ -1094,12 +1124,13 @@ document.addEventListener('DOMContentLoaded', () => {
                             <span class="inline text-slate-100 text-lg font-[Amiri] ${state.showUrdu}" data-type="urdu"> (${state.urData.data.ayahs[i].text}) </span>
                         `;
                     } else {
+                        const wordsHtml = a.text.split(' ').map((w, idx) => `<span class="quran-word transition-colors duration-200" data-word-idx="${idx}">${w}</span>`).join(' ');
                         // Physical Read Verse Mode Rendering with Horizontal Ruling Lines
                         chunkHtml += `
                             <div class="ayah-row mb-6 pb-6 border-b border-slate-700/60 group hover:bg-[#F59E0B]/10 p-4 rounded-xl transition-colors cursor-pointer" id="ayah-row-${i}" data-index="${i}" onclick="playVerse(${i})">
                                 <div class="flex justify-between items-center mb-4 ${state.showArabic}" data-type="arabic">
                                     <span class="ayah-medallion shrink-0 ml-4">۝${toArabicNumeral(a.numberInSurah)}</span>
-                                    <div class="quran-arabic-text text-right font-[Amiri] leading-relaxed text-white drop-shadow-md" style="direction:rtl; font-size: ${state.quranFontSize}px;">${a.text}</div>
+                                    <div class="quran-arabic-text text-right font-[Amiri] leading-relaxed text-white drop-shadow-md quran-words-container" style="direction:rtl; font-size: ${state.quranFontSize}px;">${wordsHtml}</div>
                                 </div>
                                 
                                 <!-- Roman English (Transliteration) -->
