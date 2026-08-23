@@ -223,9 +223,13 @@
                     </div>
                 </div>
                 <div class="flex items-center gap-1.5">
-                    <button id="theme-toggle-mobile" onclick="document.getElementById('theme-toggle').click()" class="w-7 h-7 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-yellow-400 flex items-center justify-center transition-colors">
-                        <i class="fas fa-moon text-[11px]"></i>
-                    </button>
+                    <label class="theme-switch-label relative inline-flex items-center cursor-pointer ml-1" title="Toggle Theme">
+                        <input type="checkbox" onchange="toggleThemeGlobal()" class="theme-toggle-checkbox sr-only peer">
+                        <div class="w-10 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer dark:bg-[var(--pearl-card)] peer-checked:after:translate-x-[120%] peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[var(--emerald)] shadow-inner flex items-center justify-between px-1.5 border border-black/5 dark:border-white/10">
+                            <i class="fas fa-sun text-[10px] text-yellow-500 z-0 opacity-0 peer-checked:opacity-100 transition-opacity"></i>
+                            <i class="fas fa-moon text-[10px] text-gray-500 z-0 opacity-100 peer-checked:opacity-0 transition-opacity"></i>
+                        </div>
+                    </label>
                     <button onclick="document.getElementById('prayer-settings-btn').click()" class="w-7 h-7 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-amber-400 flex items-center justify-center transition-colors">
                         <i class="fas fa-cog text-[11px]"></i>
                     </button>
@@ -286,9 +290,13 @@
                     <i class="fas fa-location-arrow text-[9px]"></i><span class="inline">Auto</span>
                 </button>
 
-                <button id="theme-toggle" aria-label="Toggle Theme" class="hidden md:flex w-8 h-8 rounded-full bg-gray-200 text-gray-600 items-center justify-center hover:bg-gray-300 transition-colors dark:bg-gray-700 dark:text-yellow-400 shrink-0" title="Toggle Day/Night Mode">
-                    <i class="fas fa-moon text-xs" id="theme-toggle-icon"></i>
-                </button>
+                <label class="theme-switch-label relative hidden md:inline-flex items-center cursor-pointer shrink-0 mx-1" title="Toggle Theme">
+                    <input type="checkbox" onchange="toggleThemeGlobal()" class="theme-toggle-checkbox sr-only peer">
+                    <div class="w-10 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer dark:bg-[var(--pearl-card)] peer-checked:after:translate-x-[120%] peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[var(--emerald)] shadow-inner flex items-center justify-between px-1.5 border border-black/5 dark:border-white/10">
+                        <i class="fas fa-sun text-[10px] text-yellow-500 z-0 opacity-0 peer-checked:opacity-100 transition-opacity"></i>
+                        <i class="fas fa-moon text-[10px] text-gray-500 z-0 opacity-100 peer-checked:opacity-0 transition-opacity"></i>
+                    </div>
+                </label>
                 <button id="prayer-settings-btn" aria-label="Prayer Settings" class="hidden md:flex w-8 h-8 rounded-full bg-gray-200 text-gray-600 items-center justify-center hover:bg-gray-300 transition-colors dark:text-[var(--gold)] shrink-0" title="Prayer Settings">
                     <i class="fas fa-cog text-xs"></i>
                 </button>

@@ -3512,32 +3512,33 @@ async function fetchDailyAyah() {
 fetchDailyAyah();
 
 // Day / Night Mode Toggle Logic
-document.addEventListener('DOMContentLoaded', () => {
-    const themeBtn = document.getElementById('theme-toggle');
-    const themeIcon = document.getElementById('theme-toggle-icon');
+window.toggleThemeGlobal = function() {
+    document.body.classList.toggle('dark');
+    const isDark = document.body.classList.contains('dark');
+    const theme = isDark ? 'dark' : 'light';
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('portal_theme', theme);
     
+    // Sync all checkboxes
+    document.querySelectorAll('.theme-toggle-checkbox').forEach(cb => {
+        cb.checked = isDark;
+    });
+};
+
+document.addEventListener('DOMContentLoaded', () => {
     // Check saved theme preference or default to dark
     const savedTheme = localStorage.getItem('portal_theme') || 'dark';
     document.documentElement.setAttribute('data-theme', savedTheme);
-    if (savedTheme === 'dark') {
+    const isDark = savedTheme === 'dark';
+    
+    if (isDark) {
         document.body.classList.add('dark');
-        if (themeIcon) themeIcon.className = 'fas fa-sun text-xs text-yellow-400';
     } else {
         document.body.classList.remove('dark');
-        if (themeIcon) themeIcon.className = 'fas fa-moon text-xs text-gray-600';
     }
-
-    if (themeBtn) {
-        themeBtn.addEventListener('click', () => {
-            document.body.classList.toggle('dark');
-            const isDark = document.body.classList.contains('dark');
-            const theme = isDark ? 'dark' : 'light';
-            document.documentElement.setAttribute('data-theme', theme);
-            localStorage.setItem('portal_theme', theme);
-            if (themeIcon) {
-                themeIcon.className = isDark ? 'fas fa-sun text-xs text-yellow-400' : 'fas fa-moon text-xs text-gray-600';
-            }
-        });
-    }
+    
+    document.querySelectorAll('.theme-toggle-checkbox').forEach(cb => {
+        cb.checked = isDark;
+    });
 });
 
