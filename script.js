@@ -2898,7 +2898,10 @@ window.fetchHijriCalendar = async function () {
         if (data.code === 200) {
             const results = data.data;
             const firstDay = results[0];
-            const hijriMonthEn = firstDay.date.hijri.month.en;
+            const lastDay = results[results.length - 1];
+            const m1 = firstDay.date.hijri.month.en;
+            const m2 = lastDay.date.hijri.month.en;
+            const hijriMonthEn = m1 === m2 ? m1 : `${m1} / ${m2}`;
             const hijriYear = firstDay.date.hijri.year;
             
             // Header labels
