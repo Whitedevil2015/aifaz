@@ -5,23 +5,23 @@
    ================================================================ */
 
 :root {
-    /* Day View Palette: Black, Gold, Pure White & Silver */
+    /* Day View Palette: Green, Shining Yellow Gold & White Silver */
     --pearl:          #F8FAFC;
     --pearl-warm:     #F1F5F9;
     --pearl-card:     #FFFFFF;
-    --text-dark:      #020617;
+    --text-dark:      #020617; /* Very dark slate for readability */
     --text-muted:     #475569;
-    --emerald-deep:   #020617;
-    --emerald:        #0F172A;
-    --emerald-mid:    #334155;
-    --emerald-light:  #F1F5F9;
-    --gold-dark:      #92400E;
-    --gold:           #D97706;  
+    --emerald-deep:   #064E3B; /* Rich Green */
+    --emerald:        #10B981; /* Shining Green */
+    --emerald-mid:    #34D399;
+    --emerald-light:  #D1FAE5;
+    --gold-dark:      #D97706;
+    --gold:           #FBBF24; /* Shining Yellow Gold */
     --gold-light:     #FEF3C7;
-    --silver:         #94A3B8;
-    --silver-light:   #E2E8F0;
-    --sidebar-bg:     #020617;
-    --sidebar-border: rgba(217, 119, 6, 0.3);
+    --silver:         #94A3B8; /* Silver */
+    --silver-light:   #F8FAFC; /* White Silver */
+    --sidebar-bg:     #064E3B; /* Green Sidebar */
+    --sidebar-border: rgba(251, 191, 36, 0.4); /* Gold Border */
 
     /* Shadows */
     --shadow-gold:    0 4px 20px rgba(217, 119, 6, 0.2);
@@ -57,9 +57,9 @@ body {
     color: var(--text-dark);
     background-color: #F8FAFC;
     background-image:
-        radial-gradient(ellipse at 10% 0%, rgba(13, 92, 59, 0.08) 0px, transparent 50%),
-        radial-gradient(ellipse at 90% 0%, rgba(217, 119, 6, 0.06) 0px, transparent 50%),
-        radial-gradient(ellipse at 50% 100%, rgba(226, 232, 240, 0.6) 0px, transparent 70%);
+        radial-gradient(ellipse at 10% 0%, rgba(16, 185, 129, 0.15) 0px, transparent 50%),
+        radial-gradient(ellipse at 90% 0%, rgba(251, 191, 36, 0.15) 0px, transparent 50%),
+        radial-gradient(ellipse at 50% 100%, rgba(226, 232, 240, 0.8) 0px, transparent 70%);
     background-attachment: fixed;
     min-height: 100vh;
     line-height: 1.65;

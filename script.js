@@ -355,6 +355,18 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (fastEndEl && prayerTimesRaw.Maghrib) {
                     fastEndEl.textContent = formatTo12Hour(prayerTimesRaw.Maghrib);
                 }
+
+                // Update Hero Dates
+                if (data.data.date) {
+                    const heroHijri = document.getElementById('hero-hijri-date');
+                    const heroGreg = document.getElementById('hero-greg-date');
+                    if (heroHijri && data.data.date.hijri) {
+                        heroHijri.innerHTML = `<i class="fas fa-moon text-[10px]"></i> ${data.data.date.hijri.day} ${data.data.date.hijri.month.en} ${data.data.date.hijri.year}`;
+                    }
+                    if (heroGreg && data.data.date.readable) {
+                        heroGreg.innerHTML = `<i class="fas fa-calendar text-[10px]"></i> ${data.data.date.readable}`;
+                    }
+                }
             }
         } catch (e) { console.error("Prayer fetch failed", e); }
     }
