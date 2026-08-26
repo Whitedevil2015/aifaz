@@ -492,9 +492,18 @@
              ╚══════════════════════════════╝ -->
         <section id="view-names" class="view-section hidden p-4 md:p-6 space-y-6 animate-fade-in-up">
             <div class="section-title-wrap">
-                <h2>99 Names of Allah</h2>
-                <p class="section-subtitle">Asma-ul-Husna — The Most Beautiful Names</p>
+                <h2>99 Names</h2>
+                <p class="section-subtitle">The Most Beautiful Names of Allah & His Messenger (ﷺ)</p>
                 <div class="ornamental-line"><span>☪</span></div>
+                
+                <div class="flex justify-center gap-2 mt-5">
+                    <button id="tab-allah-btn" class="px-6 py-2.5 rounded-full text-sm font-bold bg-[var(--emerald)] text-white border border-white/10 transition-all shadow-md" onclick="window.switchNamesTab('allah')">
+                        <i class="fas fa-heart mr-1.5"></i>Names of Allah
+                    </button>
+                    <button id="tab-nabi-btn" class="px-6 py-2.5 rounded-full text-sm font-bold bg-[var(--pearl-card)] text-gray-500 border border-gray-200 hover:bg-gray-100 dark:bg-[#070b14]/50 dark:text-gray-400 dark:border-white/10 dark:hover:bg-white/10 transition-all" onclick="window.switchNamesTab('nabi')">
+                        <i class="fas fa-star mr-1.5"></i>Names of Muhammad (ﷺ)
+                    </button>
+                </div>
             </div>
             <div id="asma-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 asma-grid-display"><!-- JS --></div>
         </section>
@@ -1392,6 +1401,7 @@
 
 
 
+<script src="asma_nabi.js"></script>
 <script src="script.js"></script>
 </body>
 </html>

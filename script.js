@@ -1777,23 +1777,62 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     // Names
+    var currentNamesTab = 'allah';
+    var asmaAllahData = null;
+
+    window.switchNamesTab = function(tab) {
+        currentNamesTab = tab;
+        const btnAllah = document.getElementById('tab-allah-btn');
+        const btnNabi = document.getElementById('tab-nabi-btn');
+
+        if (tab === 'allah') {
+            btnAllah.className = "px-6 py-2.5 rounded-full text-sm font-bold bg-[var(--emerald)] text-white border border-white/10 transition-all shadow-md";
+            btnNabi.className = "px-6 py-2.5 rounded-full text-sm font-bold bg-[var(--pearl-card)] text-gray-500 border border-gray-200 hover:bg-gray-100 dark:bg-[#070b14]/50 dark:text-gray-400 dark:border-white/10 dark:hover:bg-white/10 transition-all";
+        } else {
+            btnNabi.className = "px-6 py-2.5 rounded-full text-sm font-bold bg-[var(--emerald)] text-white border border-white/10 transition-all shadow-md";
+            btnAllah.className = "px-6 py-2.5 rounded-full text-sm font-bold bg-[var(--pearl-card)] text-gray-500 border border-gray-200 hover:bg-gray-100 dark:bg-[#070b14]/50 dark:text-gray-400 dark:border-white/10 dark:hover:bg-white/10 transition-all";
+        }
+        
+        loadNames();
+    }
+
     async function loadNames() {
         const grid = document.getElementById('asma-grid');
         if (!grid) return;
-        try {
-            const res = await fetch('https://api.aladhan.com/v1/asmaAlHusna');
-            const data = await res.json();
-            grid.innerHTML = data.data.map((n, i) => {
-                const hue = (i * 15) % 360;
-                return `
-                <div class="bg-[var(--pearl-card)] p-6 rounded-[40px] shadow-sm text-center border-t-4 hover:-translate-y-1 transition-transform relative overflow-hidden group dark:bg-gray-800 dark:border-gray-700" style="border-color:hsl(${hue}, 60%, 40%)">
-                    <div class="text-xs text-gray-400 mb-2">#${n.number}</div>
-                    <h3 class="name-3d text-4xl font-[Amiri] mb-2" style="color:hsl(${hue}, 70%, 30%)">${n.name}</h3>
-                    <div class="font-bold text-gray-800 text-lg dark:text-white">${n.transliteration}</div>
-                    <div class="text-sm text-gray-500 mt-1 dark:text-gray-400">${n.en.meaning}</div>
-                </div>
-            `}).join('');
-        } catch (e) { }
+        
+        if (currentNamesTab === 'allah') {
+            try {
+                if (!asmaAllahData) {
+                    const res = await fetch('https://api.aladhan.com/v1/asmaAlHusna');
+                    const data = await res.json();
+                    asmaAllahData = data.data;
+                }
+                renderNamesGrid(asmaAllahData, 'allah');
+            } catch (e) { console.error(e); }
+        } else {
+            if (typeof asmaNabi !== 'undefined') {
+                renderNamesGrid(asmaNabi, 'nabi');
+            } else {
+                console.error("asmaNabi data not loaded");
+            }
+        }
+    }
+
+    function renderNamesGrid(data, type) {
+        const grid = document.getElementById('asma-grid');
+        grid.innerHTML = data.map((n, i) => {
+            const hue = type === 'allah' ? ((i * 15) % 360) : ((i * 15 + 40) % 360);
+            const meaning = type === 'allah' ? n.en.meaning : n.meaning;
+            
+            return `
+            <div class="bg-[var(--pearl-card)] p-6 rounded-[40px] shadow-sm text-center border-t-4 hover:-translate-y-1 transition-transform relative overflow-hidden group dark:bg-gray-800 dark:border-gray-700" style="border-color:hsl(${hue}, 60%, 40%)">
+                <div class="text-xs text-gray-400 mb-2">#${n.number}</div>
+                <h3 class="name-3d text-4xl font-[Amiri] mb-2" style="color:hsl(${hue}, 70%, 30%)">${n.name}</h3>
+                <div class="font-bold text-gray-800 text-lg dark:text-white">${n.transliteration}</div>
+                <div class="text-sm text-gray-500 mt-1 dark:text-gray-400">${meaning}</div>
+            </div>
+            `
+        }).join('');
     }
 
     // Duas
