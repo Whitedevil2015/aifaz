@@ -784,6 +784,9 @@ input[type="range"]::-webkit-slider-thumb {
    ================================================================ */
 @media (max-width: 768px) {
     body { overflow: initial; }
+    
+    .pb-safe { padding-bottom: env(safe-area-inset-bottom, 20px); }
+    .mobile-sub-tabs { bottom: calc(64px + env(safe-area-inset-bottom, 20px)); }
 
     .mobile-nav-item {
         display: inline-flex;
