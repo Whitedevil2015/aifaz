@@ -170,7 +170,7 @@
                     <div id="sidebar-hijri" class="text-[var(--gold)]/70 text-[10px] mt-0.5 font-[Amiri]">Loading...</div>
                 </div>
                 <div class="w-8 h-8 rounded-full bg-[var(--gold)]/10 border border-[var(--gold)]/20 flex items-center justify-center">
-                    <i class="fas fa-moon text-[var(--gold)] text-xs"></i>
+                    <i class="fas fa-mosque text-[var(--gold)] text-xs"></i>
                 </div>
             </div>
         </div>
@@ -187,7 +187,6 @@
             <button type="button" class="nav-link mobile-nav-item px-3.5 py-2 rounded-full text-xs font-semibold flex items-center justify-center gap-1.5 shrink-0 transition-all cursor-pointer" data-target="view-nafil" onclick="navigateToView('view-nafil')">
                 <i class="fas fa-praying-hands text-xs"></i><span>Salah</span>
             </button>
->
             <button type="button" class="nav-link mobile-nav-item px-3.5 py-2 rounded-full text-xs font-semibold flex items-center justify-center gap-1.5 shrink-0 transition-all cursor-pointer" data-target="view-quran" onclick="navigateToView('view-quran')">
                 <i class="fas fa-quran text-xs"></i><span>Quran</span>
             </button>
@@ -246,39 +245,6 @@
                 </div>
             </div>
 
-            <!-- Mobile Top Section Navigation Bar Strip (Visible on Mobile) -->
-            <nav id="mobile-top-nav" class="md:hidden w-full overflow-x-auto no-scrollbar py-1 border-t border-b border-gray-200 dark:border-white/10 scroll-smooth">
-                <div class="flex items-center gap-1.5 whitespace-nowrap">
-                    <button type="button" class="nav-link mobile-nav-item active px-3 py-1 rounded-full text-xs font-bold flex items-center justify-center gap-1 shrink-0 transition-all cursor-pointer" data-target="view-dashboard" onclick="navigateToView('view-dashboard')">
-                        <i class="fas fa-clock text-xs"></i><span>Prayers</span>
-                    </button>
-                    <button type="button" class="nav-link mobile-nav-item px-3 py-1 rounded-full text-xs font-semibold flex items-center justify-center gap-1 shrink-0 transition-all cursor-pointer" data-target="view-nafil" onclick="navigateToView('view-nafil')">
-                        <i class="fas fa-praying-hands text-xs"></i><span>Salah</span>
-                    </button>
->
-                    <button type="button" class="nav-link mobile-nav-item px-3 py-1 rounded-full text-xs font-semibold flex items-center justify-center gap-1 shrink-0 transition-all cursor-pointer" data-target="view-quran" onclick="navigateToView('view-quran')">
-                        <i class="fas fa-quran text-xs"></i><span>Quran</span>
-                    </button>
-                    <button type="button" class="nav-link mobile-nav-item px-3 py-1 rounded-full text-xs font-semibold flex items-center justify-center gap-1 shrink-0 transition-all cursor-pointer" data-target="view-books" onclick="navigateToView('view-books')">
-                        <i class="fas fa-book text-xs"></i><span>Books</span>
-                    </button>
-                    <button type="button" class="nav-link mobile-nav-item px-3 py-1 rounded-full text-xs font-semibold flex items-center justify-center gap-1 shrink-0 transition-all cursor-pointer" data-target="view-punj" onclick="navigateToView('view-punj')">
-                        <i class="fas fa-book-open text-xs"></i><span>Panj Surah</span>
-                    </button>
-                    <button type="button" class="nav-link mobile-nav-item px-3 py-1 rounded-full text-xs font-semibold flex items-center justify-center gap-1 shrink-0 transition-all cursor-pointer" data-target="view-calendar" onclick="navigateToView('view-calendar')">
-                        <i class="fas fa-calendar-alt text-xs"></i><span>Calendar</span>
-                    </button>
-                    <button type="button" class="nav-link mobile-nav-item px-3 py-1 rounded-full text-xs font-semibold flex items-center justify-center gap-1 shrink-0 transition-all cursor-pointer" data-target="view-names" onclick="navigateToView('view-names')">
-                        <i class="fas fa-star text-xs"></i><span>99 Names</span>
-                    </button>
-                    <button type="button" class="nav-link mobile-nav-item px-3 py-1 rounded-full text-xs font-semibold flex items-center justify-center gap-1 shrink-0 transition-all cursor-pointer" data-target="view-duas" onclick="navigateToView('view-duas')">
-                        <i class="fas fa-hands-praying text-xs"></i><span>Duas</span>
-                    </button>
-                    <button type="button" class="nav-link mobile-nav-item px-3 py-1 rounded-full text-xs font-semibold flex items-center justify-center gap-1 shrink-0 transition-all cursor-pointer" data-target="view-visit" onclick="navigateToView('view-visit')">
-                        <i class="fas fa-kaaba text-xs"></i><span>Visit</span>
-                    </button>
-                </div>
-            </nav>
 
             <!-- Location Inputs Row -->
             <div class="flex items-center gap-1.5 w-full max-w-2xl">
@@ -355,7 +321,7 @@
                         <!-- Hijri + Gregorian pills -->
                         <div class="flex flex-wrap gap-2 justify-center md:justify-start">
                             <span class="hijri-badge text-xs" id="hero-hijri-date">
-                                <i class="fas fa-moon text-[10px]"></i> Loading...
+                                <i class="fas fa-mosque text-[10px]"></i> Loading...
                             </span>
                             <span class="hijri-badge text-xs" id="hero-greg-date" style="color:rgba(255,255,255,0.7);border-color:rgba(255,255,255,0.2);background:rgba(255,255,255,0.08);">
                                 <i class="fas fa-calendar text-[10px]"></i> --
@@ -410,7 +376,7 @@
 
             <!-- Fasting Times Panel -->
             <div id="fasting-times-section" class="max-w-4xl mx-auto bg-[var(--pearl-card)] p-7 rounded-[32px] border border-[var(--emerald)]/20 shadow-sm overflow-hidden relative">
-                <div class="absolute -right-12 -bottom-12 opacity-5 text-[150px] text-[var(--emerald)] pointer-events-none"><i class="fas fa-moon"></i></div>
+                <div class="absolute -right-12 -bottom-12 opacity-5 text-[150px] text-[var(--emerald)] pointer-events-none"><i class="fas fa-mosque"></i></div>
                 <h3 class="text-xl font-bold flex items-center gap-2 mb-6 dark:text-white">
                     <span class="w-9 h-9 rounded-full bg-[var(--emerald)]/10 text-[var(--emerald)] flex items-center justify-center text-base"><i class="fas fa-utensils"></i></span>
                     Fasting Times <span class="text-xs font-normal text-gray-400 bg-gray-100 dark:bg-gray-800 px-2 py-0.5 rounded-full">(Jamia Nizamia)</span>
@@ -507,12 +473,12 @@
                 <h2>The Noble Quran</h2>
                 <p class="section-subtitle">Read, Listen and Reflect upon the Holy Verses</p>
                 <div class="ornamental-line"><span>☪</span></div>
-                <div class="flex justify-center gap-2 mt-5">
-                    <button id="tab-surah-btn" class="px-6 py-2.5 rounded-full text-sm font-bold bg-[var(--emerald)] text-white border border-white/10 transition-all" onclick="switchQuranTab('surah')">
+                <div class="flex justify-center gap-2 mt-5 sticky bottom-[72px] md:static z-40 bg-[var(--pearl-card)]/95 md:bg-transparent backdrop-blur-xl md:backdrop-blur-none py-3 px-4 md:p-0 rounded-t-2xl md:rounded-none border-t border-gray-200 dark:border-white/10 md:border-none shadow-[0_-4px_15px_rgba(0,0,0,0.1)] md:shadow-none -mx-4 md:mx-0">
+                    <button id="tab-surah-btn" class="flex-1 md:flex-none px-4 py-2.5 rounded-full text-sm font-bold bg-[var(--emerald)] text-white border border-white/10 transition-all shadow-md" onclick="switchQuranTab('surah')">
                         <i class="fas fa-list-ol mr-1.5"></i>Surah (114)
                     </button>
-                    <button id="tab-para-btn" class="px-6 py-2.5 rounded-full text-sm font-bold bg-gray-100 text-gray-500 hover:bg-gray-200  dark:text-gray-400 transition-all" onclick="switchQuranTab('para')">
-                        <i class="fas fa-book-open mr-1.5"></i>Para / Juz (30)
+                    <button id="tab-para-btn" class="flex-1 md:flex-none px-4 py-2.5 rounded-full text-sm font-bold bg-gray-100 text-gray-500 hover:bg-gray-200 dark:text-gray-400 transition-all" onclick="switchQuranTab('para')">
+                        <i class="fas fa-book-open mr-1.5"></i>Para (30)
                     </button>
                 </div>
             </div>
@@ -841,7 +807,7 @@
                     <div class="bg-[var(--pearl-card)]  rounded-[28px] p-6 border border-white/10 border border-white/10 ">
                         <div class="flex items-center gap-2 mb-4">
                             <div class="w-8 h-8 rounded-full bg-[var(--gold)]/10 flex items-center justify-center">
-                                <i class="fas fa-moon text-[var(--gold)] text-sm"></i>
+                                <i class="fas fa-mosque text-[var(--gold)] text-sm"></i>
                             </div>
                             <h3 class="font-bold text-[var(--emerald)] dark:text-[var(--gold)] text-sm">Today's Date</h3>
                         </div>
@@ -895,10 +861,12 @@
                 </div>
 
                 <!-- Sub Navigation -->
-                <div class="flex items-center justify-center gap-2 md:gap-6 mb-8 overflow-x-auto no-scrollbar pb-2">
+                <!-- Sub Navigation -->
+                <div class="flex items-center justify-start md:justify-center gap-2 md:gap-6 mb-8 overflow-x-auto no-scrollbar sticky bottom-[72px] md:static z-40 bg-[var(--pearl-card)]/95 md:bg-transparent backdrop-blur-xl md:backdrop-blur-none py-3 px-4 md:p-0 rounded-t-2xl md:rounded-none border-t border-gray-200 dark:border-white/10 md:border-none shadow-[0_-4px_15px_rgba(0,0,0,0.1)] md:shadow-none -mx-4 md:mx-0">
                     <button onclick="window.switchVisitTab('umrah')" id="visit-tab-umrah" class="visit-tab px-6 py-2.5 rounded-full text-sm font-bold transition-all bg-[var(--gold)] text-black shadow-[0_0_15px_rgba(245,158,11,0.3)] shrink-0">Umrah Guide</button>
-                    <button onclick="window.switchVisitTab('hajj')" id="visit-tab-hajj" class="visit-tab px-6 py-2.5 rounded-full text-sm font-bold transition-all bg-[var(--pearl-card)]/50 text-gray-300 border border-white/10 hover:bg-white/10 shrink-0">Hajj Guide</button>
-                    <button onclick="window.switchVisitTab('checklist')" id="visit-tab-checklist" class="visit-tab px-6 py-2.5 rounded-full text-sm font-bold transition-all bg-[var(--pearl-card)]/50 text-gray-300 border border-white/10 hover:bg-white/10 shrink-0">Travel Checklist</button>
+                    <button onclick="window.switchVisitTab('hajj')" id="visit-tab-hajj" class="visit-tab px-6 py-2.5 rounded-full text-sm font-bold transition-all bg-[var(--pearl-card)]/50 text-gray-800 dark:text-gray-300 border border-gray-200 dark:border-white/10 hover:bg-gray-100 dark:hover:bg-white/10 shrink-0">Hajj Guide</button>
+                    <button onclick="window.switchVisitTab('checklist')" id="visit-tab-checklist" class="visit-tab px-6 py-2.5 rounded-full text-sm font-bold transition-all bg-[var(--pearl-card)]/50 text-gray-800 dark:text-gray-300 border border-gray-200 dark:border-white/10 hover:bg-gray-100 dark:hover:bg-white/10 shrink-0">Travel Checklist</button>
+                    <button onclick="window.switchVisitTab('sacred')" id="visit-tab-sacred" class="visit-tab px-6 py-2.5 rounded-full text-sm font-bold transition-all bg-[var(--pearl-card)]/50 text-gray-800 dark:text-gray-300 border border-gray-200 dark:border-white/10 hover:bg-gray-100 dark:hover:bg-white/10 shrink-0">Sacred Places</button>
                 </div>
 
                 <!-- UMRAH CONTENT -->
@@ -960,7 +928,7 @@
                         <div class="bg-[var(--pearl-card)] border border-gray-400/10 rounded-2xl p-6 relative overflow-hidden shadow-md">
                             <div class="absolute top-0 right-0 bg-[var(--gold)]/20 text-[var(--gold)] text-xs font-bold px-3 py-1 rounded-bl-xl">Day 1</div>
                             <h3 class="text-xl font-bold text-[var(--gold)] mb-2">8th Dhul Hijjah (Tarwiyah)</h3>
-                            <p class="text-gray-300 text-sm leading-relaxed">Enter Ihram in Makkah, go to Mina, and stay there overnight. Perform Dhuhr, Asr, Maghrib, Isha, and Fajr prayers there, shortening the 4-rakaat prayers to 2.</p>
+                            <p class="text-gray-300 text-sm leading-relaxed">Enter Ihram in Makkah, go to Mina, and stay there overnight. Perform Zohar, Asar, Maghrib, Isha, and Fajr prayers there, shortening the 4-rakaat prayers to 2.</p>
                         </div>
                         <div class="bg-[var(--pearl-card)] border border-gray-400/10 rounded-2xl p-6 relative overflow-hidden shadow-md">
                             <div class="absolute top-0 right-0 bg-[var(--gold)]/20 text-[var(--gold)] text-xs font-bold px-3 py-1 rounded-bl-xl">Day 2</div>
@@ -1018,6 +986,71 @@
                                 <label class="flex items-center gap-3 text-gray-300 cursor-pointer hover:text-white transition-colors"><input type="checkbox" class="w-4 h-4 accent-[var(--gold)] rounded" /> Universal power adapter & power bank</label>
                                 <label class="flex items-center gap-3 text-gray-300 cursor-pointer hover:text-white transition-colors"><input type="checkbox" class="w-4 h-4 accent-[var(--gold)] rounded" /> Unscented wet wipes & hand sanitizer</label>
                             </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SACRED PLACES CONTENT -->
+                <div id="visit-content-sacred" class="visit-content hidden space-y-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <!-- Baghdad, Iraq -->
+                        <div class="bg-[var(--pearl-card)] border border-gray-400/10 rounded-2xl overflow-hidden shadow-md group hover:-translate-y-1 transition-all">
+                            <div class="h-40 bg-gradient-to-br from-blue-900 to-indigo-950 relative">
+                                <div class="absolute inset-0 opacity-40 bg-[url('https://www.transparenttextures.com/patterns/arabesque.png')]"></div>
+                                <div class="absolute bottom-4 left-4">
+                                    <h3 class="text-2xl font-bold text-white font-[Cormorant_Garamond]">Baghdad</h3>
+                                    <p class="text-blue-200 text-sm"><i class="fas fa-map-marker-alt mr-1"></i> Iraq</p>
+                                </div>
+                            </div>
+                            <div class="p-5">
+                                <p class="text-sm text-gray-500 dark:text-gray-300 mb-4 line-clamp-3">The historical capital of the Abbasid Caliphate and a major center of Islamic learning, Sufism, and spirituality.</p>
+                                <h4 class="text-xs font-bold text-[var(--gold)] uppercase mb-2">Key Ziyarat Sites</h4>
+                                <ul class="text-sm text-gray-600 dark:text-gray-400 space-y-1 ml-4 list-disc marker:text-[var(--gold)]">
+                                    <li>Shrine of Shaykh Abdul Qadir al-Jilani</li>
+                                    <li>Al-Kadhimiya Mosque</li>
+                                    <li>Shrine of Imam Abu Hanifa</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Damascus, Syria -->
+                        <div class="bg-[var(--pearl-card)] border border-gray-400/10 rounded-2xl overflow-hidden shadow-md group hover:-translate-y-1 transition-all">
+                            <div class="h-40 bg-gradient-to-br from-emerald-900 to-teal-950 relative">
+                                <div class="absolute inset-0 opacity-40 bg-[url('https://www.transparenttextures.com/patterns/arabesque.png')]"></div>
+                                <div class="absolute bottom-4 left-4">
+                                    <h3 class="text-2xl font-bold text-white font-[Cormorant_Garamond]">Damascus</h3>
+                                    <p class="text-teal-200 text-sm"><i class="fas fa-map-marker-alt mr-1"></i> Syria</p>
+                                </div>
+                            </div>
+                            <div class="p-5">
+                                <p class="text-sm text-gray-500 dark:text-gray-300 mb-4 line-clamp-3">One of the oldest continuously inhabited cities, steeped in prophetic history and home to magnificent Umayyad architecture.</p>
+                                <h4 class="text-xs font-bold text-[var(--gold)] uppercase mb-2">Key Ziyarat Sites</h4>
+                                <ul class="text-sm text-gray-600 dark:text-gray-400 space-y-1 ml-4 list-disc marker:text-[var(--gold)]">
+                                    <li>The Umayyad Mosque</li>
+                                    <li>Shrine of Sayyidah Zaynab</li>
+                                    <li>Tomb of Salahuddin Ayyubi</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Ajmer, India -->
+                        <div class="bg-[var(--pearl-card)] border border-gray-400/10 rounded-2xl overflow-hidden shadow-md group hover:-translate-y-1 transition-all">
+                            <div class="h-40 bg-gradient-to-br from-amber-800 to-orange-950 relative">
+                                <div class="absolute inset-0 opacity-40 bg-[url('https://www.transparenttextures.com/patterns/arabesque.png')]"></div>
+                                <div class="absolute bottom-4 left-4">
+                                    <h3 class="text-2xl font-bold text-white font-[Cormorant_Garamond]">Ajmer</h3>
+                                    <p class="text-orange-200 text-sm"><i class="fas fa-map-marker-alt mr-1"></i> India</p>
+                                </div>
+                            </div>
+                            <div class="p-5">
+                                <p class="text-sm text-gray-500 dark:text-gray-300 mb-4 line-clamp-3">A major spiritual hub in South Asia, famously associated with the Chishti Order of Sufism and spreading peace.</p>
+                                <h4 class="text-xs font-bold text-[var(--gold)] uppercase mb-2">Key Ziyarat Sites</h4>
+                                <ul class="text-sm text-gray-600 dark:text-gray-400 space-y-1 ml-4 list-disc marker:text-[var(--gold)]">
+                                    <li>Ajmer Sharif Dargah</li>
+                                    <li>Adhai Din Ka Jhonpra</li>
+                                    <li>Taragarh Fort</li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -1111,6 +1144,7 @@
                 <span class="text-[9px] uppercase font-bold text-[var(--gold)] hidden sm:inline">Voiceout:</span>
                 <select id="quran-audio-mode" class="bg-transparent text-xs text-white outline-none cursor-pointer">
                     <option value="ar-only" selected class="bg-emerald-950">Arabic Only</option>
+                    <option value="dual-tr" class="bg-emerald-950">Ar + Roman English</option>
                     <option value="dual-ur" class="bg-emerald-950">Ar + Hindi</option>
                     <option value="dual-en" class="bg-emerald-950">Ar + English</option>
                     <option value="ur-only" class="bg-emerald-950">Hindi Only</option>
@@ -1165,11 +1199,11 @@
                 <span class="text-xs font-bold text-gray-400 uppercase tracking-wider block">Show / Hide</span>
                 <label class="flex items-center gap-2 text-xs text-gray-300 cursor-pointer">
                     <input type="checkbox" id="toggle-arabic" checked class="rounded text-[var(--gold)] focus:ring-[var(--gold)] bg-black/30">
-                    <span>Arabic Script</span>
+                    <span>Arabic (عربي)</span>
                 </label>
                 <label class="flex items-center gap-2 text-xs text-gray-300 cursor-pointer">
                     <input type="checkbox" id="toggle-transliteration" checked class="rounded text-[var(--gold)] focus:ring-[var(--gold)] bg-black/30">
-                    <span>Transliteration</span>
+                    <span>Roman English (Transliteration)</span>
                 </label>
                 <label class="flex items-center gap-2 text-xs text-gray-300 cursor-pointer">
                     <input type="checkbox" id="toggle-english" checked class="rounded text-[var(--gold)] focus:ring-[var(--gold)] bg-black/30">
@@ -1296,7 +1330,7 @@
                 </select>
             </div>
             <div>
-                <label class="block text-sm font-semibold mb-2 text-[var(--emerald)] dark:text-gray-300">Juristic School (Asr Prayer)</label>
+                <label class="block text-sm font-semibold mb-2 text-[var(--emerald)] dark:text-gray-300">Juristic School (Asar Prayer)</label>
                 <div class="grid grid-cols-2 gap-4">
                     <label class="flex items-center gap-3 p-3 rounded-xl border border-gray-200  cursor-pointer hover:bg-[var(--pearl-card)] dark:hover:bg-gray-800">
                         <input type="radio" name="setting-asr-school" value="0" class="text-[var(--emerald)] focus:ring-[var(--emerald)]" checked>
@@ -1304,7 +1338,7 @@
                     </label>
                     <label class="flex items-center gap-3 p-3 rounded-xl border border-gray-200  cursor-pointer hover:bg-[var(--pearl-card)] dark:hover:bg-gray-800">
                         <input type="radio" name="setting-asr-school" value="1" class="text-[var(--emerald)] focus:ring-[var(--emerald)]">
-                        <div class="text-sm"><p class="font-bold">Hanafi</p><p class="text-[10px] text-gray-500">Later Asr (2x shadow)</p></div>
+                        <div class="text-sm"><p class="font-bold">Hanafi</p><p class="text-[10px] text-gray-500">Later Asar (2x shadow)</p></div>
                     </label>
                 </div>
             </div>
@@ -1313,12 +1347,23 @@
                 <p class="text-[10px] text-gray-500 dark:text-gray-400 mb-3">Adjust times to match your local masjid.</p>
                 <div class="grid grid-cols-3 gap-3">
                     <div><label class="text-[10px] font-semibold text-gray-500 block mb-1">Fajr</label><input type="number" id="offset-fajr" value="0" class="w-full p-2 text-center rounded-lg border border-gray-200 outline-none text-xs dark:text-white  "></div>
-                    <div><label class="text-[10px] font-semibold text-gray-500 block mb-1">Dhuhr</label><input type="number" id="offset-dhuhr" value="0" class="w-full p-2 text-center rounded-lg border border-gray-200 outline-none text-xs dark:text-white  "></div>
-                    <div><label class="text-[10px] font-semibold text-gray-500 block mb-1">Asr</label><input type="number" id="offset-asr" value="0" class="w-full p-2 text-center rounded-lg border border-gray-200 outline-none text-xs dark:text-white  "></div>
+                    <div><label class="text-[10px] font-semibold text-gray-500 block mb-1">Zuhar</label><input type="number" id="offset-dhuhr" value="0" class="w-full p-2 text-center rounded-lg border border-gray-200 outline-none text-xs dark:text-white  "></div>
+                    <div><label class="text-[10px] font-semibold text-gray-500 block mb-1">Asar</label><input type="number" id="offset-asr" value="0" class="w-full p-2 text-center rounded-lg border border-gray-200 outline-none text-xs dark:text-white  "></div>
                     <div><label class="text-[10px] font-semibold text-gray-500 block mb-1">Maghrib</label><input type="number" id="offset-maghrib" value="0" class="w-full p-2 text-center rounded-lg border border-gray-200 outline-none text-xs dark:text-white  "></div>
                     <div><label class="text-[10px] font-semibold text-gray-500 block mb-1">Isha</label><input type="number" id="offset-isha" value="0" class="w-full p-2 text-center rounded-lg border border-gray-200 outline-none text-xs dark:text-white  "></div>
                     <div><label class="text-[10px] font-semibold text-gray-500 block mb-1">Sunrise</label><input type="number" id="offset-sunrise" value="0" class="w-full p-2 text-center rounded-lg border border-gray-200 outline-none text-xs dark:text-white  "></div>
                 </div>
+            </div>
+            <div>
+                <label class="block text-sm font-semibold mb-1 text-[var(--emerald)] dark:text-gray-300">Hijri Calendar Adjustment (Days)</label>
+                <p class="text-[10px] text-gray-500 dark:text-gray-400 mb-2">Adjust Islamic dates based on local moon sighting.</p>
+                <select id="setting-hijri-adj" class="w-full p-3 rounded-xl border border-gray-200 outline-none focus:ring-2 focus:ring-[var(--emerald)] text-sm dark:text-white">
+                    <option value="-2">-2 Days</option>
+                    <option value="-1">-1 Day</option>
+                    <option value="0" selected>0 (No Adjustment)</option>
+                    <option value="1">+1 Day</option>
+                    <option value="2">+2 Days</option>
+                </select>
             </div>
             <div class="p-4 rounded-2xl border border-[var(--gold)]/20 space-y-3" class="bg-neutral-50 dark:bg-neutral-900/50">
                 <h4 class="text-sm font-bold text-[var(--emerald)] dark:text-[var(--gold)] flex items-center gap-2">
