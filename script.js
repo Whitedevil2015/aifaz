@@ -109,11 +109,18 @@ document.addEventListener('DOMContentLoaded', () => {
         // Target Section logic
         sections.forEach(sec => sec.classList.add('hidden'));
         const targetSec = document.getElementById(targetId);
-        if (targetSec) targetSec.classList.remove('hidden');
+        if (targetSec) {
+            targetSec.classList.remove('hidden');
+            // Force browser reflow to fix Safari iOS rendering/painting bugs
+            void targetSec.offsetHeight;
+        }
 
         // Scroll to top of main area
         const mainScroll = document.getElementById('main-scroll-area');
-        if (mainScroll) mainScroll.scrollTop = 0;
+        if (mainScroll) {
+            mainScroll.scrollTop = 0;
+            void mainScroll.offsetHeight;
+        }
 
         // Close any lingering modals when navigating views
         closeAllModals(false);

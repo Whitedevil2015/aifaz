@@ -591,6 +591,8 @@ h1,h2,h3,h4,h5,h6 { font-family:'Cormorant Garamond',serif; font-weight:700; }
    ================================================================ */
 .view-section {
     animation: sectionReveal 0.7s cubic-bezier(0.2,0.8,0.2,1) forwards;
+    will-change: transform, opacity;
+    transform: translateZ(0);
 }
 
 @keyframes sectionReveal {
@@ -803,6 +805,8 @@ input[type="range"]::-webkit-slider-thumb {
         text-decoration: none;
         white-space: nowrap;
         flex-shrink: 0;
+        transform: translateZ(0);
+        will-change: background, color, border;
     }
     .dark .mobile-nav-item {
         color: #CBD5E1;
