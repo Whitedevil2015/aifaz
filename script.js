@@ -390,27 +390,26 @@ document.addEventListener('DOMContentLoaded', () => {
                         const maghribTime = new Date();
                         maghribTime.setHours(mHours, mMins, 0, 0);
                         
+                        // If past maghrib, Islamic date is tomorrow's date
+                        const targetDate = new Date();
                         if (now >= maghribTime) {
-                            // Fetch tomorrow's Hijri date from Aladhan API
-                            const tmrw = new Date();
-                            tmrw.setDate(tmrw.getDate() + 1);
-                            const tmrwStr = `${String(tmrw.getDate()).padStart(2, '0')}-${String(tmrw.getMonth() + 1).padStart(2, '0')}-${tmrw.getFullYear()}`;
-                            
-                            const hjAdj = localStorage.getItem('hijriAdjustment') || '-1'; // Defaulting to -1 to align with 13 Rabi ul Awal currently
-                            fetch(`https://api.aladhan.com/v1/gToH?date=${tmrwStr}&adjustment=${hjAdj}`)
-                                .then(res => res.json())
-                                .then(hData => {
-                                    if (hData && hData.data && hData.data.hijri) {
-                                        heroHijri.innerHTML = `<i class="fas fa-moon text-[10px]"></i> ${hData.data.hijri.day} ${hData.data.hijri.month.en} ${hData.data.hijri.year}`;
-                                    }
-                                })
-                                .catch(e => {
-                                    // Fallback to today if fetch fails
-                                    heroHijri.innerHTML = `<i class="fas fa-moon text-[10px]"></i> ${data.data.date.hijri.day} ${data.data.date.hijri.month.en} ${data.data.date.hijri.year}`;
-                                });
-                        } else {
-                            heroHijri.innerHTML = `<i class="fas fa-moon text-[10px]"></i> ${data.data.date.hijri.day} ${data.data.date.hijri.month.en} ${data.data.date.hijri.year}`;
+                            targetDate.setDate(targetDate.getDate() + 1);
                         }
+                        
+                        const dateStr = `${String(targetDate.getDate()).padStart(2, '0')}-${String(targetDate.getMonth() + 1).padStart(2, '0')}-${targetDate.getFullYear()}`;
+                        
+                        const hjAdj = localStorage.getItem('hijriAdjustment') || '-1';
+                        fetch(`https://api.aladhan.com/v1/gToH?date=${dateStr}&calendarMethod=MATHEMATICAL&adjustment=${hjAdj}`)
+                            .then(res => res.json())
+                            .then(hData => {
+                                if (hData && hData.data && hData.data.hijri) {
+                                    heroHijri.innerHTML = `<i class="fas fa-moon text-[10px]"></i> ${hData.data.hijri.day} ${hData.data.hijri.month.en} ${hData.data.hijri.year}`;
+                                }
+                            })
+                            .catch(e => {
+                                // Fallback to today if fetch fails
+                                heroHijri.innerHTML = `<i class="fas fa-moon text-[10px]"></i> ${data.data.date.hijri.day} ${data.data.date.hijri.month.en} ${data.data.date.hijri.year}`;
+                            });
                     }
                 }
             }
