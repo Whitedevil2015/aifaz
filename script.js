@@ -284,7 +284,7 @@ document.addEventListener('DOMContentLoaded', () => {
     async function fetchPrayers(lat = null, lng = null, city = null, country = null) {
         const method = localStorage.getItem('prayerCalculationMethod') || '1';
         const school = localStorage.getItem('prayerJuristicSchool') || '1';
-        const hijriAdj = localStorage.getItem('hijriAdjustment') || '0';
+        const hijriAdj = localStorage.getItem('hijriAdjustment') || '-1';
         
         let url = '';
         if (lat && lng) {
@@ -378,11 +378,39 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (data.data.date) {
                     const heroHijri = document.getElementById('hero-hijri-date');
                     const heroGreg = document.getElementById('hero-greg-date');
-                    if (heroHijri && data.data.date.hijri) {
-                        heroHijri.innerHTML = `<i class="fas fa-moon text-[10px]"></i> ${data.data.date.hijri.day} ${data.data.date.hijri.month.en} ${data.data.date.hijri.year}`;
-                    }
+                    
                     if (heroGreg && data.data.date.readable) {
                         heroGreg.innerHTML = `<i class="fas fa-calendar text-[10px]"></i> ${data.data.date.readable}`;
+                    }
+                    
+                    if (heroHijri && data.data.date.hijri) {
+                        // Islamic day changes after Asr/at Maghrib (sunset)
+                        const now = new Date();
+                        const [mHours, mMins] = (prayerTimesRaw.Maghrib || rawTimings.Maghrib).split(':').map(Number);
+                        const maghribTime = new Date();
+                        maghribTime.setHours(mHours, mMins, 0, 0);
+                        
+                        if (now >= maghribTime) {
+                            // Fetch tomorrow's Hijri date from Aladhan API
+                            const tmrw = new Date();
+                            tmrw.setDate(tmrw.getDate() + 1);
+                            const tmrwStr = `${String(tmrw.getDate()).padStart(2, '0')}-${String(tmrw.getMonth() + 1).padStart(2, '0')}-${tmrw.getFullYear()}`;
+                            
+                            const hjAdj = localStorage.getItem('hijriAdjustment') || '-1'; // Defaulting to -1 to align with 13 Rabi ul Awal currently
+                            fetch(`https://api.aladhan.com/v1/gToH?date=${tmrwStr}&adjustment=${hjAdj}`)
+                                .then(res => res.json())
+                                .then(hData => {
+                                    if (hData && hData.data && hData.data.hijri) {
+                                        heroHijri.innerHTML = `<i class="fas fa-moon text-[10px]"></i> ${hData.data.hijri.day} ${hData.data.hijri.month.en} ${hData.data.hijri.year}`;
+                                    }
+                                })
+                                .catch(e => {
+                                    // Fallback to today if fetch fails
+                                    heroHijri.innerHTML = `<i class="fas fa-moon text-[10px]"></i> ${data.data.date.hijri.day} ${data.data.date.hijri.month.en} ${data.data.date.hijri.year}`;
+                                });
+                        } else {
+                            heroHijri.innerHTML = `<i class="fas fa-moon text-[10px]"></i> ${data.data.date.hijri.day} ${data.data.date.hijri.month.en} ${data.data.date.hijri.year}`;
+                        }
                     }
                 }
             }
@@ -1717,7 +1745,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (notifyEl) notifyEl.checked = localStorage.getItem('setting-notify-desktop') === 'true';
         
         const hijriAdjEl = document.getElementById('setting-hijri-adj');
-        if (hijriAdjEl) hijriAdjEl.value = localStorage.getItem('hijriAdjustment') || '0';
+        if (hijriAdjEl) hijriAdjEl.value = localStorage.getItem('hijriAdjustment') || '-1';
         
         modal.classList.remove('hidden');
         modal.classList.add('flex');
@@ -1751,7 +1779,7 @@ document.addEventListener('DOMContentLoaded', () => {
         localStorage.setItem('offset-maghrib', document.getElementById('offset-maghrib')?.value || '0');
         localStorage.setItem('offset-isha', document.getElementById('offset-isha')?.value || '0');
         
-        localStorage.setItem('hijriAdjustment', document.getElementById('setting-hijri-adj')?.value || '0');
+        localStorage.setItem('hijriAdjustment', document.getElementById('setting-hijri-adj')?.value || '-1');
         localStorage.setItem('setting-notify-desktop', document.getElementById('setting-notify-desktop')?.checked ? 'true' : 'false');
         
         const modal = document.getElementById('settings-modal');
@@ -3037,7 +3065,7 @@ window.fetchHijriCalendar = async function () {
     const year = calendarCurrentDate.getFullYear();
     const city = document.getElementById('prayer-city-select')?.value || globalCity || "Hyderabad";
     const country = document.getElementById('prayer-country-select')?.value || globalCountry || "India";
-    const hijriAdj = localStorage.getItem('hijriAdjustment') || '0';
+    const hijriAdj = localStorage.getItem('hijriAdjustment') || '-1';
     const url = `https://api.aladhan.com/v1/calendarByCity/${year}/${month}?city=${city}&country=${country}&method=1&adjustment=${hijriAdj}`;
 
     try {
