@@ -292,7 +292,7 @@
         <section id="view-dashboard" class="view-section p-4 md:p-6 space-y-6 animate-fade-in-up">
 
             <!-- HERO CARD -->
-            <div class="hero-prayer-card shimmer-card border border-white/10 border border-white/10 relative overflow-hidden" style="min-height:360px;">
+            <div class="hero-prayer-card shimmer-card border border-white/10 relative overflow-hidden" style="min-height:360px; transform-style: preserve-3d;" data-tilt data-tilt-max="5" data-tilt-speed="400" data-tilt-glare="true" data-tilt-max-glare="0.1">
                 <!-- Arabesque overlay -->
                 <div class="absolute inset-0 opacity-10 pointer-events-none"
                      style="background-image:url('https://www.transparenttextures.com/patterns/arabesque.png');"></div>
@@ -342,7 +342,7 @@
 
             
             <!-- DAILY AYAH -->
-            <div id="daily-ayah-block" class="bg-[var(--pearl-card)] p-6 md:p-8 rounded-[32px] border border-[var(--gold)]/20 relative overflow-hidden flex flex-col items-center justify-center text-center mt-6">
+            <div id="daily-ayah-block" class="bg-[var(--pearl-card)] p-6 md:p-8 rounded-[32px] border border-[var(--gold)]/20 relative flex flex-col items-center justify-center text-center mt-6" style="transform-style: preserve-3d;" data-tilt data-tilt-max="3" data-tilt-speed="400">
                 <div class="absolute inset-0 opacity-5 pointer-events-none" style="background-image:url('https://www.transparenttextures.com/patterns/stardust.png');"></div>
                 <div class="absolute top-4 left-4 text-[var(--gold)]/20 text-4xl"><i class="fas fa-quote-left"></i></div>
                 <div class="absolute bottom-4 right-4 text-[var(--gold)]/20 text-4xl"><i class="fas fa-quote-right"></i></div>
@@ -1402,6 +1402,7 @@
 
 
 <script src="asma_nabi.js?v=2"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.1/vanilla-tilt.min.js"></script>
 <script src="script.js?v=2"></script>
 </body>
 </html>

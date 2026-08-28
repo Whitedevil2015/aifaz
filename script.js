@@ -747,15 +747,22 @@ document.addEventListener('DOMContentLoaded', () => {
         ];
 
         grid.innerHTML = prayers.map(p => `
-            <div id="card-${p.id}" onclick="openFazilat('${p.id}')" class="glass cursor-pointer p-4 rounded-[40px] text-center border border-white/20 relative group transition-all duration-500 hover:-translate-y-2 dark:bg-gray-800/40 ${p.label === "Jumu'ah" ? 'border-[var(--gold)] shadow-[0_0_20px_rgba(197,160,89,0.15)]' : ''}">
-                <div class="absolute -right-6 -top-6 opacity-10 text-7xl text-[var(--gold)] group-hover:rotate-12 transition-transform"><i class="fas ${p.icon}"></i></div>
-                <div class="w-10 h-10 mx-auto bg-[var(--gold)]/10 rounded-full flex items-center justify-center text-[var(--gold)] mb-3 group-hover:scale-110 transition-transform shadow-[0_0_15px_rgba(197,160,89,0.2)]">
-                    <i class="fas ${p.icon}"></i>
+            <div id="card-${p.id}" onclick="openFazilat('${p.id}')" class="glass glass-tilt cursor-pointer p-4 rounded-[40px] text-center border border-white/20 relative group transition-all duration-500 hover:-translate-y-2 dark:bg-gray-800/40 ${p.label === "Jumu'ah" ? 'border-[var(--gold)] shadow-[0_0_20px_rgba(197,160,89,0.15)]' : ''}" style="transform-style: preserve-3d;" data-tilt data-tilt-max="10" data-tilt-speed="400" data-tilt-glare="true" data-tilt-max-glare="0.1">
+                <div class="absolute inset-0 bg-gradient-to-b from-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity rounded-[40px]"></div>
+                <div class="relative z-10" style="transform: translateZ(20px);">
+                    <div class="absolute -right-6 -top-6 opacity-10 text-7xl text-[var(--gold)] group-hover:rotate-12 transition-transform"><i class="fas ${p.icon}"></i></div>
+                    <div class="w-10 h-10 mx-auto bg-[var(--gold)]/10 rounded-full flex items-center justify-center text-[var(--gold)] mb-3 group-hover:scale-110 transition-transform shadow-[0_0_15px_rgba(197,160,89,0.2)]">
+                        <i class="fas ${p.icon}"></i>
+                    </div>
+                    <p class="text-xs font-bold text-gray-500 uppercase tracking-widest mb-1 dark:text-gray-400 ${p.label === "Jumu'ah" ? 'text-[var(--gold)]' : ''}">${p.label || p.id}</p>
+                    <p class="text-2xl font-[Amiri] font-bold text-gray-800 dark:text-white group-hover:text-[var(--gold)] transition-colors">${formatTo12Hour(timings[p.id])}</p>
                 </div>
-                <p class="text-xs font-bold text-gray-500 uppercase tracking-widest mb-1 dark:text-gray-400 ${p.label === "Jumu'ah" ? 'text-[var(--gold)]' : ''}">${p.label || p.id}</p>
-                <p class="text-2xl font-[Amiri] font-bold text-gray-800 dark:text-white group-hover:text-[var(--gold)] transition-colors">${formatTo12Hour(timings[p.id])}</p>
             </div>
         `).join('');
+
+        if (window.VanillaTilt) {
+            VanillaTilt.init(grid.querySelectorAll(".glass-tilt"));
+        }
     }
 
     function formatTo12Hour(time24) {
@@ -1859,14 +1866,20 @@ document.addEventListener('DOMContentLoaded', () => {
             const meaning = type === 'allah' ? n.en.meaning : n.meaning;
             
             return `
-            <div class="bg-[var(--pearl-card)] p-6 rounded-[40px] shadow-sm text-center border-t-4 hover:-translate-y-1 transition-transform relative overflow-hidden group dark:bg-gray-800 dark:border-gray-700" style="border-color:hsl(${hue}, 60%, 40%)">
-                <div class="text-xs text-gray-400 mb-2">#${n.number}</div>
-                <h3 class="name-3d text-4xl font-[Amiri] mb-2" style="color:hsl(${hue}, 70%, 30%)">${n.name}</h3>
-                <div class="font-bold text-gray-800 text-lg dark:text-white">${n.transliteration}</div>
-                <div class="text-sm text-gray-500 mt-1 dark:text-gray-400">${meaning}</div>
+            <div class="glass-tilt bg-[var(--pearl-card)] p-6 rounded-[40px] shadow-sm text-center border-t-4 hover:-translate-y-1 transition-transform relative overflow-hidden group dark:bg-gray-800 dark:border-gray-700" style="border-color:hsl(${hue}, 60%, 40%); transform-style: preserve-3d;" data-tilt data-tilt-max="8" data-tilt-speed="400" data-tilt-glare="true" data-tilt-max-glare="0.05">
+                <div class="relative z-10" style="transform: translateZ(25px);">
+                    <div class="text-xs text-gray-400 mb-2">#${n.number}</div>
+                    <h3 class="name-3d text-4xl font-[Amiri] mb-2 drop-shadow-sm" style="color:hsl(${hue}, 70%, 30%)">${n.name}</h3>
+                    <div class="font-bold text-gray-800 text-lg dark:text-white">${n.transliteration}</div>
+                    <div class="text-sm text-gray-500 mt-1 dark:text-gray-400">${meaning}</div>
+                </div>
             </div>
             `
         }).join('');
+
+        if (window.VanillaTilt) {
+            VanillaTilt.init(grid.querySelectorAll(".glass-tilt"));
+        }
     }
 
     // Duas
