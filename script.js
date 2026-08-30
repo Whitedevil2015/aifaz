@@ -111,8 +111,22 @@ document.addEventListener('DOMContentLoaded', () => {
         const targetSec = document.getElementById(targetId);
         if (targetSec) {
             targetSec.classList.remove('hidden');
+            
             // Force browser reflow to fix Safari iOS rendering/painting bugs
-            void targetSec.offsetHeight;
+            const mainScroll = document.getElementById('main-scroll-area');
+            if (mainScroll) {
+                // Aggressive Safari repaint hack: toggle overflow
+                const currentOverflow = mainScroll.style.overflowY;
+                mainScroll.style.overflowY = 'hidden';
+                void mainScroll.offsetHeight; // trigger reflow
+                mainScroll.style.overflowY = currentOverflow || 'auto';
+                
+                // Toggle a microscopic transform to force GPU rasterization
+                targetSec.style.transform = 'translateZ(0) scale(0.999)';
+                setTimeout(() => {
+                    targetSec.style.transform = '';
+                }, 50);
+            }
         }
 
         // Scroll to top of main area
