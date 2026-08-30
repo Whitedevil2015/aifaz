@@ -179,34 +179,27 @@
     <!-- ╔══════════════════════════════════╗
          ║      MOBILE BOTTOM NAV BAR       ║
          ╚══════════════════════════════════╝ -->
-    <nav id="mobile-bottom-nav" class="md:hidden fixed bottom-0 left-0 w-full z-50 pb-safe bg-[var(--pearl-card)] dark:bg-[#070b14] backdrop-blur-xl border-t border-gray-200 dark:border-white/10 shadow-[0_-4px_25px_rgba(0,0,0,0.15)]">
-        <div class="flex items-center overflow-x-auto no-scrollbar py-2.5 px-3 gap-2 scroll-smooth whitespace-nowrap">
-            <button type="button" class="nav-link mobile-nav-item active px-3.5 py-2 rounded-full text-xs font-bold flex items-center justify-center gap-1.5 shrink-0 transition-all cursor-pointer" data-target="view-dashboard" onclick="navigateToView('view-dashboard')">
-                <i class="fas fa-clock text-xs"></i><span>Prayers</span>
+    <nav id="mobile-bottom-nav" class="md:hidden fixed bottom-0 left-0 w-full z-50 pb-[env(safe-area-inset-bottom,16px)] pt-2 px-2 bg-[var(--pearl-card)]/95 dark:bg-[#070b14]/95 backdrop-blur-xl border-t border-gray-200 dark:border-white/10 shadow-[0_-10px_30px_rgba(0,0,0,0.15)]">
+        <div class="flex items-center justify-around w-full max-w-md mx-auto">
+            <button type="button" class="nav-link mobile-nav-item active flex flex-col items-center justify-center w-14 h-12 relative transition-all cursor-pointer text-gray-500" data-target="view-dashboard" onclick="navigateToView('view-dashboard')">
+                <i class="fas fa-clock text-xl transition-transform duration-300"></i>
+                <span class="text-[9px] font-bold mt-1">Prayers</span>
             </button>
-            <button type="button" class="nav-link mobile-nav-item px-3.5 py-2 rounded-full text-xs font-semibold flex items-center justify-center gap-1.5 shrink-0 transition-all cursor-pointer" data-target="view-nafil" onclick="navigateToView('view-nafil')">
-                <i class="fas fa-praying-hands text-xs"></i><span>Salah</span>
+            <button type="button" class="nav-link mobile-nav-item flex flex-col items-center justify-center w-14 h-12 relative transition-all cursor-pointer text-gray-500" data-target="view-quran" onclick="navigateToView('view-quran')">
+                <i class="fas fa-quran text-xl transition-transform duration-300"></i>
+                <span class="text-[9px] font-bold mt-1">Quran</span>
             </button>
-            <button type="button" class="nav-link mobile-nav-item px-3.5 py-2 rounded-full text-xs font-semibold flex items-center justify-center gap-1.5 shrink-0 transition-all cursor-pointer" data-target="view-quran" onclick="navigateToView('view-quran')">
-                <i class="fas fa-quran text-xs"></i><span>Quran</span>
+            <button type="button" class="nav-link mobile-nav-item flex flex-col items-center justify-center w-14 h-12 relative transition-all cursor-pointer text-gray-500" data-target="view-nafil" onclick="navigateToView('view-nafil')">
+                <i class="fas fa-praying-hands text-xl transition-transform duration-300"></i>
+                <span class="text-[9px] font-bold mt-1">Salah</span>
             </button>
-            <button type="button" class="nav-link mobile-nav-item px-3.5 py-2 rounded-full text-xs font-semibold flex items-center justify-center gap-1.5 shrink-0 transition-all cursor-pointer" data-target="view-books" onclick="navigateToView('view-books')">
-                <i class="fas fa-book text-xs"></i><span>Books</span>
+            <button type="button" class="nav-link mobile-nav-item flex flex-col items-center justify-center w-14 h-12 relative transition-all cursor-pointer text-gray-500" data-target="view-duas" onclick="navigateToView('view-duas')">
+                <i class="fas fa-hands-praying text-xl transition-transform duration-300"></i>
+                <span class="text-[9px] font-bold mt-1">Duas</span>
             </button>
-            <button type="button" class="nav-link mobile-nav-item px-3.5 py-2 rounded-full text-xs font-semibold flex items-center justify-center gap-1.5 shrink-0 transition-all cursor-pointer" data-target="view-punj" onclick="navigateToView('view-punj')">
-                <i class="fas fa-book-open text-xs"></i><span>Panj Surah</span>
-            </button>
-            <button type="button" class="nav-link mobile-nav-item px-3.5 py-2 rounded-full text-xs font-semibold flex items-center justify-center gap-1.5 shrink-0 transition-all cursor-pointer" data-target="view-calendar" onclick="navigateToView('view-calendar')">
-                <i class="fas fa-calendar-alt text-xs"></i><span>Calendar</span>
-            </button>
-            <button type="button" class="nav-link mobile-nav-item px-3.5 py-2 rounded-full text-xs font-semibold flex items-center justify-center gap-1.5 shrink-0 transition-all cursor-pointer" data-target="view-names" onclick="navigateToView('view-names')">
-                <i class="fas fa-star text-xs"></i><span>99 Names</span>
-            </button>
-            <button type="button" class="nav-link mobile-nav-item px-3.5 py-2 rounded-full text-xs font-semibold flex items-center justify-center gap-1.5 shrink-0 transition-all cursor-pointer" data-target="view-duas" onclick="navigateToView('view-duas')">
-                <i class="fas fa-hands-praying text-xs"></i><span>Duas</span>
-            </button>
-            <button type="button" class="nav-link mobile-nav-item px-3.5 py-2 rounded-full text-xs font-semibold flex items-center justify-center gap-1.5 shrink-0 transition-all cursor-pointer" data-target="view-visit" onclick="navigateToView('view-visit')">
-                <i class="fas fa-kaaba text-xs"></i><span>Visit</span>
+            <button type="button" class="flex flex-col items-center justify-center w-14 h-12 relative transition-all cursor-pointer text-gray-500 hover:text-[var(--gold)]" onclick="document.getElementById('prayer-settings-btn').click()">
+                <i class="fas fa-cog text-xl transition-transform duration-300"></i>
+                <span class="text-[9px] font-bold mt-1">Tools</span>
             </button>
         </div>
     </nav>
@@ -431,6 +424,45 @@
                         <div id="zakat-total" class="text-5xl font-bold text-[var(--emerald)] dark:text-[var(--gold)]">₹0.00</div>
                         <p class="text-[10px] mt-4 opacity-40 italic dark:text-gray-500">Zakat is due if wealth exceeds Nisab threshold.</p>
                     </div>
+                </div>
+            </div>
+
+            <!-- Quick Action Grid (Mobile only - previously in bottom nav) -->
+            <div class="md:hidden mt-8 mb-2">
+                <div class="flex items-center justify-between px-2 mb-4">
+                    <h3 class="text-lg font-[Amiri] font-bold text-[var(--emerald)] dark:text-white">Explore</h3>
+                </div>
+                <div class="grid grid-cols-5 gap-2 px-1">
+                    <button onclick="navigateToView('view-books')" class="flex flex-col items-center justify-center gap-2 group cursor-pointer">
+                        <div class="w-12 h-12 rounded-2xl bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 flex items-center justify-center transition-transform active:scale-90 shadow-sm border border-blue-200 dark:border-white/5">
+                            <i class="fas fa-book text-lg"></i>
+                        </div>
+                        <span class="text-[9px] font-semibold text-slate-600 dark:text-slate-400 text-center leading-tight">Books</span>
+                    </button>
+                    <button onclick="navigateToView('view-punj')" class="flex flex-col items-center justify-center gap-2 group cursor-pointer">
+                        <div class="w-12 h-12 rounded-2xl bg-indigo-100 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-400 flex items-center justify-center transition-transform active:scale-90 shadow-sm border border-indigo-200 dark:border-white/5">
+                            <i class="fas fa-book-open text-lg"></i>
+                        </div>
+                        <span class="text-[9px] font-semibold text-slate-600 dark:text-slate-400 text-center leading-tight">Panj Surah</span>
+                    </button>
+                    <button onclick="navigateToView('view-calendar')" class="flex flex-col items-center justify-center gap-2 group cursor-pointer">
+                        <div class="w-12 h-12 rounded-2xl bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-400 flex items-center justify-center transition-transform active:scale-90 shadow-sm border border-purple-200 dark:border-white/5">
+                            <i class="fas fa-calendar-alt text-lg"></i>
+                        </div>
+                        <span class="text-[9px] font-semibold text-slate-600 dark:text-slate-400 text-center leading-tight">Calendar</span>
+                    </button>
+                    <button onclick="navigateToView('view-names')" class="flex flex-col items-center justify-center gap-2 group cursor-pointer">
+                        <div class="w-12 h-12 rounded-2xl bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-400 flex items-center justify-center transition-transform active:scale-90 shadow-sm border border-amber-200 dark:border-white/5">
+                            <i class="fas fa-star text-lg"></i>
+                        </div>
+                        <span class="text-[9px] font-semibold text-slate-600 dark:text-slate-400 text-center leading-tight">99 Names</span>
+                    </button>
+                    <button onclick="navigateToView('view-visit')" class="flex flex-col items-center justify-center gap-2 group cursor-pointer">
+                        <div class="w-12 h-12 rounded-2xl bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400 flex items-center justify-center transition-transform active:scale-90 shadow-sm border border-emerald-200 dark:border-white/5">
+                            <i class="fas fa-kaaba text-lg"></i>
+                        </div>
+                        <span class="text-[9px] font-semibold text-slate-600 dark:text-slate-400 text-center leading-tight">Visit</span>
+                    </button>
                 </div>
             </div>
 
