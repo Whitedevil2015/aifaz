@@ -237,14 +237,39 @@ document.addEventListener('DOMContentLoaded', () => {
         history.replaceState({ targetId: 'view-dashboard', modalId: null }, "", "#view-dashboard");
     }
 
+    // --- GLOBAL API CACHE HELPER ---
+    async function fetchWithCache(url, cacheMinutes = 60) {
+        const cacheKey = `api_cache_${url}`;
+        const cached = localStorage.getItem(cacheKey);
+        if (cached) {
+            try {
+                const { timestamp, data } = JSON.parse(cached);
+                if (Date.now() - timestamp < cacheMinutes * 60 * 1000) {
+                    return data;
+                }
+            } catch (e) {
+                // Ignore parse errors
+            }
+        }
+        const res = await fetch(url);
+        if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+        const data = await res.json();
+        try {
+            localStorage.setItem(cacheKey, JSON.stringify({ timestamp: Date.now(), data }));
+        } catch (e) {
+            console.warn("Cache full, clearing old entries");
+        }
+        return data;
+    }
+
     // --- ATMOSPHERIC WEATHER ---
 
     // --- ATMOSPHERIC WEATHER ---
     async function fetchAtmosphere(lat, lng) {
         try {
             console.log(`Fetching weather: ${lat}, ${lng}`);
-            const res = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lng}&current_weather=true`);
-            const data = await res.json();
+            const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lng}&current_weather=true`;
+            const data = await fetchWithCache(url, 30); // Cache weather for 30 minutes
             const code = data.current_weather.weathercode;
             console.log(`Weather Code: ${code}`);
 
@@ -277,8 +302,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- REVERSE GEOCODE: Convert lat/lng to city/country ---
     async function reverseGeocode(lat, lng) {
         try {
-            const res = await fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lng}&localityLanguage=en`);
-            const data = await res.json();
+            const url = `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lng}&localityLanguage=en`;
+            const data = await fetchWithCache(url, 60 * 24); // Cache for 24 hours
             const city = data.city || data.locality || data.principalSubdivision || 'Unknown';
             const country = data.countryName || 'Unknown';
             return { city, country };
@@ -308,23 +333,26 @@ document.addEventListener('DOMContentLoaded', () => {
         const hijriAdj = localStorage.getItem('hijriAdjustment') || '-1';
         
         let url = '';
+        let geoPromise = null;
+
         if (lat && lng) {
             url = `https://api.aladhan.com/v1/timings?latitude=${lat}&longitude=${lng}&method=${method}&school=${school}&adjustment=${hijriAdj}`;
             coordinates = { lat, lng };
             fetchAtmosphere(lat, lng);
             
-            // Reverse geocode to get city/country name
-            const geo = await reverseGeocode(lat, lng);
-            if (geo) {
-                document.getElementById('portal-location-label').textContent = `${geo.city}, ${geo.country}`;
-                globalCity = geo.city;
-                globalCountry = geo.country;
-                localStorage.setItem('savedCity', geo.city);
-                localStorage.setItem('savedCountry', geo.country);
-                updateDropdownsToMatch(geo.city, geo.country);
-            } else {
-                document.getElementById('portal-location-label').textContent = `${lat.toFixed(2)}, ${lng.toFixed(2)}`;
-            }
+            // Reverse geocode in parallel to avoid blocking Aladhan fetch
+            geoPromise = reverseGeocode(lat, lng).then(geo => {
+                if (geo) {
+                    document.getElementById('portal-location-label').textContent = `${geo.city}, ${geo.country}`;
+                    globalCity = geo.city;
+                    globalCountry = geo.country;
+                    localStorage.setItem('savedCity', geo.city);
+                    localStorage.setItem('savedCountry', geo.country);
+                    updateDropdownsToMatch(geo.city, geo.country);
+                } else {
+                    document.getElementById('portal-location-label').textContent = `${lat.toFixed(2)}, ${lng.toFixed(2)}`;
+                }
+            });
             
             localStorage.setItem('savedLat', lat);
             localStorage.setItem('savedLng', lng);
@@ -342,8 +370,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         try {
-            const res = await fetch(url);
-            const data = await res.json();
+            const data = await fetchWithCache(url, 60 * 12); // Cache timings for 12 hours
+
+            if (geoPromise) await geoPromise; // Ensure UI updates finish
 
             if (!lat && data.data && data.data.meta) {
                 coordinates = { lat: data.data.meta.latitude, lng: data.data.meta.longitude };
@@ -420,8 +449,8 @@ document.addEventListener('DOMContentLoaded', () => {
                         const dateStr = `${String(targetDate.getDate()).padStart(2, '0')}-${String(targetDate.getMonth() + 1).padStart(2, '0')}-${targetDate.getFullYear()}`;
                         
                         const hjAdj = localStorage.getItem('hijriAdjustment') || '-1';
-                        fetch(`https://api.aladhan.com/v1/gToH?date=${dateStr}&calendarMethod=MATHEMATICAL&adjustment=${hjAdj}`)
-                            .then(res => res.json())
+                        const url = `https://api.aladhan.com/v1/gToH?date=${dateStr}&calendarMethod=MATHEMATICAL&adjustment=${hjAdj}`;
+                        fetchWithCache(url, 60 * 12) // Cache for 12 hours
                             .then(hData => {
                                 if (hData && hData.data && hData.data.hijri) {
                                     heroHijri.innerHTML = `<i class="fas fa-moon text-[10px]"></i> ${hData.data.hijri.day} ${hData.data.hijri.month.en} ${hData.data.hijri.year}`;
@@ -1858,8 +1887,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (currentNamesTab === 'allah') {
             try {
                 if (!asmaAllahData) {
-                    const res = await fetch('https://api.aladhan.com/v1/asmaAlHusna');
-                    const data = await res.json();
+                    const data = await fetchWithCache('https://api.aladhan.com/v1/asmaAlHusna', 60 * 24 * 30);
                     asmaAllahData = data.data;
                 }
                 renderNamesGrid(asmaAllahData, 'allah');
